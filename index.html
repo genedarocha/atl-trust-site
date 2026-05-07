@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATL-Trust | Next-Gen AI Agent Validator & Enterprise Compliance Framework</title>
+  <meta name="description" content="A Rust-based, low-latency validation service for AI-driven transaction intents. Designed for secure, EU AI Act compliant, and zero-trust enterprise deployments.">
+  <meta name="keywords" content="AI validator, AI compliance, EU AI Act, Zero-Trust AI, TEE, AI security, AI agent framework, AI M&A, Rust validation">
+  <meta name="author" content="Voxstar Labs">
+  <meta name="robots" content="index, follow">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://atl-trust.com/">
+  <meta property="og:title" content="ATL-Trust | Enterprise AI Agent Validator">
+  <meta property="og:description" content="Cryptographic validation and EU-compliant guardrails for autonomous AI agents. Built with Rust for extreme low latency.">
+  <meta property="og:image" content="https://atl-trust.com/assets/promo.png">
+
+  <!-- Twitter -->
+  <meta property="twitter:card" content="summary_large_image">
+  <meta property="twitter:url" content="https://atl-trust.com/">
+  <meta property="twitter:title" content="ATL-Trust | Enterprise AI Agent Validator">
+  <meta property="twitter:description" content="Cryptographic validation and EU-compliant guardrails for autonomous AI agents.">
+  <meta property="twitter:image" content="https://atl-trust.com/assets/promo.png">
+  
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": "ATL-Trust",
+    "operatingSystem": "Cloud",
+    "applicationCategory": "SecurityApplication",
+    "description": "Enterprise zero-trust validation framework for autonomous AI agents. Ensures compliance with EU AI Act and GDPR.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "Voxstar Labs"
+    }
+  }
+  </script>
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="app.css">
+  
+  <!-- Favicon -->
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+</head>
+<body>
+
+  <!-- Animated Mesh Background (Brain.fm / Web3 inspired) -->
+  <div class="mesh-bg">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+  </div>
+
+  <!-- Ambient noise texture -->
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation (Google Stitch inspired Pill) -->
+  <nav class="glass-pill-nav">
+    <div class="logo-container">
+      <div class="logo-wrapper">
+        <img src="assets/logo.png" alt="ATL-Trust Logo" class="logo-img">
+      </div>
+      <div class="logo-text-group">
+        <span class="logo-text">ATL-Trust</span>
+        <span class="logo-subtext">AI Agent Validator</span>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#integration">Integration</a>
+      <a href="#security">Security</a>
+      <a href="#blog">Blog</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#integration" class="btn-primary nav-btn">Try API</a>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="badge fade-in-up">Trusted AI Validation Layer</div>
+    <h1 class="fade-in-up delay-1">Securing <span>Autonomous</span><br>AI Transactions</h1>
+    <p class="fade-in-up delay-2">A high-performance, Rust-based validation layer for AI agents. Ensuring every transaction is compliant, authorized, and cryptographically sound before it touches critical enterprise infrastructure or a blockchain.</p>
+    
+    <div class="hero-buttons fade-in-up delay-3">
+      <a href="#integration" class="btn-primary btn-lg">Test the API <span class="arrow">→</span></a>
+      <a href="#contact" class="btn-secondary btn-lg">Request Data-Room</a>
+    </div>
+
+    <!-- Dashboard Mockup (Premium Glassmorphism) -->
+    <div class="dashboard-preview fade-in-up delay-4">
+      <div class="dashboard-header">
+        <div class="traffic-lights">
+          <div class="dot red"></div>
+          <div class="dot yellow"></div>
+          <div class="dot green"></div>
+        </div>
+        <div class="window-title">atl-trust-core — validator</div>
+      </div>
+      <div class="dashboard-content">
+        <div class="data-card pulse-hover">
+          <div class="data-icon">🛡️</div>
+          <div class="data-info">
+            <div class="data-label">Live Intents Validated</div>
+            <div class="data-value" id="counter-intents">3,492</div>
+          </div>
+        </div>
+        <div class="data-card pulse-hover">
+          <div class="data-icon">⚡</div>
+          <div class="data-info">
+            <div class="data-label">Avg Latency</div>
+            <div class="data-value">4.2<span class="unit">ms</span></div>
+          </div>
+        </div>
+        <div class="data-card pulse-hover">
+          <div class="data-icon">🤖</div>
+          <div class="data-info">
+            <div class="data-label">Active Agents</div>
+            <div class="data-value">128</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="features container">
+    <h2 class="section-title">Built for Enterprise Compliance</h2>
+    
+    <div class="features-grid">
+      <div class="glass-card feature-card">
+        <div class="feature-icon glowing-icon">🛡️</div>
+        <h3>TEE Hardware Attestation</h3>
+        <p>Cryptographic verification of execution environments. Ensures your AI agents are running exactly the code you deployed, untampered.</p>
+      </div>
+      
+      <div class="glass-card feature-card">
+        <div class="feature-icon glowing-icon">⚡</div>
+        <h3>Rust Performance</h3>
+        <p>Built with Tokio and Axum for extreme concurrency. Minimal memory footprint and sub-5ms response times for validation endpoints.</p>
+      </div>
+
+      <div class="glass-card feature-card">
+        <div class="feature-icon glowing-icon">🚦</div>
+        <h3>Dynamic Circuit Breakers</h3>
+        <p>Hard limits, velocity checks, and anomaly detection prevent AI agents from executing runaway financial operations.</p>
+      </div>
+      
+      <div class="glass-card feature-card">
+        <div class="feature-icon glowing-icon">🇪🇺</div>
+        <h3>MiCA/DORA Ready</h3>
+        <p>Architected with European regulatory frameworks in mind. Extensive structured logging guarantees auditability for every single intent.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Code/Integration Section -->
+  <section id="integration" class="code-section container">
+    <div class="integration-layout">
+      <div class="code-content">
+        <div class="badge">Developer First</div>
+        <h2>Seamless Integration</h2>
+        <p>Drop ATL-Trust between your AI Agents and your execution layer (blockchain/exchange). We intercept, validate, and sign intents in milliseconds.</p>
+        
+        <div class="glass-card api-tester" id="demo">
+          <div class="tester-header">
+            <h3>Live Endpoint Tester</h3>
+            <span class="status-indicator"></span>
+          </div>
+          
+          <div class="input-row">
+            <div class="input-group">
+              <label>Action</label>
+              <select id="api-action" class="glass-input">
+                <option value="TRANSFER">TRANSFER</option>
+                <option value="SWAP">SWAP</option>
+              </select>
+            </div>
+            <div class="input-group">
+              <label>Asset</label>
+              <input type="text" id="api-asset" value="USDC" class="glass-input">
+            </div>
+            <div class="input-group">
+              <label>Value</label>
+              <input type="number" id="api-value" value="150" class="glass-input">
+            </div>
+          </div>
+          <button class="btn-primary trigger-btn" onclick="testAPI()">Send Request</button>
+          <div class="response-box" id="api-response">
+            <span class="placeholder-text">Awaiting network request...</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="code-window glass-card">
+        <div class="dashboard-header border-bottom">
+          <div class="traffic-lights">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="window-title code-title">terminal — curl</div>
+        </div>
+        <div class="code-body">
+<span class="code-comment"># Submit an intent to the validator</span>
+<span class="code-keyword">curl</span> -X POST https://api.atl-trust.com/v1/intent \
+  -H <span class="code-string">"Content-Type: application/json"</span> \
+  -H <span class="code-string">"Authorization: Bearer sk_live_..."</span> \
+  -d <span class="code-string">'{
+    "action": "TRANSFER",
+    "asset": "USDC",
+    "value": 150,
+    "semantic_hash": "e3b0c44298fc1c149afbf4..."
+  }'</span>
+
+<span class="code-comment"># Valid Response (200 OK)</span>
+<span class="code-function">{
+  "status": "INTENT_APPROVED",
+  "signature": "0x4b2c...",
+  "latency": "4.2ms"
+}</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security Section -->
+  <section id="security" class="security-section container">
+    <h2 class="section-title">Zero-Trust Architecture</h2>
+    <div class="security-layout">
+      <div class="security-text">
+        <p>ATL-Trust operates on a strict zero-trust model. Our execution framework assumes every AI intent is fully compromised until cryptographic validation proves otherwise.</p>
+        <ul class="security-list">
+          <li><strong>Hardware Isolated:</strong> Keys are managed via isolated enclaves, ensuring private keys never touch the AI's execution memory.</li>
+          <li><strong>Immutable Audit Trails:</strong> Every validation request generates a cryptographically hashed log for EU AI Act compliance.</li>
+          <li><strong>Air-Gapped Telemetry:</strong> Validator nodes run completely isolated from the primary LLM pathways, neutralizing prompt-injection hijacking.</li>
+        </ul>
+      </div>
+      <div class="security-visual glass-card">
+        <div class="shield-icon pulse-glow">🛡️</div>
+        <h4 style="margin-bottom: 1rem;">Validation Enclave Active</h4>
+        <div class="status-line"><span class="check">✓</span> LLM Prompt Filtered</div>
+        <div class="status-line"><span class="check">✓</span> Semantic Hash Verified</div>
+        <div class="status-line"><span class="check">✓</span> Intent Signed Locally</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thought Leadership / Blog Section -->
+  <section id="blog" class="container" style="padding: 100px 0;">
+    <h2 class="section-title">Thought Leadership</h2>
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+      <a href="blog/trust-frameworks-ai-enterprises.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 1/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Why Trust Frameworks Matter in AI-Powered Enterprises</h3>
+      </a>
+      <a href="blog/hardware-attested-compliance-checks.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 2/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Demystifying Hardware-Attested Compliance Checks</h3>
+      </a>
+      <a href="blog/secure-data-room-ai-acquisitions.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 3/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Anatomy of a Secure Data-Room for AI Acquisitions</h3>
+      </a>
+      <a href="blog/teleport-identity-frameworks-zero-trust.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 4/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">How Teleport-Based Identity Frameworks Enable Zero-Trust AI</h3>
+      </a>
+      <a href="blog/scalable-ai-validator-architecture.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 5/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Building a Scalable AI Validator: Architectural Best Practices</h3>
+      </a>
+      <a href="blog/prototype-to-production-atl-trust.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 6/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">From Prototype to Production: Lessons from Deploying ATL-Trust</h3>
+      </a>
+      <a href="blog/compliance-ready-ai.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 7/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Compliance-Ready AI: Aligning with EU AI Act & GDPR</h3>
+      </a>
+      <a href="blog/zero-trust-ai-agents.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 8/12</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Trust Architecture for Autonomous AI Agents</h3>
+      </a>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact" class="contact-section container">
+    <h2 class="section-title">Get in Touch</h2>
+    <div class="glass-card contact-form-container">
+      <form id="contact-form" onsubmit="handleContact(event)">
+        <input type="hidden" name="access_key" value="58cb8f0c-e28e-4ae2-91c6-b9786054eb41">
+        <input type="hidden" name="subject" value="New Inquiry from ATL-Trust Landing Page">
+        <div class="form-row">
+          <div class="input-group">
+            <label>Name</label>
+            <input type="text" name="name" id="contact-name" class="glass-input" required autocomplete="nope">
+          </div>
+          <div class="input-group">
+            <label>Email</label>
+            <input type="email" name="email" id="contact-email" class="glass-input" required autocomplete="nope">
+          </div>
+        </div>
+        <div class="input-group">
+          <label>Interest</label>
+          <select name="interest" id="contact-interest" class="glass-input" required>
+            <option value="" disabled selected>Select an option...</option>
+            <option value="Acquisition / Investment">Acquisition / Investment</option>
+            <option value="Enterprise Integration">Enterprise Integration</option>
+            <option value="Legal & Compliance Audit">Legal & Compliance Audit</option>
+          </select>
+        </div>
+        <div class="input-group">
+          <label>Message</label>
+          <textarea name="message" id="contact-message" class="glass-input" rows="4" required></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn-secondary" onclick="resetContactUI()">Cancel</button>
+          <button type="submit" class="btn-primary" id="contact-btn">Send Message</button>
+        </div>
+        <div id="contact-response" class="response-box" style="display:none; margin-top: 1.5rem; text-align: center;"></div>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content container">
+      <div class="footer-logo">
+        <img src="assets/promo.png" alt="ATL-Trust Shield" class="footer-img">
+        <span class="logo-text">ATL-Trust</span>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2026 ATL-Trust. Designed for the Autonomous Future.<br>
+        Contact: <a href="mailto:gene.darocha@voxstar.com" class="text-link">gene.darocha@voxstar.com</a><br>
+        <span class="made-in" style="display:inline-block; margin-top: 5px;">
+          🇬🇧 Made in the UK By <a href="https://voxstar.com" target="_blank" class="text-link">voxstar.com</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Micro-interactions and API Demo Simulation
+    function testAPI() {
+      const respBox = document.getElementById('api-response');
+      const val = parseInt(document.getElementById('api-value').value);
+      const btn = document.querySelector('.trigger-btn');
+      
+      btn.innerHTML = '<span class="loading-spinner"></span> Validating...';
+      btn.style.opacity = '0.8';
+      
+      respBox.innerHTML = '<span style="color: #a0a0b0;">Processing transaction intent...</span>';
+      
+      setTimeout(() => {
+        btn.innerHTML = 'Send Request';
+        btn.style.opacity = '1';
+        
+        if (val > 10000) {
+          respBox.innerHTML = '<span style="color: #ff5f56;">{ "error": "REJECTED_FISCAL_LIMIT", "code": 403 }</span>';
+        } else {
+          respBox.innerHTML = '<span style="color: #27c93f;">{ "status": "INTENT_APPROVED", "code": 200 }</span>';
+          
+          let counter = document.getElementById('counter-intents');
+          let current = parseInt(counter.innerText.replace(',', ''));
+          
+          // Animate counter
+          counter.style.transform = 'scale(1.1)';
+          counter.style.color = '#fff';
+          setTimeout(() => {
+            counter.innerText = (current + 1).toLocaleString();
+            counter.style.transform = 'scale(1)';
+            counter.style.color = 'var(--primary-color)';
+          }, 150);
+        }
+      }, 800);
+    }
+    
+    async function handleContact(e) {
+      e.preventDefault();
+      const form = e.target;
+      const btn = document.getElementById('contact-btn');
+      const respBox = document.getElementById('contact-response');
+      
+      btn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+      btn.style.opacity = '0.8';
+      btn.disabled = true;
+      
+      const formData = new FormData(form);
+      const object = Object.fromEntries(formData);
+      const json = JSON.stringify(object);
+      
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: json
+        });
+        
+        const result = await response.json();
+        if (response.status == 200) {
+            btn.innerHTML = 'Message Sent ✓';
+            btn.style.opacity = '0.6';
+            respBox.style.display = 'block';
+            respBox.innerHTML = '<span style="color: #27c93f;">Your inquiry has been securely routed. We will reach out shortly.</span>';
+            form.reset();
+            
+            setTimeout(resetContactUI, 8000);
+        } else {
+            console.log(response);
+            btn.innerHTML = 'Send Message';
+            btn.style.opacity = '1';
+            btn.disabled = false;
+            respBox.style.display = 'block';
+            respBox.innerHTML = '<span style="color: #ff5f56;">Something went wrong. Please try again.</span>';
+        }
+      } catch (error) {
+        console.log(error);
+        btn.innerHTML = 'Send Message';
+        btn.style.opacity = '1';
+        btn.disabled = false;
+        respBox.style.display = 'block';
+        respBox.innerHTML = '<span style="color: #ff5f56;">Network Error. Please try again later.</span>';
+      }
+    }
+    
+    function resetContactUI() {
+      const btn = document.getElementById('contact-btn');
+      const respBox = document.getElementById('contact-response');
+      document.getElementById('contact-form').reset();
+      btn.innerHTML = 'Send Message';
+      btn.style.opacity = '1';
+      btn.disabled = false;
+      respBox.style.display = 'none';
+      respBox.innerHTML = '';
+    }
+    
+    // Intersection Observer for fade-in animations on scroll
+    document.addEventListener("DOMContentLoaded", () => {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.style.opacity = 1;
+            entry.target.style.transform = 'translateY(0)';
+          }
+        });
+      }, { threshold: 0.1 });
+      
+      document.querySelectorAll('.feature-card, .integration-layout > div').forEach(el => {
+        el.style.opacity = 0;
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'all 0.6s cubic-bezier(0.16, 1, 0.3, 1)';
+        observer.observe(el);
+      });
+    });
+  </script>
+</body>
+</html>

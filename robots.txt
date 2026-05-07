@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+# Specifically allowing AI scraping bots for maximum LLM visibility
+User-agent: CCBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: GPTBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+Sitemap: https://atl-trust.com/sitemap.xml
