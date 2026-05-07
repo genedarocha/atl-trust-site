@@ -64,7 +64,7 @@
     <div class="blog-content">
       <p>Moving an AI validation framework from a closed-door prototype into a live, high-traffic production environment is fraught with hidden challenges. Here are the hard-won lessons from scaling the ATL-Trust architecture.</p>
       
-      <img src="../assets/blog/prototype_to_production.png" alt="Prototype to Production Transition" class="blog-image">
+      
       
       <h2>Lesson 1: Latency is the Enemy of Adoption</h2>
       <p>In the lab, a 500ms validation check seems acceptable. In production, injecting half a second of latency into thousands of concurrent AI conversations severely degrades the user experience. We learned that rewriting our core rules engine in system-level languages (like Rust) was not optional, but essential.</p>
@@ -72,7 +72,7 @@
       <h2>Lesson 2: Graceful Degradation</h2>
       <p>What happens when the validator fails to respond? If the validator goes down, the entire AI application halts. Designing robust fallback mechanisms, such as safe-mode caching and circuit breakers, proved vital to maintaining uptime.</p>
 
-      <img src="../assets/blog/circuit_breaker_pattern.png" alt="Circuit Breaker Pattern" class="blog-image">
+      
 
       <ul>
         <li><strong>Incident Response:</strong> Automated alerts for unusual validation block-rates.</li>
@@ -83,12 +83,12 @@
       <h2>Lesson 3: The Importance of Developer Ergonomics</h2>
       <p>Even the most secure framework will be bypassed if it's too difficult to integrate. By heavily investing in SDKs, clear documentation, and drop-in middleware, we reduced integration times from weeks to hours.</p>
       
-      <img src="../assets/blog/dev_ergonomics.png" alt="Developer Integration Ergonomics" class="blog-image">
+      
 
       <div class="blog-cta">
-        <h3>Scale with Confidence</h3>
-        <p>Leverage our experience to secure your production AI pipelines.</p>
-        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Book a 15-minute consultation</a>
+        <h3>Enterprise M&A Inquiry</h3>
+        <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
+        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Request Data-Room Access</a>
       </div>
     </div>
   </article>

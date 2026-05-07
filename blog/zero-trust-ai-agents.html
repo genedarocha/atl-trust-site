@@ -127,7 +127,7 @@
     <div class="blog-content">
       <p>The transition from passive, conversational AI to autonomous agents executing actions on behalf of users introduces an unprecedented level of security risk. When an AI system can interact with external APIs, execute code, and modify databases, the stakes are elevated. In this landscape, traditional perimeter-based security is obsolete. To deploy autonomous agents safely, enterprise engineering teams must adopt a strict Zero-Trust Architecture.</p>
       
-      <img src="../assets/blog/zero_trust_ai_concept.png" alt="Zero-Trust AI Concept showing secure nodes" class="blog-image">
+      
       
       <h2>The Fallacy of Implicit Trust in Model Alignment</h2>
       <p>A common misconception in AI development is that a well-aligned, extensively RLHF-trained Large Language Model (LLM) is inherently secure. While model alignment reduces toxic outputs and hallucinations, it does not provide cryptographic security guarantees. Prompt injections, indirect jailbreaks, and adversarial inputs can easily bypass internal model safeguards, hijacking the agent's intent.</p>
@@ -136,7 +136,7 @@
       <h2>Principles of Zero-Trust AI</h2>
       <p>Implementing Zero-Trust for AI agents requires fundamentally decoupling the reasoning engine (the LLM) from the execution environment. This is achieved through three core principles:</p>
 
-      <img src="../assets/blog/least_privilege_access.png" alt="Diagram showing restricted data pathways for AI agents" class="blog-image">
+      
 
       <ul>
         <li><strong>Verify Explicitly:</strong> Every action proposed by the AI must be validated against deterministic rules before execution. The intent must be cryptographically hashed and checked against a strict, immutable policy engine.</li>
@@ -147,7 +147,7 @@
       <h2>Implementing the Validation Layer</h2>
       <p>To realize a Zero-Trust Architecture, enterprises must implement an independent validation layer that sits between the AI agent and the outside world. This layer acts as a circuit breaker. It is non-negotiable and strictly deterministic, contrasting with the probabilistic nature of the LLM itself.</p>
 
-      <img src="../assets/blog/deterministic_validation_layer.png" alt="Visual of a secure validation layer intercepting an AI command" class="blog-image">
+      
 
       <p>When an AI agent decides to execute an API call, the request is first intercepted by the validation framework. The framework analyzes the parameters, checks for policy violations, and ensures the action aligns with the pre-defined operational boundaries. Only upon successful cryptographic verification is the action permitted to pass through to the execution environment.</p>
 
@@ -155,9 +155,9 @@
       <p>The future of enterprise software is autonomous, but autonomy without control is chaos. Adopting a Zero-Trust architecture ensures that as AI agents become more capable, they also become more secure. It provides the necessary guardrails for scaling AI deployments confidently across critical infrastructure.</p>
       
       <div class="blog-cta">
-        <h3>Deploy Autonomous Agents Securely</h3>
-        <p>Integrate robust, zero-trust validation into your AI pipelines with ATL-Trust's enterprise solutions.</p>
-        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Schedule a Technical Briefing</a>
+        <h3>Enterprise M&A Inquiry</h3>
+        <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
+        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Request Data-Room Access</a>
       </div>
     </div>
   </article>
