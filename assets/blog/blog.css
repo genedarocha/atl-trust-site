@@ -1,0 +1,33 @@
+/* Premium glassmorphic styling for blog images */
+.blog-image {
+  max-width: 100%;
+  margin: 2rem 0;
+  border-radius: 12px;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.blog-image:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 48px 0 rgba(31, 38, 135, 0.5);
+}
+.blog-image img {
+  display: block;
+  width: 100%;
+  height: auto;
+} 
+
+/* New badge and disclaimer styles */
+.badge {height: 32px; margin-left: 1rem; vertical-align: middle;}
+.patent-disclaimer {font-size: 0.9rem; color: #555; margin-top: 0.5rem;}
+/* Navigation styling */
+nav {background: #fff; padding: 0.5rem 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.1);}
+.nav-inner {display:flex; justify-content:space-between; align-items:center;}
+.nav-logo {font-weight:700; font-size:1.2rem; color:#333; text-decoration:none;}
+.nav-right {display:flex; gap:1rem;}
+.nav-link {color:#555; text-decoration:none; font-weight:500;}
+.nav-link:hover {color:#000;}

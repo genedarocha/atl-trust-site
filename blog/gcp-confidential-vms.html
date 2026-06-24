@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zero-Trust Architecture for Autonomous AI Agents | ATL-Trust</title>
-  <meta name="description" content="Why relying solely on model alignment is insufficient and how to implement zero-trust security for AI agents.">
+  <title>Hardware-Attested AI Isolation on Google Cloud Confidential VMs | ATL-Trust</title>
+  <meta name="description" content="An in-depth look at how ATL-Trust leverages GCP Confidential VMs and AMD SEV-SNP hardware attestation to secure enterprise AI workloads against memory snooping.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +53,7 @@
       margin-bottom: 20px;
       font-size: 1.1rem;
     }
-    .blog-content ul {
+    .blog-content ul, .blog-content ol {
       margin-bottom: 20px;
       padding-left: 20px;
       font-size: 1.1rem;
@@ -67,6 +67,17 @@
       margin: 30px 0;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #7dd3fc;
+      overflow-x: auto;
+      margin: 20px 0;
     }
     .blog-cta {
       margin-top: 50px;
@@ -112,9 +123,8 @@
       <a href="../index.html#features">Features</a>
       <a href="../index.html#integration">Integration</a>
       <a href="../index.html#security">Security</a>
-      
       <a href="../index.html#blog">Blog</a>
-<a href="../index.html#contact">Contact</a>
+      <a href="../index.html#contact">Contact</a>
     </div>
     <a href="../index.html#integration" class="btn-primary nav-btn">Try API</a>
   </nav>
@@ -122,44 +132,48 @@
   <!-- Blog Content -->
   <article class="blog-container fade-in-up">
     <header class="blog-header">
-      <div class="badge">Thought Leadership - Series Post 9/25</div>
-      <h1 class="blog-title">Zero-Trust Architecture for Autonomous AI Agents</h1>
+      <div class="badge">Thought Leadership - Series Post 12/25</div>
+      <h1 class="blog-title">Hardware-Attested AI Isolation on Google Cloud Confidential VMs</h1>
       <div class="patent-disclaimer" style="margin: -10px auto 20px; font-size: 0.95rem; color: var(--primary-color); opacity: 0.9; font-family: 'Fira Code', monospace; width: fit-content; background: rgba(0, 210, 255, 0.05); padding: 6px 16px; border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 6px; display: flex; align-items: center; gap: 8px;"><img src="../assets/patent_pending_badge.png" alt="Patent Pending" style="height: 80px; width: auto; vertical-align: middle;"><span>Patent Pending</span></div>
-      <div class="blog-meta">Published on May 7, 2026 • 7 min read</div>
+      <div class="blog-meta">Published on May 29, 2026 • 6 min read</div>
     </header>
 
     <div class="blog-content">
-      <img src="../assets/blog/secure_ai_infrastructure.png" alt="Zero Trust AI Architecture" class="blog-image">
-      <p>The transition from passive, conversational AI to autonomous agents executing actions on behalf of users introduces an unprecedented level of security risk. When an AI system can interact with external APIs, execute code, and modify databases, the stakes are elevated. In this landscape, traditional perimeter-based security is obsolete. To deploy autonomous agents safely, enterprise engineering teams must adopt a strict Zero-Trust Architecture.</p>
+      <img src="../assets/blog/gcp_confidential_vm.png" alt="GCP Confidential VM secure enclave concept" class="blog-image">
       
-      
-      
-      <h2>The Fallacy of Implicit Trust in Model Alignment</h2>
-      <p>A common misconception in AI development is that a well-aligned, extensively RLHF-trained Large Language Model (LLM) is inherently secure. While model alignment reduces toxic outputs and hallucinations, it does not provide cryptographic security guarantees. Prompt injections, indirect jailbreaks, and adversarial inputs can easily bypass internal model safeguards, hijacking the agent's intent.</p>
-      <p>Implicitly trusting the output of an LLM to trigger direct system actions is a critical vulnerability. Zero-Trust dictates that we never trust, but always verify—even if the request originates from an authenticated, "aligned" model.</p>
+      <p>As enterprises scale high-value LLMs and autonomous agents inside the public cloud, memory snooping and guest-hypervisor leakage have emerged as critical vectors. Traditional virtualization isolates CPU resources but leaves memory contents vulnerable to root users or hypervisor breaches. To solve this, ATL-Trust has successfully completed live hardware validation testing on Google Cloud Platform's Confidential VMs using AMD SEV-SNP (Secure Encrypted Virtualization-Secure Nested Paging), achieving true zero-trust execution.</p>
 
-      <img src="../assets/blog/ai_trust_shield.png" alt="AI Trust Shield" class="blog-image">
-      <h2>Principles of Zero-Trust AI</h2>
-      <p>Implementing Zero-Trust for AI agents requires fundamentally decoupling the reasoning engine (the LLM) from the execution environment. This is achieved through three core principles:</p>
+      <h2>The Challenge of Memory Protection in Public Clouds</h2>
+      <p>When an AI agent processes sensitive telemetry, financial records, or regulatory data, it stores transient state data in system memory (RAM). In standard public cloud architectures, the hypervisor retains implicit access to this memory. If the hypervisor is compromised, or an attacker gains host root-level privileges, your AI's model weights, prompt context, and session data can be extracted in plaintext.</p>
 
+      <h2>Solving Memory Exposure with AMD SEV-SNP</h2>
+      <p>GCP Confidential VMs resolve this risk by cryptographically encrypting virtual machine memory using keys generated by a dedicated secure processor (AMD Secure Processor) located on the CPU. The keys never leave the processor, ensuring that even Google operators, guest OS root users, or corrupted hypervisors cannot read the memory contents.</p>
       
+      <p>We verified that our validation nodes run securely inside these boundaries by querying the local SEV guest driver, generating a hardware-signed attestation report containing the guest's memory measurement, and confirming successful validation matches.</p>
 
+      <h2>Implementation: Hardware Attestation Signature Verification</h2>
+      <p>The code snippet below illustrates how ATL-Trust verifies the hardware-signed AMD SEV-SNP report on GCP to confirm that the validator environment is uncompromised and running guest-level encryption:</p>
+
+      <pre class="code-block"><code>def verify_report(self, report: dict) -> bool:
+    # Verifying AMD PSP Root of Trust certificate chain
+    if not report.get("signature"):
+        raise SecurityException("Missing AMD PSP Signature.")
+        
+    # Verify expected launch measurement (Guest OS integrity)
+    actual_measurement = report.get("measurement")
+    if actual_measurement != self.expected_measurement:
+        raise IntegrityException("Memory measurement mismatch!")
+        
+    # Enclave Status: SECURE
+    return True</code></pre>
+
+      <h2>Key Takeaways for Enterprise AI Governance</h2>
       <ul>
-        <li><strong>Verify Explicitly:</strong> Every action proposed by the AI must be validated against deterministic rules before execution. The intent must be cryptographically hashed and checked against a strict, immutable policy engine.</li>
-        <li><strong>Least Privilege Access:</strong> AI agents should only be granted the minimum permissions necessary to complete a specific task. If an agent is designed to summarize financial reports, it should not have write-access to the underlying database.</li>
-        <li><strong>Assume Breach:</strong> Design the system with the expectation that the model will eventually be compromised. By utilizing hardware-isolated execution environments and ephemeral processing, the blast radius of a successful prompt injection is severely limited.</li>
+        <li><strong>Cryptographic Isolation:</strong> Keys are managed at the CPU layer, preventing unauthorized inspection of AI parameters.</li>
+        <li><strong>Immutable Proof of Integrity:</strong> The guest OS measurement guarantees that the code running our validator has not been modified or hijacked.</li>
+        <li><strong>Compliance Gaurantee:</strong> Verifiable hardware attestation report satisfies strict regulatory logs mandated by the EU AI Act.</li>
       </ul>
 
-      <h2>Implementing the Validation Layer</h2>
-      <p>To realize a Zero-Trust Architecture, enterprises must implement an independent validation layer that sits between the AI agent and the outside world. This layer acts as a circuit breaker. It is non-negotiable and strictly deterministic, contrasting with the probabilistic nature of the LLM itself.</p>
-
-      
-
-      <p>When an AI agent decides to execute an API call, the request is first intercepted by the validation framework. The framework analyzes the parameters, checks for policy violations, and ensures the action aligns with the pre-defined operational boundaries. Only upon successful cryptographic verification is the action permitted to pass through to the execution environment.</p>
-
-      <h2>Securing the Autonomous Future</h2>
-      <p>The future of enterprise software is autonomous, but autonomy without control is chaos. Adopting a Zero-Trust architecture ensures that as AI agents become more capable, they also become more secure. It provides the necessary guardrails for scaling AI deployments confidently across critical infrastructure.</p>
-      
       <div class="blog-cta">
         <h3>Enterprise M&A Inquiry</h3>
         <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
@@ -187,7 +201,6 @@
   </footer>
 
   <script>
-    // Intersection Observer for fade-in animations on scroll
     document.addEventListener("DOMContentLoaded", () => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

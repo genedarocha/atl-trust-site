@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zero-Trust Architecture for Autonomous AI Agents | ATL-Trust</title>
-  <meta name="description" content="Why relying solely on model alignment is insufficient and how to implement zero-trust security for AI agents.">
+  <title>Zero-Leak AI Workloads: Deploying ATL-Trust inside AWS Nitro Enclaves | ATL-Trust</title>
+  <meta name="description" content="Learn how ATL-Trust uses AWS Nitro Enclaves and cryptographic attestation documents to isolate sensitive LLM model weights and API keys from external access.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +53,7 @@
       margin-bottom: 20px;
       font-size: 1.1rem;
     }
-    .blog-content ul {
+    .blog-content ul, .blog-content ol {
       margin-bottom: 20px;
       padding-left: 20px;
       font-size: 1.1rem;
@@ -67,6 +67,17 @@
       margin: 30px 0;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #7dd3fc;
+      overflow-x: auto;
+      margin: 20px 0;
     }
     .blog-cta {
       margin-top: 50px;
@@ -112,9 +123,8 @@
       <a href="../index.html#features">Features</a>
       <a href="../index.html#integration">Integration</a>
       <a href="../index.html#security">Security</a>
-      
       <a href="../index.html#blog">Blog</a>
-<a href="../index.html#contact">Contact</a>
+      <a href="../index.html#contact">Contact</a>
     </div>
     <a href="../index.html#integration" class="btn-primary nav-btn">Try API</a>
   </nav>
@@ -122,44 +132,47 @@
   <!-- Blog Content -->
   <article class="blog-container fade-in-up">
     <header class="blog-header">
-      <div class="badge">Thought Leadership - Series Post 9/25</div>
-      <h1 class="blog-title">Zero-Trust Architecture for Autonomous AI Agents</h1>
+      <div class="badge">Thought Leadership - Series Post 13/25</div>
+      <h1 class="blog-title">Zero-Leak AI Workloads: Deploying ATL-Trust inside AWS Nitro Enclaves</h1>
       <div class="patent-disclaimer" style="margin: -10px auto 20px; font-size: 0.95rem; color: var(--primary-color); opacity: 0.9; font-family: 'Fira Code', monospace; width: fit-content; background: rgba(0, 210, 255, 0.05); padding: 6px 16px; border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 6px; display: flex; align-items: center; gap: 8px;"><img src="../assets/patent_pending_badge.png" alt="Patent Pending" style="height: 80px; width: auto; vertical-align: middle;"><span>Patent Pending</span></div>
-      <div class="blog-meta">Published on May 7, 2026 • 7 min read</div>
+      <div class="blog-meta">Published on May 29, 2026 • 6 min read</div>
     </header>
 
     <div class="blog-content">
-      <img src="../assets/blog/secure_ai_infrastructure.png" alt="Zero Trust AI Architecture" class="blog-image">
-      <p>The transition from passive, conversational AI to autonomous agents executing actions on behalf of users introduces an unprecedented level of security risk. When an AI system can interact with external APIs, execute code, and modify databases, the stakes are elevated. In this landscape, traditional perimeter-based security is obsolete. To deploy autonomous agents safely, enterprise engineering teams must adopt a strict Zero-Trust Architecture.</p>
+      <img src="../assets/blog/aws_nitro_enclave.png" alt="AWS Nitro Enclave isolated environment schema" class="blog-image">
       
-      
-      
-      <h2>The Fallacy of Implicit Trust in Model Alignment</h2>
-      <p>A common misconception in AI development is that a well-aligned, extensively RLHF-trained Large Language Model (LLM) is inherently secure. While model alignment reduces toxic outputs and hallucinations, it does not provide cryptographic security guarantees. Prompt injections, indirect jailbreaks, and adversarial inputs can easily bypass internal model safeguards, hijacking the agent's intent.</p>
-      <p>Implicitly trusting the output of an LLM to trigger direct system actions is a critical vulnerability. Zero-Trust dictates that we never trust, but always verify—even if the request originates from an authenticated, "aligned" model.</p>
+      <p>In highly regulated sectors, deploying autonomous AI agents to execute database queries or call payment APIs is an engineering headache. If an EC2 host is compromised, an attacker can extract session keys, model weights, or private databases from memory. To secure these high-risk operations, ATL-Trust has successfully completed live hardware validation testing inside AWS Nitro Enclaves, running isolated, CPU-level enclaves with no external network, local console, or SSH access.</p>
 
-      <img src="../assets/blog/ai_trust_shield.png" alt="AI Trust Shield" class="blog-image">
-      <h2>Principles of Zero-Trust AI</h2>
-      <p>Implementing Zero-Trust for AI agents requires fundamentally decoupling the reasoning engine (the LLM) from the execution environment. This is achieved through three core principles:</p>
-
+      <h2>The Architecture of AWS Nitro Enclaves</h2>
+      <p>AWS Nitro Enclaves partition CPU and memory resources from a parent EC2 instance. The enclave operates inside a completely air-gapped environment. Communication between the parent EC2 instance and the Enclave occurs exclusively through a secure virtual socket (vsock) interface. There is no persistent storage, no external network connection, and no root operator account.</p>
       
+      <p>ATL-Trust runs its core validation logic inside the Nitro Enclave. We verified the architecture by forwarding validation check payloads via the vsock, verifying the signatures locally inside the secure enclave, and signing the verification reports using ephemeral keys managed by the hardware.</p>
 
+      <h2>Cryptographic Attestation Verification</h2>
+      <p>The primary security control of a Nitro Enclave is its cryptographic attestation document, signed by the Nitro Security Module (NSM). This document lists Platform Configuration Register (PCR) measurements of the Enclave Image File (EIF). If the code inside the enclave is modified in the slightest, the PCR0 hash changes, and validation fails.</p>
+
+      <p>Here is how the ATL-Trust host verifies the integrity of the enclave: </p>
+
+      <pre class="code-block"><code>def verify_document(self, document: dict) -> bool:
+    # Verifying AWS Nitro Enclave Root Certificate signature
+    if not document.get("signature"):
+        raise AttestationException("Missing Nitro Hypervisor Signature.")
+        
+    # Verify PCR0 (Enclave Image File Integrity)
+    actual_pcr0 = document["pcrs"].get(0)
+    expected_pcr0 = self.expected_pcrs.get(0)
+    if actual_pcr0 != expected_pcr0:
+        raise IntegrityException("PCR0 (EIF Measurement) mismatch!")
+        
+    return True</code></pre>
+
+      <h2>Key Takeaways for Enterprise AI Governance</h2>
       <ul>
-        <li><strong>Verify Explicitly:</strong> Every action proposed by the AI must be validated against deterministic rules before execution. The intent must be cryptographically hashed and checked against a strict, immutable policy engine.</li>
-        <li><strong>Least Privilege Access:</strong> AI agents should only be granted the minimum permissions necessary to complete a specific task. If an agent is designed to summarize financial reports, it should not have write-access to the underlying database.</li>
-        <li><strong>Assume Breach:</strong> Design the system with the expectation that the model will eventually be compromised. By utilizing hardware-isolated execution environments and ephemeral processing, the blast radius of a successful prompt injection is severely limited.</li>
+        <li><strong>No Operator Access:</strong> Even the system administrator of the parent EC2 instance cannot access the enclave memory, safeguarding API tokens.</li>
+        <li><strong>Immutable Auditing:</strong> The enclave's cryptographic verification guarantees that only verified versions of ATL-Trust execute model validation.</li>
+        <li><strong>Air-Gapped Decoupling:</strong> Isolates LLM prompt processing from direct internet access, preventing data exfiltration during execution.</li>
       </ul>
 
-      <h2>Implementing the Validation Layer</h2>
-      <p>To realize a Zero-Trust Architecture, enterprises must implement an independent validation layer that sits between the AI agent and the outside world. This layer acts as a circuit breaker. It is non-negotiable and strictly deterministic, contrasting with the probabilistic nature of the LLM itself.</p>
-
-      
-
-      <p>When an AI agent decides to execute an API call, the request is first intercepted by the validation framework. The framework analyzes the parameters, checks for policy violations, and ensures the action aligns with the pre-defined operational boundaries. Only upon successful cryptographic verification is the action permitted to pass through to the execution environment.</p>
-
-      <h2>Securing the Autonomous Future</h2>
-      <p>The future of enterprise software is autonomous, but autonomy without control is chaos. Adopting a Zero-Trust architecture ensures that as AI agents become more capable, they also become more secure. It provides the necessary guardrails for scaling AI deployments confidently across critical infrastructure.</p>
-      
       <div class="blog-cta">
         <h3>Enterprise M&A Inquiry</h3>
         <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
@@ -187,7 +200,6 @@
   </footer>
 
   <script>
-    // Intersection Observer for fade-in animations on scroll
     document.addEventListener("DOMContentLoaded", () => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {

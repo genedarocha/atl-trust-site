@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Zero-Trust Architecture for Autonomous AI Agents | ATL-Trust</title>
-  <meta name="description" content="Why relying solely on model alignment is insufficient and how to implement zero-trust security for AI agents.">
+  <title>User Consent Frameworks: Implementing Cryptographic Handshakes for High-Value Transactions | ATL-Trust</title>
+  <meta name="description" content="How to integrate secure, hardware-backed out-of-band user consent checks into autonomous AI pipelines for high-value financial or system actions.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,7 +53,7 @@
       margin-bottom: 20px;
       font-size: 1.1rem;
     }
-    .blog-content ul {
+    .blog-content ul, .blog-content ol {
       margin-bottom: 20px;
       padding-left: 20px;
       font-size: 1.1rem;
@@ -67,6 +67,17 @@
       margin: 30px 0;
       box-shadow: 0 10px 30px rgba(0,0,0,0.5);
       border: 1px solid rgba(255,255,255,0.1);
+    }
+    .code-block {
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #7dd3fc;
+      overflow-x: auto;
+      margin: 20px 0;
     }
     .blog-cta {
       margin-top: 50px;
@@ -112,9 +123,8 @@
       <a href="../index.html#features">Features</a>
       <a href="../index.html#integration">Integration</a>
       <a href="../index.html#security">Security</a>
-      
       <a href="../index.html#blog">Blog</a>
-<a href="../index.html#contact">Contact</a>
+      <a href="../index.html#contact">Contact</a>
     </div>
     <a href="../index.html#integration" class="btn-primary nav-btn">Try API</a>
   </nav>
@@ -122,44 +132,51 @@
   <!-- Blog Content -->
   <article class="blog-container fade-in-up">
     <header class="blog-header">
-      <div class="badge">Thought Leadership - Series Post 9/25</div>
-      <h1 class="blog-title">Zero-Trust Architecture for Autonomous AI Agents</h1>
+      <div class="badge">Thought Leadership - Series Post 20/25</div>
+      <h1 class="blog-title">User Consent Frameworks: Implementing Cryptographic Handshakes for High-Value Transactions</h1>
       <div class="patent-disclaimer" style="margin: -10px auto 20px; font-size: 0.95rem; color: var(--primary-color); opacity: 0.9; font-family: 'Fira Code', monospace; width: fit-content; background: rgba(0, 210, 255, 0.05); padding: 6px 16px; border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 6px; display: flex; align-items: center; gap: 8px;"><img src="../assets/patent_pending_badge.png" alt="Patent Pending" style="height: 80px; width: auto; vertical-align: middle;"><span>Patent Pending</span></div>
-      <div class="blog-meta">Published on May 7, 2026 • 7 min read</div>
+      <div class="blog-meta">Published on June 12, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
-      <img src="../assets/blog/secure_ai_infrastructure.png" alt="Zero Trust AI Architecture" class="blog-image">
-      <p>The transition from passive, conversational AI to autonomous agents executing actions on behalf of users introduces an unprecedented level of security risk. When an AI system can interact with external APIs, execute code, and modify databases, the stakes are elevated. In this landscape, traditional perimeter-based security is obsolete. To deploy autonomous agents safely, enterprise engineering teams must adopt a strict Zero-Trust Architecture.</p>
+      <img src="../assets/blog/policy_engine_visual.png" alt="User Consent Policy Flow" class="blog-image">
       
-      
-      
-      <h2>The Fallacy of Implicit Trust in Model Alignment</h2>
-      <p>A common misconception in AI development is that a well-aligned, extensively RLHF-trained Large Language Model (LLM) is inherently secure. While model alignment reduces toxic outputs and hallucinations, it does not provide cryptographic security guarantees. Prompt injections, indirect jailbreaks, and adversarial inputs can easily bypass internal model safeguards, hijacking the agent's intent.</p>
-      <p>Implicitly trusting the output of an LLM to trigger direct system actions is a critical vulnerability. Zero-Trust dictates that we never trust, but always verify—even if the request originates from an authenticated, "aligned" model.</p>
+      <p>Autonomous agents operate in the background, executing workflows when we sleep or focus on other tasks. While low-value transactions (e.g., pulling public data or booking a standard calendar invite) can be automated entirely, high-value actions demand human oversight. The challenge is implementing this without grinding workflows to a halt. The solution lies in out-of-band cryptographic handshakes, utilizing technologies like WebAuthn and passkeys to bridge the gap between AI autonomy and user control.</p>
 
-      <img src="../assets/blog/ai_trust_shield.png" alt="AI Trust Shield" class="blog-image">
-      <h2>Principles of Zero-Trust AI</h2>
-      <p>Implementing Zero-Trust for AI agents requires fundamentally decoupling the reasoning engine (the LLM) from the execution environment. This is achieved through three core principles:</p>
+      <h2>The Human-in-the-Loop Threshold</h2>
+      <p>A secure autonomous framework requires defining an explicit boundary policy. If an agent initiates an action that crosses this threshold, it is placed in a "PENDING_CONSENT" state. The validation engine intercepts the request and generates a temporary verification challenge containing the transaction hash and a short TTL (Time to Live).</p>
+      <p>The system routes this challenge to the user's registered authenticator app or browser session. Until the user signs the challenge with their local hardware key (such as Touch ID or a security key), the transaction remains blocked.</p>
 
-      
+      <h2>Implementing the WebAuthn Challenge Lifecycle</h2>
+      <p>When the validator catches a high-value intent, it requests a cryptographic signature from the user. This signature is verified at the gateway using the user's registered public key, guaranteeing that the action was explicitly approved by a human.</p>
 
+      <pre class="code-block"><code># Mock WebAuthn challenge verification flow in Python
+from cryptography.hazmat.primitives.asymmetric import ec
+from cryptography.hazmat.primitives import hashes
+
+def verify_user_consent(challenge: bytes, user_signature: bytes, public_key: ec.EllipticCurvePublicKey) -> bool:
+    try:
+        # Verify that the user signed the exact transaction challenge
+        public_key.verify(
+            user_signature,
+            challenge,
+            ec.ECDSA(hashes.SHA256())
+        )
+        return True
+    except Exception:
+        # Signature mismatch or expired challenge
+        return False</code></pre>
+
+      <h2>Key Benefits of Cryptographic Consent</h2>
       <ul>
-        <li><strong>Verify Explicitly:</strong> Every action proposed by the AI must be validated against deterministic rules before execution. The intent must be cryptographically hashed and checked against a strict, immutable policy engine.</li>
-        <li><strong>Least Privilege Access:</strong> AI agents should only be granted the minimum permissions necessary to complete a specific task. If an agent is designed to summarize financial reports, it should not have write-access to the underlying database.</li>
-        <li><strong>Assume Breach:</strong> Design the system with the expectation that the model will eventually be compromised. By utilizing hardware-isolated execution environments and ephemeral processing, the blast radius of a successful prompt injection is severely limited.</li>
+        <li><strong>Phishing-Resistant MFA:</strong> Using WebAuthn guarantees that approvals cannot be stolen or intercepted via social engineering.</li>
+        <li><strong>Tamper-Proof Authorization:</strong> The signature is mathematically bound to the transaction parameters, ensuring the agent cannot modify the payload after approval.</li>
+        <li><strong>Low-Friction Approvals:</strong> Biometric checks (Touch ID / Face ID) allow users to authorize operations securely in under two seconds.</li>
       </ul>
 
-      <h2>Implementing the Validation Layer</h2>
-      <p>To realize a Zero-Trust Architecture, enterprises must implement an independent validation layer that sits between the AI agent and the outside world. This layer acts as a circuit breaker. It is non-negotiable and strictly deterministic, contrasting with the probabilistic nature of the LLM itself.</p>
+      <h2>A Balanced Approach to AI Security</h2>
+      <p>Integrating cryptographic handshakes into your AI architecture ensures that high-impact operations are always backed by user intent. It empowers organizations to deploy autonomous agents with confidence, knowing that a human remains in control of critical decisions.</p>
 
-      
-
-      <p>When an AI agent decides to execute an API call, the request is first intercepted by the validation framework. The framework analyzes the parameters, checks for policy violations, and ensures the action aligns with the pre-defined operational boundaries. Only upon successful cryptographic verification is the action permitted to pass through to the execution environment.</p>
-
-      <h2>Securing the Autonomous Future</h2>
-      <p>The future of enterprise software is autonomous, but autonomy without control is chaos. Adopting a Zero-Trust architecture ensures that as AI agents become more capable, they also become more secure. It provides the necessary guardrails for scaling AI deployments confidently across critical infrastructure.</p>
-      
       <div class="blog-cta">
         <h3>Enterprise M&A Inquiry</h3>
         <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
@@ -187,7 +204,6 @@
   </footer>
 
   <script>
-    // Intersection Observer for fade-in animations on scroll
     document.addEventListener("DOMContentLoaded", () => {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
