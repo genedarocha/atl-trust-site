@@ -141,7 +141,7 @@
     <div class="blog-content">
       <img src="../assets/blog/gcp_confidential_vm.png" alt="GCP Confidential VM secure enclave concept" class="blog-image">
       
-      <p>As enterprises scale high-value LLMs and autonomous agents inside the public cloud, memory snooping and guest-hypervisor leakage have emerged as critical vectors. Traditional virtualization isolates CPU resources but leaves memory contents vulnerable to root users or hypervisor breaches. To solve this, ATL-Trust has successfully completed live hardware validation testing on Google Cloud Platform's Confidential VMs using AMD SEV-SNP (Secure Encrypted Virtualization-Secure Nested Paging), achieving true zero-trust execution.</p>
+      <p>As enterprises scale high-value LLMs and autonomous agents inside the public cloud, memory snooping and guest-hypervisor leakage have emerged as critical vectors. Traditional virtualization isolates CPU resources but leaves memory contents vulnerable to root users or hypervisor breaches. To solve this, ATL-Trust is designed to integrate with Google Cloud Platform's Confidential VMs using AMD SEV-SNP (Secure Encrypted Virtualization-Secure Nested Paging), paving the way for true zero-trust execution.</p>
 
       <h2>The Challenge of Memory Protection in Public Clouds</h2>
       <p>When an AI agent processes sensitive telemetry, financial records, or regulatory data, it stores transient state data in system memory (RAM). In standard public cloud architectures, the hypervisor retains implicit access to this memory. If the hypervisor is compromised, or an attacker gains host root-level privileges, your AI's model weights, prompt context, and session data can be extracted in plaintext.</p>

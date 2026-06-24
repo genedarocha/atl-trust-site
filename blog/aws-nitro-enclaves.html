@@ -141,7 +141,7 @@
     <div class="blog-content">
       <img src="../assets/blog/aws_nitro_enclave.png" alt="AWS Nitro Enclave isolated environment schema" class="blog-image">
       
-      <p>In highly regulated sectors, deploying autonomous AI agents to execute database queries or call payment APIs is an engineering headache. If an EC2 host is compromised, an attacker can extract session keys, model weights, or private databases from memory. To secure these high-risk operations, ATL-Trust has successfully completed live hardware validation testing inside AWS Nitro Enclaves, running isolated, CPU-level enclaves with no external network, local console, or SSH access.</p>
+      <p>In highly regulated sectors, deploying autonomous AI agents to execute database queries or call payment APIs is an engineering headache. If an EC2 host is compromised, an attacker can extract session keys, model weights, or private databases from memory. To secure these high-risk operations, ATL-Trust is architected to run securely inside AWS Nitro Enclaves, isolating CPU-level processing with no external network, local console, or SSH access.</p>
 
       <h2>The Architecture of AWS Nitro Enclaves</h2>
       <p>AWS Nitro Enclaves partition CPU and memory resources from a parent EC2 instance. The enclave operates inside a completely air-gapped environment. Communication between the parent EC2 instance and the Enclave occurs exclusively through a secure virtual socket (vsock) interface. There is no persistent storage, no external network connection, and no root operator account.</p>

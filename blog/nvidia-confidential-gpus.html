@@ -141,7 +141,7 @@
     <div class="blog-content">
       <img src="../assets/blog/nvidia_confidential_gpu.png" alt="Nvidia Confidential GPU silicon layer security visualization" class="blog-image">
       
-      <p>While CPU-based enclaves provide robust logical separation, AI model training and inference require massive parallel compute workloads that only high-end GPUs can deliver. Training a proprietary LLM costs millions of dollars; protecting these weights from exposure in high-bandwidth GPU memory (HBM) is essential. ATL-Trust has successfully completed live hardware validation testing leveraging Nvidia Confidential Computing technology on H100 and H200 GPUs to achieve cryptographic validation directly at the hardware silicon layer.</p>
+      <p>While CPU-based enclaves provide robust logical separation, AI model training and inference require massive parallel compute workloads that only high-end GPUs can deliver. Training a proprietary LLM costs millions of dollars; protecting these weights from exposure in high-bandwidth GPU memory (HBM) is essential. ATL-Trust is designed to leverage Nvidia Confidential Computing technology on H100 and H200 GPUs to achieve cryptographic validation directly at the hardware silicon layer.</p>
 
       <h2>The Risk of Unencrypted HBM Memory</h2>
       <p>Modern GPUs execute compute kernels across thousands of cores, accessing high-bandwidth memory (HBM) at terabytes per second. During inference, model weights are loaded into HBM in plaintext. An attacker with physical access or root privileges on the server node can leverage PCIe analyzer tools or driver exploits to dump HBM memory, stealing proprietary IP in seconds.</p>
