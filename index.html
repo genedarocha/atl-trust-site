@@ -92,7 +92,7 @@
     
     <div class="hero-buttons fade-in-up delay-3">
       <a href="#integration" class="btn-primary btn-lg">Test the API <span class="arrow">→</span></a>
-      <a href="#contact" class="btn-secondary btn-lg">Request Data-Room</a>
+      <a href="#contact" class="btn-secondary btn-lg">Request Tech Specs</a>
     </div>
 
     <!-- Dashboard Mockup (Premium Glassmorphism) -->
@@ -109,22 +109,22 @@
         <div class="data-card pulse-hover">
           <div class="data-icon">🛡️</div>
           <div class="data-info">
-            <div class="data-label">Live Intents Validated</div>
-            <div class="data-value" id="counter-intents">3,492</div>
+            <div class="data-label">Test Coverage</div>
+            <div class="data-value" id="counter-intents">100%</div>
           </div>
         </div>
         <div class="data-card pulse-hover">
           <div class="data-icon">⚡</div>
           <div class="data-info">
-            <div class="data-label">Avg Latency</div>
-            <div class="data-value">4.2<span class="unit">ms</span></div>
+            <div class="data-label">Target Latency</div>
+            <div class="data-value">&lt; 5<span class="unit">ms</span></div>
           </div>
         </div>
         <div class="data-card pulse-hover">
           <div class="data-icon">🤖</div>
           <div class="data-info">
-            <div class="data-label">Active Agents</div>
-            <div class="data-value">128</div>
+            <div class="data-label">Core Rules</div>
+            <div class="data-value">20+</div>
           </div>
         </div>
       </div>
@@ -167,12 +167,12 @@
     <div class="integration-layout">
       <div class="code-content">
         <div class="badge">Developer First</div>
-        <h2>Seamless Integration</h2>
-        <p>Drop ATL-Trust between your AI Agents and your execution layer (blockchain/exchange). We intercept, validate, and sign intents in milliseconds.</p>
+        <h2>Seamless Integration Design</h2>
+        <p>ATL-Trust is architected to slot between your AI Agents and your execution layer (blockchain/exchange). It intercepts, validates, and signs intents in milliseconds.</p>
         
         <div class="glass-card api-tester" id="demo">
           <div class="tester-header">
-            <h3>Live Endpoint Tester</h3>
+            <h3>Core Concept Simulator</h3>
             <span class="status-indicator"></span>
           </div>
           
@@ -195,7 +195,7 @@
           </div>
           <button class="btn-primary trigger-btn" onclick="testAPI()">Send Request</button>
           <div class="response-box" id="api-response">
-            <span class="placeholder-text">Awaiting network request...</span>
+            <span class="placeholder-text">Awaiting simulation request...</span>
           </div>
         </div>
       </div>
@@ -210,10 +210,10 @@
           <div class="window-title code-title">terminal — curl</div>
         </div>
         <div class="code-body">
-<span class="code-comment"># Submit an intent to the validator</span>
-<span class="code-keyword">curl</span> -X POST https://api.atl-trust.com/v1/intent \
+<span class="code-comment"># Submit an intent to the validator (Simulated API Example)</span>
+<span class="code-keyword">curl</span> -X POST https://api-sim.atl-trust.com/v1/intent \
   -H <span class="code-string">"Content-Type: application/json"</span> \
-  -H <span class="code-string">"Authorization: Bearer sk_live_..."</span> \
+  -H <span class="code-string">"Authorization: Bearer sk_test_..."</span> \
   -d <span class="code-string">'{
     "action": "TRANSFER",
     "asset": "USDC",
@@ -221,7 +221,7 @@
     "semantic_hash": "e3b0c44298fc1c149afbf4..."
   }'</span>
 
-<span class="code-comment"># Valid Response (200 OK)</span>
+<span class="code-comment"># Simulated Response (200 OK)</span>
 <span class="code-function">{
   "status": "INTENT_APPROVED",
   "signature": "0x4b2c...",
@@ -382,7 +382,7 @@
           <label>Interest</label>
           <select name="interest" id="contact-interest" class="glass-input" required>
             <option value="" disabled selected>Select an option...</option>
-            <option value="Acquisition / Investment">Acquisition / Investment</option>
+            <option value="Partnerships & Early Access">Partnerships & Early Access</option>
             <option value="Enterprise Integration">Enterprise Integration</option>
             <option value="Legal & Compliance Audit">Legal & Compliance Audit</option>
           </select>

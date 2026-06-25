@@ -132,8 +132,8 @@
   <!-- Blog Content -->
   <article class="blog-container fade-in-up">
     <header class="blog-header">
-      <div class="badge">Thought Leadership - Series Post 14/25</div>
-      <h1 class="blog-title">Cryptographic Integrity at the Silicon Layer: Attesting Nvidia Confidential GPUs</h1>
+      <div class="badge">Architecture & Design - Series Post 14/25</div>
+      <h1 class="blog-title">Silicon-Layer Cryptographic Integrity: Attesting Nvidia Confidential GPUs (Design)</h1>
       <div class="patent-disclaimer" style="margin: -10px auto 20px; font-size: 0.95rem; color: var(--primary-color); opacity: 0.9; font-family: 'Fira Code', monospace; width: fit-content; background: rgba(0, 210, 255, 0.05); padding: 6px 16px; border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 6px; display: flex; align-items: center; gap: 8px;"><img src="../assets/patent_pending_badge.png" alt="Patent Pending" style="height: 80px; width: auto; vertical-align: middle;"><span>Patent Pending</span></div>
       <div class="blog-meta">Published on May 29, 2026 • 6 min read</div>
     </header>
@@ -149,10 +149,10 @@
       <h2>Nvidia Confidential Computing & GSP SPDM</h2>
       <p>Nvidia Confidential Computing secures this pathway by cryptographically encrypting all communication between the host CPU and the GPU over the PCIe bus using AES-256 keys. Additionally, all contents of the GPU's HBM are hardware-encrypted. The GPU's onboard Security Processor (GSP) manages secure boot states and communicates with the host using the SPDM (Security Protocol and Data Model) standard over MCTP.</p>
       
-      <p>We verified the execution environment by querying the GSP to fetch the GPU's hardware signature, confirming that Confidential Mode is active, secure boot is enabled, and the GSP firmware is untampered.</p>
+      <p>Our design outlines verifying the execution environment by querying the GSP to fetch the GPU's hardware signature, confirming that Confidential Mode is active, secure boot is enabled, and the GSP firmware is untampered.</p>
 
       <h2>Implementing the Nvidia Attestation Layer</h2>
-      <p>The code segment below illustrates how ATL-Trust parses and verifies the GSP SPDM session token to validate GPU hardware integrity:</p>
+      <p>The code segment below illustrates the conceptual validation model of how ATL-Trust parses and verifies the GSP SPDM session token to validate GPU hardware integrity:</p>
 
       <pre class="code-block"><code>def verify_gpu_report(self, report: dict) -> bool:
     # Verify Confidential Mode state
@@ -176,8 +176,8 @@
 
       <div class="blog-cta">
         <h3>Enterprise M&A Inquiry</h3>
-        <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
-        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Request Data-Room Access</a>
+        <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our tech specs and roadmap.</p>
+        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Request Tech Specs</a>
       </div>
     </div>
   </article>

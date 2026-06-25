@@ -132,8 +132,8 @@
   <!-- Blog Content -->
   <article class="blog-container fade-in-up">
     <header class="blog-header">
-      <div class="badge">Thought Leadership - Series Post 13/25</div>
-      <h1 class="blog-title">Zero-Leak AI Workloads: Deploying ATL-Trust inside AWS Nitro Enclaves</h1>
+      <div class="badge">Architecture & Design - Series Post 13/25</div>
+      <h1 class="blog-title">Zero-Leak AI Workloads: Designing ATL-Trust for AWS Nitro Enclaves</h1>
       <div class="patent-disclaimer" style="margin: -10px auto 20px; font-size: 0.95rem; color: var(--primary-color); opacity: 0.9; font-family: 'Fira Code', monospace; width: fit-content; background: rgba(0, 210, 255, 0.05); padding: 6px 16px; border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 6px; display: flex; align-items: center; gap: 8px;"><img src="../assets/patent_pending_badge.png" alt="Patent Pending" style="height: 80px; width: auto; vertical-align: middle;"><span>Patent Pending</span></div>
       <div class="blog-meta">Published on May 29, 2026 • 6 min read</div>
     </header>
@@ -146,12 +146,12 @@
       <h2>The Architecture of AWS Nitro Enclaves</h2>
       <p>AWS Nitro Enclaves partition CPU and memory resources from a parent EC2 instance. The enclave operates inside a completely air-gapped environment. Communication between the parent EC2 instance and the Enclave occurs exclusively through a secure virtual socket (vsock) interface. There is no persistent storage, no external network connection, and no root operator account.</p>
       
-      <p>ATL-Trust runs its core validation logic inside the Nitro Enclave. We verified the architecture by forwarding validation check payloads via the vsock, verifying the signatures locally inside the secure enclave, and signing the verification reports using ephemeral keys managed by the hardware.</p>
+      <p>Under our architectural blueprint, ATL-Trust is designed to run its core validation logic inside the Nitro Enclave. We have verified this design locally using virtualized attestation simulation scripts, proving that validation check payloads can be forwarded via the vsock, signatures verified inside the secure enclave, and reports signed using ephemeral keys managed by the hardware.</p>
 
       <h2>Cryptographic Attestation Verification</h2>
       <p>The primary security control of a Nitro Enclave is its cryptographic attestation document, signed by the Nitro Security Module (NSM). This document lists Platform Configuration Register (PCR) measurements of the Enclave Image File (EIF). If the code inside the enclave is modified in the slightest, the PCR0 hash changes, and validation fails.</p>
 
-      <p>Here is how the ATL-Trust host verifies the integrity of the enclave: </p>
+      <p>Here is the verification design model for confirming the integrity of the enclave: </p>
 
       <pre class="code-block"><code>def verify_document(self, document: dict) -> bool:
     # Verifying AWS Nitro Enclave Root Certificate signature
@@ -168,15 +168,15 @@
 
       <h2>Key Takeaways for Enterprise AI Governance</h2>
       <ul>
-        <li><strong>No Operator Access:</strong> Even the system administrator of the parent EC2 instance cannot access the enclave memory, safeguarding API tokens.</li>
+        <li><strong>Complete Operator Lockout:</strong> Even the system administrator of the parent EC2 instance cannot access enclave memory, safeguarding API tokens during runtime.</li>
         <li><strong>Immutable Auditing:</strong> The enclave's cryptographic verification guarantees that only verified versions of ATL-Trust execute model validation.</li>
-        <li><strong>Air-Gapped Decoupling:</strong> Isolates LLM prompt processing from direct internet access, preventing data exfiltration during execution.</li>
+        <li><strong>Air-Gapped Decoupling:</strong> Isolating LLM prompt processing from direct internet access helps prevent data exfiltration during execution.</li>
       </ul>
 
       <div class="blog-cta">
         <h3>Enterprise M&A Inquiry</h3>
-        <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our secure data-room.</p>
-        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Request Data-Room Access</a>
+        <p>For technical due diligence or architectural deep-dives into our zero-trust framework, please request access to our tech specs and roadmap.</p>
+        <a href="../index.html#contact" class="btn-primary" style="margin-top: 20px; display: inline-block;">Request Tech Specs</a>
       </div>
     </div>
   </article>
