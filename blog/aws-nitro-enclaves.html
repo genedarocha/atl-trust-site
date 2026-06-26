@@ -152,7 +152,8 @@
 
       <p>Here is the verification design model for confirming the integrity of the enclave: </p>
 
-      <pre class="code-block"><code>def verify_document(self, document: dict) -> bool:
+      <pre class="code-block"><code># Simulated attestation verification logic (design model, not yet tested against real AWS Nitro hardware)
+def verify_document(self, document: dict) -> bool:
     # Verifying AWS Nitro Enclave Root Certificate signature
     if not document.get("signature"):
         raise AttestationException("Missing Nitro Hypervisor Signature.")

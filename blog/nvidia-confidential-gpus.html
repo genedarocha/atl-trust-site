@@ -153,7 +153,8 @@
       <h2>Implementing the Nvidia Attestation Layer</h2>
       <p>The code segment below illustrates the conceptual validation model of how ATL-Trust parses and verifies the GSP SPDM session token to validate GPU hardware integrity:</p>
 
-      <pre class="code-block"><code>def verify_gpu_report(self, report: dict) -> bool:
+      <pre class="code-block"><code># Simulated attestation verification logic (design model, not yet tested against real Nvidia hardware)
+def verify_gpu_report(self, report: dict) -> bool:
     # Verify Confidential Mode state
     if report.get("confidential_mode") != "Enabled":
         raise SecurityException("GPU Confidential Mode is disabled.")

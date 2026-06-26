@@ -153,7 +153,8 @@
       <h2>Implementation: Hardware Attestation Signature Verification</h2>
       <p>The code snippet below illustrates the design model of how ATL-Trust verifies the hardware-signed AMD SEV-SNP report on GCP to confirm that the validator environment is uncompromised and running guest-level encryption:</p>
 
-      <pre class="code-block"><code>def verify_report(self, report: dict) -> bool:
+      <pre class="code-block"><code># Simulated attestation verification logic (design model, not yet tested against real GCP Confidential VM hardware)
+def verify_report(self, report: dict) -> bool:
     # Verifying AMD PSP Root of Trust certificate chain
     if not report.get("signature"):
         raise SecurityException("Missing AMD PSP Signature.")
