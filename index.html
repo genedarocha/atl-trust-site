@@ -81,7 +81,7 @@
       <a href="#blog">Blog</a>
       <a href="#contact">Contact</a>
     </div>
-    <a href="#integration" class="btn-primary nav-btn">Try API</a>
+    <a href="#integration" class="btn-primary nav-btn">Try Simulator</a>
   </nav>
 
   <!-- Hero Section -->
@@ -91,7 +91,7 @@
     <p class="fade-in-up delay-2">A high-performance, Rust-based validation layer for AI agents. Ensuring every transaction is compliant, authorized, and cryptographically sound before it touches critical enterprise infrastructure or a blockchain.</p>
     
     <div class="hero-buttons fade-in-up delay-3">
-      <a href="#integration" class="btn-primary btn-lg">Test the API <span class="arrow">→</span></a>
+      <a href="#integration" class="btn-primary btn-lg">See How It Works <span class="arrow">→</span></a>
       <a href="#contact" class="btn-secondary btn-lg">Request Tech Specs</a>
     </div>
 
@@ -246,7 +246,7 @@
       </div>
       <div class="security-visual glass-card">
         <div class="shield-icon pulse-glow">🛡️</div>
-        <h4 style="margin-bottom: 1rem;">Validation Enclave Active</h4>
+        <h4 style="margin-bottom: 1rem;">Validation Enclave (Design Model)</h4>
         <div class="status-line"><span class="check">✓</span> LLM Prompt Filtered</div>
         <div class="status-line"><span class="check">✓</span> Semantic Hash Verified</div>
         <div class="status-line"><span class="check">✓</span> Intent Signed Locally</div>
@@ -440,13 +440,11 @@
           respBox.innerHTML = '<span style="color: #27c93f;">{ "status": "INTENT_APPROVED", "code": 200 }</span>';
           
           let counter = document.getElementById('counter-intents');
-          let current = parseInt(counter.innerText.replace(',', ''));
           
           // Animate counter
           counter.style.transform = 'scale(1.1)';
           counter.style.color = '#fff';
           setTimeout(() => {
-            counter.innerText = (current + 1).toLocaleString();
             counter.style.transform = 'scale(1)';
             counter.style.color = 'var(--primary-color)';
           }, 150);
