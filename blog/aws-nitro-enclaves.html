@@ -134,7 +134,6 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 13/25</div>
       <h1 class="blog-title">Zero-Leak AI Workloads: Designing ATL-Trust for AWS Nitro Enclaves</h1>
-      <div class="patent-disclaimer" style="margin: -10px auto 20px; font-size: 0.95rem; color: var(--primary-color); opacity: 0.9; font-family: 'Fira Code', monospace; width: fit-content; background: rgba(0, 210, 255, 0.05); padding: 6px 16px; border: 1px solid rgba(0, 210, 255, 0.15); border-radius: 6px; display: flex; align-items: center; gap: 8px;"><img src="../assets/patent_pending_badge.png" alt="Patent Pending" style="height: 80px; width: auto; vertical-align: middle;"><span>Patent Pending</span></div>
       <div class="blog-meta">Published on May 29, 2026 • 6 min read</div>
     </header>
 
@@ -146,7 +145,7 @@
       <h2>The Architecture of AWS Nitro Enclaves</h2>
       <p>AWS Nitro Enclaves partition CPU and memory resources from a parent EC2 instance. The enclave operates inside a completely air-gapped environment. Communication between the parent EC2 instance and the Enclave occurs exclusively through a secure virtual socket (vsock) interface. There is no persistent storage, no external network connection, and no root operator account.</p>
       
-      <p>Under our architectural blueprint, ATL-Trust is designed to run its core validation logic inside the Nitro Enclave. We have verified this design locally using virtualized attestation simulation scripts, proving that validation check payloads can be forwarded via the vsock, signatures verified inside the secure enclave, and reports signed using ephemeral keys managed by the hardware.</p>
+      <p>Under our architectural blueprint, ATL-Trust is designed to run its core validation logic inside the Nitro Enclave. We have verified this design locally using virtualized attestation simulation scripts, demonstrating in simulation how validation check payloads can be forwarded via the vsock, signatures verified inside the simulated enclave, and reports signed using keys managed by the simulated environment.</p>
 
       <h2>Cryptographic Attestation Verification</h2>
       <p>The primary security control of a Nitro Enclave is its cryptographic attestation document, signed by the Nitro Security Module (NSM). This document lists Platform Configuration Register (PCR) measurements of the Enclave Image File (EIF). If the code inside the enclave is modified in the slightest, the PCR0 hash changes, and validation fails.</p>
