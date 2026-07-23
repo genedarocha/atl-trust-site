@@ -232,6 +232,54 @@
     </div>
   </section>
 
+  <!-- Edge-Redaction Sandbox Section -->
+  <section id="redaction-sandbox" class="code-section container" style="padding-top: 0; padding-bottom: 80px;">
+    <div class="integration-layout">
+      <div class="code-content">
+        <div class="badge">Edge Privacy</div>
+        <h2>Confidential Data Redaction Sandbox</h2>
+        <p>ATL-Trust intercepts outgoing prompt context, deterministically redacts sensitive datasets (SSNs, emails, credit cards, names) at the local edge, and seamlessly re-identifies them when returning LLM responses.</p>
+        
+        <div class="glass-card api-tester" style="margin-top: 30px;">
+          <div class="tester-header">
+            <h3>Edge Redactor Console</h3>
+            <span class="status-indicator" id="redact-status" style="background: #eab308; display: inline-block; width: 10px; height: 10px; border-radius: 50%;"></span>
+          </div>
+          
+          <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 0.85rem; color: #a0a0b0; margin-bottom: 8px; font-weight: 500; text-align: left;">Raw Context (Contains PII)</label>
+            <textarea id="raw-prompt" class="glass-input" rows="4" style="width: 100%; box-sizing: border-box; resize: vertical; font-family: inherit; font-size: 0.95rem; line-height: 1.5; padding: 12px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e0e0e0;">Hello, my name is John Doe. Send 250 USDC from my account (SSN: 123-45-6789) to recipient bob@example.com using credit card 4111-2222-3333-4444.</textarea>
+          </div>
+
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+            <button class="btn-primary" id="btn-redact" onclick="simulateRedact()" style="flex: 1; min-width: 150px;">1. Redact Prompt</button>
+            <button class="btn-primary" id="btn-simulate-llm" onclick="simulateLLM()" style="flex: 1; min-width: 150px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); color: #a0a0b0;" disabled>2. Dispatch to LLM</button>
+            <button class="btn-primary" id="btn-restore" onclick="simulateRestore()" style="flex: 1; min-width: 150px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); color: #a0a0b0;" disabled>3. Re-Identify Response</button>
+          </div>
+
+          <div id="sandbox-log" style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #a0a0b0; padding: 15px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; margin-top: 15px; min-height: 50px; text-align: left;">
+            Awaiting sandboxed simulation sequence...
+          </div>
+        </div>
+      </div>
+
+      <div class="code-window glass-card">
+        <div class="dashboard-header border-bottom">
+          <div class="traffic-lights">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="window-title" id="sandbox-window-title">VPC Edge Secure Memory (Local Map)</div>
+        </div>
+        <div class="code-body" id="sandbox-code-view" style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #7dd3fc; white-space: pre-wrap; text-align: left; padding: 20px; overflow-x: auto; max-height: 300px;">
+<span class="code-comment">// Local memory mapping is empty. Run Step 1 to populate.</span>
+{}
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Security Section -->
   <section id="security" class="security-section container">
     <h2 class="section-title">Zero-Trust Architecture</h2>
@@ -450,6 +498,165 @@
           }, 150);
         }
       }, 800);
+    }
+    
+    // Edge-Redaction Sandbox Simulation
+    let redactedPromptGlobal = '';
+    let mappingsGlobal = {};
+    let mockLlmResponseGlobal = '';
+
+    function simulateRedact() {
+      const rawText = document.getElementById('raw-prompt').value;
+      const log = document.getElementById('sandbox-log');
+      const codeView = document.getElementById('sandbox-code-view');
+      const winTitle = document.getElementById('sandbox-window-title');
+      const status = document.getElementById('redact-status');
+      
+      status.style.background = '#27c93f'; // Green status (active redaction engine)
+      log.innerHTML = '<span class="loading-spinner"></span> Scanning text context and isolating PII...';
+      
+      setTimeout(() => {
+        let tempText = rawText;
+        let mappings = {};
+
+        // Regex patterns
+        const ssnPattern = /\b\d{3}-\d{2}-\d{4}\b/g;
+        const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
+        const ccPattern = /\b(?:\d[ -]*?){13,16}\b/g;
+        const namePattern = /\b(?:my name is|i am|name is|dear|sender:)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\b/gi;
+
+        // Extract and replace
+        let emailMatch = [...tempText.matchAll(emailPattern)];
+        emailMatch.forEach((m, idx) => {
+          const placeholder = `[EMAIL_${idx}]`;
+          mappings[placeholder] = m[0];
+          tempText = tempText.replaceAll(m[0], placeholder);
+        });
+
+        let ssnMatch = [...tempText.matchAll(ssnPattern)];
+        ssnMatch.forEach((m, idx) => {
+          const placeholder = `[SSN_${idx}]`;
+          mappings[placeholder] = m[0];
+          tempText = tempText.replaceAll(m[0], placeholder);
+        });
+
+        let ccMatch = [...tempText.matchAll(ccPattern)];
+        ccMatch.forEach((m, idx) => {
+          const placeholder = `[CREDIT_CARD_${idx}]`;
+          mappings[placeholder] = m[0];
+          tempText = tempText.replaceAll(m[0], placeholder);
+        });
+
+        let nameMatch = [...tempText.matchAll(namePattern)];
+        nameMatch.forEach((m, idx) => {
+          const name = m[1];
+          if (name && !name.startsWith('[') && !name.endsWith(']')) {
+            const placeholder = `[NAME_${idx}]`;
+            mappings[placeholder] = name;
+            tempText = tempText.replaceAll(name, placeholder);
+          }
+        });
+
+        redactedPromptGlobal = tempText;
+        mappingsGlobal = mappings;
+
+        // Render Local Memory Map
+        winTitle.innerText = "VPC Edge Secure Memory (Local Map)";
+        codeView.innerHTML = `<span class="code-comment">// Reversible mapping dictionary stored locally in enclaved validator memory</span>\n` + JSON.stringify(mappings, null, 2);
+        codeView.style.color = '#7dd3fc';
+
+        log.innerHTML = '<span style="color: #27c93f;">✓ Step 1 complete: 🔒 Prompt redacted locally at the edge. Context scrubbed of PII.</span>';
+        
+        // Update button styles
+        const btnLlm = document.getElementById('btn-simulate-llm');
+        btnLlm.disabled = false;
+        btnLlm.style.background = 'linear-gradient(135deg, #3b82f6, #06b6d4)';
+        btnLlm.style.color = 'white';
+        btnLlm.style.border = 'none';
+        
+        // Reset step 3 button
+        const btnRestore = document.getElementById('btn-restore');
+        btnRestore.disabled = true;
+        btnRestore.style.background = 'rgba(255, 255, 255, 0.05)';
+        btnRestore.style.color = '#a0a0b0';
+        btnRestore.style.border = '1px solid rgba(255,255,255,0.1)';
+      }, 600);
+    }
+
+    function simulateLLM() {
+      const log = document.getElementById('sandbox-log');
+      const codeView = document.getElementById('sandbox-code-view');
+      const winTitle = document.getElementById('sandbox-window-title');
+      
+      log.innerHTML = '<span class="loading-spinner"></span> Sending redacted prompt to LLM and awaiting response...';
+      winTitle.innerText = "Outbound API Payload (Third-Party LLM)";
+      codeView.innerText = redactedPromptGlobal;
+      codeView.style.color = '#f59e0b'; // Amber
+
+      setTimeout(() => {
+        // Construct dynamic response using placeholders
+        let responseTemplate = "Verification complete. Request approved: initiated transactional action for [NAME_0]. A confirmation report was sent to [EMAIL_0]. Secure billing details charged to card [CREDIT_CARD_0].";
+        
+        // Ensure placeholders match what we actually redacted
+        if (!mappingsGlobal['[NAME_0]']) {
+          responseTemplate = responseTemplate.replace('for [NAME_0]', 'for customer');
+        }
+        if (!mappingsGlobal['[EMAIL_0]']) {
+          responseTemplate = responseTemplate.replace('to [EMAIL_0]', 'to registered email');
+        }
+        if (!mappingsGlobal['[CREDIT_CARD_0]']) {
+          responseTemplate = responseTemplate.replace('card [CREDIT_CARD_0]', 'default payment option');
+        }
+
+        mockLlmResponseGlobal = responseTemplate;
+        
+        winTitle.innerText = "Inbound API Response (Third-Party LLM)";
+        codeView.innerText = mockLlmResponseGlobal;
+        codeView.style.color = '#a855f7'; // Purple
+
+        log.innerHTML = '<span style="color: #27c93f;">✓ Step 2 complete: 🤖 LLM returned structured response using safe placeholders. Zero leakage.</span>';
+
+        // Update button styles
+        const btnRestore = document.getElementById('btn-restore');
+        btnRestore.disabled = false;
+        btnRestore.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+        btnRestore.style.color = 'white';
+        btnRestore.style.border = 'none';
+      }, 1000);
+    }
+
+    function simulateRestore() {
+      const log = document.getElementById('sandbox-log');
+      const codeView = document.getElementById('sandbox-code-view');
+      const winTitle = document.getElementById('sandbox-window-title');
+      const status = document.getElementById('redact-status');
+      
+      log.innerHTML = '<span class="loading-spinner"></span> Intercepting incoming response and mapping tokens back...';
+
+      setTimeout(() => {
+        let restoredText = mockLlmResponseGlobal;
+        for (const [placeholder, original] of Object.entries(mappingsGlobal)) {
+          restoredText = restoredText.replaceAll(placeholder, original);
+        }
+
+        winTitle.innerText = "Edge Restored User Response (Clean)";
+        codeView.innerText = restoredText;
+        codeView.style.color = '#10b981'; // Green
+
+        log.innerHTML = '<span style="color: #27c93f;">✓ Step 3 complete: 🔓 Re-identification complete at local VPC boundary before display.</span>';
+        status.style.background = '#eab308'; // Back to yellow
+
+        // Reset buttons
+        document.getElementById('btn-simulate-llm').disabled = true;
+        document.getElementById('btn-simulate-llm').style.background = 'rgba(255, 255, 255, 0.05)';
+        document.getElementById('btn-simulate-llm').style.color = '#a0a0b0';
+        document.getElementById('btn-simulate-llm').style.border = '1px solid rgba(255,255,255,0.1)';
+        
+        document.getElementById('btn-restore').disabled = true;
+        document.getElementById('btn-restore').style.background = 'rgba(255, 255, 255, 0.05)';
+        document.getElementById('btn-restore').style.color = '#a0a0b0';
+        document.getElementById('btn-restore').style.border = '1px solid rgba(255,255,255,0.1)';
+      }, 600);
     }
     
     async function handleContact(e) {
