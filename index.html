@@ -280,6 +280,55 @@
     </div>
   </section>
 
+  <!-- Tamper-Proof Audit Ledger Section -->
+  <section id="ledger-sandbox" class="code-section container" style="padding-top: 0; padding-bottom: 80px;">
+    <div class="integration-layout">
+      <div class="code-content">
+        <div class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3);">EU AI Act Compliance</div>
+        <h2>Cryptographic Tamper-Proof Ledger</h2>
+        <p>ATL-Trust structures every validation event into a sequentially chained blockchain ledger. If an administrator, insider, or attacker attempts to alter a historical transaction or delete a log entry, the signature verification breaks instantly.</p>
+        
+        <div class="glass-card api-tester" style="margin-top: 30px;">
+          <div class="tester-header">
+            <h3>Ledger Controls</h3>
+            <span class="status-indicator" id="ledger-status" style="background: #10b981; display: inline-block; width: 10px; height: 10px; border-radius: 50%;"></span>
+          </div>
+
+          <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
+            <button class="btn-primary" id="btn-verify-ledger" onclick="verifyLedger()" style="flex: 1; min-width: 150px; background: linear-gradient(135deg, #10b981, #059669); border: none;">Verify Ledger Integrity</button>
+            <button class="btn-primary" id="btn-tamper-ledger" onclick="tamperLedger()" style="flex: 1; min-width: 150px; background: rgba(239, 68, 68, 0.15); border: 1px solid rgba(239, 68, 68, 0.3); color: #ef4444;">Simulate Log Tampering</button>
+            <button class="btn-primary" id="btn-reset-ledger" onclick="resetLedger()" style="flex: 1; min-width: 100px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255,255,255,0.1); color: #a0a0b0;">Reset</button>
+          </div>
+
+          <div id="ledger-log" style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #a0a0b0; padding: 15px; background: rgba(0, 0, 0, 0.3); border: 1px solid rgba(255, 255, 255, 0.05); border-radius: 8px; margin-top: 15px; min-height: 50px; text-align: left;">
+            Chained ledger active. Ready for verification sequence.
+          </div>
+
+          <div style="margin-top: 20px; text-align: left;">
+            <label style="display: block; font-size: 0.85rem; color: #a0a0b0; margin-bottom: 8px; font-weight: 500;">Block Chain Sequence (Select a block to inspect)</label>
+            <div id="blocks-chain-container" style="display: flex; gap: 15px; overflow-x: auto; padding: 10px 0;">
+              <!-- Dynamic blocks will be rendered here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="code-window glass-card">
+        <div class="dashboard-header border-bottom">
+          <div class="traffic-lights">
+            <div class="dot red"></div>
+            <div class="dot yellow"></div>
+            <div class="dot green"></div>
+          </div>
+          <div class="window-title" id="ledger-window-title">Audit Ledger Block Inspector (Select block)</div>
+        </div>
+        <div class="code-body" id="ledger-code-view" style="font-family: 'Fira Code', monospace; font-size: 0.85rem; color: #7dd3fc; white-space: pre-wrap; text-align: left; padding: 20px; overflow-x: auto; max-height: 380px;">
+<span class="code-comment">// Click on any Block in the chain sequence to inspect its fields.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Security Section -->
   <section id="security" class="security-section container">
     <h2 class="section-title">Zero-Trust Architecture</h2>
@@ -484,8 +533,20 @@
         
         if (val > 10000) {
           respBox.innerHTML = '<span style="color: #ff5f56;">{ "error": "REJECTED_FISCAL_LIMIT", "code": 403 }</span>';
+          appendSimulatedBlock(
+            document.getElementById('api-action').value,
+            document.getElementById('api-asset').value,
+            val,
+            "REJECTED_FISCAL_LIMIT"
+          );
         } else {
           respBox.innerHTML = '<span style="color: #27c93f;">{ "status": "INTENT_APPROVED", "code": 200 }</span>';
+          appendSimulatedBlock(
+            document.getElementById('api-action').value,
+            document.getElementById('api-asset').value,
+            val,
+            "APPROVED"
+          );
           
           let counter = document.getElementById('counter-intents');
           
@@ -659,6 +720,232 @@
       }, 600);
     }
     
+    // Tamper-Proof Audit Ledger Simulation State
+    const originalLedgerBlocks = [
+      {
+        index: 0,
+        timestamp: "2026-07-25T00:00:00Z",
+        action: "GENESIS",
+        asset: "NONE",
+        value: 0.0,
+        outcome: "SYSTEM_INITIALIZED",
+        previous_hash: "0000000000000000000000000000000000000000000000000000000000000000",
+        hash: "74889c169aeab0e0b3c5a610444fc273010b9a8f550992383c5092fcd6b8801c",
+        signature: "TEE-SIG-92f7acbc0d9841f3d81b3762692bc13d55ab12cc00e9981ff9284fcd"
+      },
+      {
+        index: 1,
+        timestamp: "2026-07-25T00:05:00Z",
+        action: "TRANSFER",
+        asset: "USDC",
+        value: 150.0,
+        outcome: "APPROVED",
+        previous_hash: "74889c169aeab0e0b3c5a610444fc273010b9a8f550992383c5092fcd6b8801c",
+        hash: "b9a528e100fce9d332847c2112ac0f4b26a6dfa3b83ef690b2f913d8a6efb9b1",
+        signature: "TEE-SIG-09cdaef2382daef29031efbca12cdef3341ab7f05eeab3091efbcd02"
+      },
+      {
+        index: 2,
+        timestamp: "2026-07-25T00:10:00Z",
+        action: "SWAP",
+        asset: "ETH",
+        value: 1.5,
+        outcome: "APPROVED",
+        previous_hash: "b9a528e100fce9d332847c2112ac0f4b26a6dfa3b83ef690b2f913d8a6efb9b1",
+        hash: "1a084e3fc00daefd28e7cd0a2efb3967adfa0ef9ce02b9e112d8aefdcb028efb",
+        signature: "TEE-SIG-7ae890cf2aefbc0d90bfbca01e2acdef55ab7a0c0aee998bfcd62ef0"
+      }
+    ];
+
+    let ledgerBlocks = [];
+    let selectedBlockIdx = 0;
+    let isTampered = false;
+
+    function initLedger() {
+      ledgerBlocks = JSON.parse(JSON.stringify(originalLedgerBlocks));
+      isTampered = false;
+      renderBlocksChain();
+      inspectBlock(0);
+      
+      const log = document.getElementById('ledger-log');
+      log.innerHTML = 'Chained ledger active. Ready for verification sequence.';
+      log.style.color = '#a0a0b0';
+      
+      const status = document.getElementById('ledger-status');
+      status.style.background = '#10b981'; // Green
+    }
+
+    function renderBlocksChain() {
+      const container = document.getElementById('blocks-chain-container');
+      container.innerHTML = '';
+      
+      ledgerBlocks.forEach((block, idx) => {
+        const blockDiv = document.createElement('div');
+        blockDiv.className = 'ledger-block-btn';
+        blockDiv.onclick = () => inspectBlock(idx);
+        
+        let statusText = 'OK';
+        let statusColor = '#10b981'; // Green
+        let borderStyle = '1px solid rgba(255,255,255,0.1)';
+        
+        if (block.index === selectedBlockIdx) {
+          borderStyle = '2px solid #7dd3fc'; // Blue focus border
+        }
+
+        blockDiv.style.cssText = `
+          cursor: pointer; 
+          padding: 12px; 
+          background: rgba(255, 255, 255, 0.05); 
+          border: ${borderStyle}; 
+          border-radius: 8px; 
+          min-width: 100px; 
+          text-align: center;
+          transition: all 0.2s ease;
+        `;
+        
+        blockDiv.innerHTML = `
+          <div style="font-size: 0.75rem; color: #a0a0b0; font-weight: 500;">Block #${block.index}</div>
+          <div style="font-size: 0.85rem; font-weight: 600; color: ${statusColor}; margin: 5px 0;" id="ui-block-status-${idx}">${statusText}</div>
+          <div style="font-size: 0.65rem; color: #7dd3fc; font-family: monospace;">${block.hash.substring(0, 8)}...</div>
+        `;
+        
+        container.appendChild(blockDiv);
+        
+        // Add chaining arrow if not the last block
+        if (idx < ledgerBlocks.length - 1) {
+          const arrow = document.createElement('div');
+          arrow.style.cssText = 'display: flex; align-items: center; justify-content: center; color: rgba(255,255,255,0.2); font-weight: bold; font-size: 1.2rem;';
+          arrow.innerText = '→';
+          container.appendChild(arrow);
+        }
+      });
+    }
+
+    function inspectBlock(idx) {
+      selectedBlockIdx = idx;
+      renderBlocksChain();
+      
+      const block = ledgerBlocks[idx];
+      const winTitle = document.getElementById('ledger-window-title');
+      const codeView = document.getElementById('ledger-code-view');
+      
+      winTitle.innerText = `Audit Ledger Block Inspector (Block #${block.index})`;
+      codeView.innerHTML = JSON.stringify(block, null, 2);
+      codeView.style.color = '#7dd3fc';
+    }
+
+    function verifyLedger() {
+      const log = document.getElementById('ledger-log');
+      const status = document.getElementById('ledger-status');
+      
+      log.innerHTML = '<span class="loading-spinner"></span> Running validation check across the ledger chain...';
+      status.style.background = '#eab308'; // Yellow
+
+      setTimeout(() => {
+        let chainBroken = false;
+        let brokenIndex = -1;
+        let errorMsg = '';
+        
+        for (let i = 0; i < ledgerBlocks.length; i++) {
+          const block = ledgerBlocks[i];
+          const origBlock = originalLedgerBlocks[i];
+          
+          // 1. Verify block fields and signature (simulating local hash validation)
+          if (block.value !== origBlock.value || block.action !== origBlock.action || block.outcome !== origBlock.outcome) {
+            chainBroken = true;
+            brokenIndex = i;
+            errorMsg = `❌ LEDGER INTEGRITY CHECK FAILED: Hash mismatch at Block #${block.index}: Calculated block hash does not match stored block hash! [Data Tampering Detected]`;
+            break;
+          }
+          
+          // 2. Verify chain linkage previous_hash matches preceding block
+          if (i > 0) {
+            const prevBlock = ledgerBlocks[i - 1];
+            if (block.previous_hash !== prevBlock.hash) {
+              chainBroken = true;
+              brokenIndex = i;
+              errorMsg = `❌ LEDGER INTEGRITY CHECK FAILED: Chain broken at Block #${block.index}: previous_hash does not match preceding block's hash!`;
+              break;
+            }
+          }
+        }
+        
+        if (chainBroken) {
+          log.innerHTML = `<span style="color: #ef4444;">${errorMsg}</span>`;
+          status.style.background = '#ef4444'; // Red
+          
+          // Update visual status of broken block
+          const blockStatusLabel = document.getElementById(`ui-block-status-${brokenIndex}`);
+          if (blockStatusLabel) {
+            blockStatusLabel.innerText = 'TAMPERED';
+            blockStatusLabel.style.color = '#ef4444';
+          }
+        } else {
+          log.innerHTML = '<span style="color: #10b981;">✓ SUCCESS: Chained Ledger verified. All signatures match. 0 alterations detected.</span>';
+          status.style.background = '#10b981'; // Green
+        }
+      }, 800);
+    }
+
+    function tamperLedger() {
+      // Tamper with Block 1 value
+      ledgerBlocks[1].value = 9000.0;
+      isTampered = true;
+      
+      const log = document.getElementById('ledger-log');
+      log.innerHTML = '<span style="color: #ef4444;">⚠️ WARNING: Block #1 transaction value was maliciously modified to 9,000.0 USDC. Run "Verify Ledger Integrity" to check.</span>';
+      
+      // If inspecting Block 1, update the inspector window to show the modified data!
+      if (selectedBlockIdx === 1) {
+        inspectBlock(1);
+      } else {
+        renderBlocksChain();
+      }
+    }
+
+    function resetLedger() {
+      initLedger();
+    }
+
+    function appendSimulatedBlock(action, asset, value, outcome) {
+      const lastBlock = ledgerBlocks[ledgerBlocks.length - 1];
+      const index = lastBlock.index + 1;
+      const timestamp = new Date().toISOString();
+      const previous_hash = lastBlock.hash;
+      
+      // Create a simulated hash
+      const payload = `${index}|${timestamp}|${action}|${asset}|${value}|${outcome}|${previous_hash}`;
+      // Basic mock hashing function
+      let hashVal = 0;
+      for (let i = 0; i < payload.length; i++) {
+        hashVal = (hashVal << 5) - hashVal + payload.charCodeAt(i);
+        hashVal |= 0; // Convert to 32bit integer
+      }
+      const hash = "sim_" + Math.abs(hashVal).toString(16).padEnd(58, 'f');
+      const signature = "TEE-SIG-" + hash.substring(0, 8);
+      
+      const newBlock = {
+        index,
+        timestamp,
+        action,
+        asset,
+        value: parseFloat(value),
+        outcome,
+        previous_hash,
+        hash,
+        signature
+      };
+      
+      ledgerBlocks.push(newBlock);
+      // If we are not currently tampered, update originalLedgerBlocks too to make it match!
+      if (!isTampered) {
+        originalLedgerBlocks.push(JSON.parse(JSON.stringify(newBlock)));
+      }
+      
+      renderBlocksChain();
+      inspectBlock(index);
+    }
+    
     async function handleContact(e) {
       e.preventDefault();
       const form = e.target;
@@ -723,6 +1010,7 @@
     
     // Intersection Observer for fade-in animations on scroll
     document.addEventListener("DOMContentLoaded", () => {
+      initLedger();
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
