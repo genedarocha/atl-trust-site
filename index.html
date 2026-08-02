@@ -80,6 +80,7 @@
       <a href="#security">Security</a>
       <a href="#blog">Blog</a>
       <a href="#contact">Contact</a>
+      <a href="dashboard.html" style="color: var(--primary-color); font-weight: 600;">Risk Dashboard</a>
     </div>
     <a href="#integration" class="btn-primary nav-btn">Try Simulator</a>
   </nav>
@@ -91,7 +92,8 @@
     <p class="fade-in-up delay-2">A high-performance, Rust-based validation layer for AI agents. Ensuring every transaction is compliant, authorized, and cryptographically sound before it touches critical enterprise infrastructure or a blockchain.</p>
     
     <div class="hero-buttons fade-in-up delay-3">
-      <a href="#integration" class="btn-primary btn-lg">See How It Works <span class="arrow">→</span></a>
+      <a href="dashboard.html" class="btn-primary btn-lg" style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); color: #ffffff;">View Risk Dashboard <span class="arrow">→</span></a>
+      <a href="#integration" class="btn-secondary btn-lg">See How It Works</a>
       <a href="#contact" class="btn-secondary btn-lg">Request Tech Specs</a>
     </div>
 
@@ -241,14 +243,17 @@
         <p>ATL-Trust intercepts outgoing prompt context, deterministically redacts sensitive datasets (SSNs, emails, credit cards, names) at the local edge, and seamlessly re-identifies them when returning LLM responses.</p>
         
         <div class="glass-card api-tester" style="margin-top: 30px;">
-          <div class="tester-header">
+          <div class="tester-header" style="display: flex; justify-content: space-between; align-items: center;">
             <h3>Edge Redactor Console</h3>
-            <span class="status-indicator" id="redact-status" style="background: #eab308; display: inline-block; width: 10px; height: 10px; border-radius: 50%;"></span>
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span class="badge" style="background: rgba(16, 185, 129, 0.15); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.3); font-size: 0.7rem; margin: 0; padding: 4px 8px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-flex; align-items: center; gap: 5px;"><span style="display:inline-block; width:6px; height:6px; background:#10b981; border-radius:50%; animation: pulse 1.5s infinite;"></span>Sandbox: ISOLATED</span>
+              <span class="status-indicator" id="redact-status" style="background: #eab308; display: inline-block; width: 10px; height: 10px; border-radius: 50%;"></span>
+            </div>
           </div>
           
           <div style="margin-bottom: 20px;">
-            <label style="display: block; font-size: 0.85rem; color: #a0a0b0; margin-bottom: 8px; font-weight: 500; text-align: left;">Raw Context (Contains PII)</label>
-            <textarea id="raw-prompt" class="glass-input" rows="4" style="width: 100%; box-sizing: border-box; resize: vertical; font-family: inherit; font-size: 0.95rem; line-height: 1.5; padding: 12px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e0e0e0;">Hello, my name is John Doe. Send 250 USDC from my account (SSN: 123-45-6789) to recipient bob@example.com using credit card 4111-2222-3333-4444.</textarea>
+            <label style="display: block; font-size: 0.85rem; color: #a0a0b0; margin-bottom: 8px; font-weight: 500; text-align: left;">Raw Context (Contains PII & Code Entities)</label>
+            <textarea id="raw-prompt" class="glass-input" rows="4" style="width: 100%; box-sizing: border-box; resize: vertical; font-family: inherit; font-size: 0.95rem; line-height: 1.5; padding: 12px; background: rgba(0, 0, 0, 0.25); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; color: #e0e0e0;">Hello, my name is John Doe. <script>stealCookies()</script> Send 250 USDC from my account (SSN: 123-45-6789) to recipient bob@example.com using credit card 4111-2222-3333-4444.</textarea>
           </div>
 
           <div style="display: flex; gap: 15px; flex-wrap: wrap; margin-bottom: 20px;">
@@ -356,104 +361,304 @@
     <h2 class="section-title">Thought Leadership</h2>
     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
       <a href="blog/trust-frameworks-ai-enterprises.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 1/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 1/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Why Trust Frameworks Matter in AI-Powered Enterprises</h3>
       </a>
       <a href="blog/hardware-attested-compliance-checks.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 2/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 2/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Demystifying Hardware-Attested Compliance Checks</h3>
       </a>
       <a href="blog/secure-data-room-ai-acquisitions.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 3/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 3/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Anatomy of a Secure Data-Room for AI Acquisitions</h3>
       </a>
       <a href="blog/teleport-identity-frameworks-zero-trust.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 4/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 4/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">How Teleport-Based Identity Frameworks Enable Zero-Trust AI</h3>
       </a>
       <a href="blog/scalable-ai-validator-architecture.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 5/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 5/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Building a Scalable AI Validator: Architectural Best Practices</h3>
       </a>
       <a href="blog/prototype-to-production-atl-trust.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 6/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 6/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">From Prototype to Production: Lessons from Deploying ATL-Trust</h3>
       </a>
       <a href="blog/compliance-ready-ai.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 7/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 7/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Compliance-Ready AI: Aligning with EU AI Act & GDPR</h3>
       </a>
       <a href="blog/cassandra-glitch.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 8/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 8/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Cassandra’s Curse – Dr Hannah Fry’s $100 Experiment</h3>
       </a>
       <a href="blog/zero-trust-ai-agents.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 9/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 9/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Trust Architecture for Autonomous AI Agents</h3>
       </a>
       <a href="blog/mexico-city-federal-breach.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 10/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 10/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Mexico City Federal Breach (Dec 2025 – Feb 2026)</h3>
       </a>
       <a href="blog/enterprise-ai-guardrails.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 11/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 11/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Future of Enterprise AI: Navigating Non-Deterministic Behavior</h3>
       </a>
       <a href="blog/gcp-confidential-vms.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 12/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 12/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Hardware-Attested AI Isolation on Google Cloud Confidential VMs</h3>
       </a>
       <a href="blog/aws-nitro-enclaves.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 13/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 13/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Leak AI Workloads: Deploying ATL-Trust inside AWS Nitro Enclaves</h3>
       </a>
       <a href="blog/nvidia-confidential-gpus.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 14/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 14/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Cryptographic Integrity at the Silicon Layer: Attesting Nvidia Confidential GPUs</h3>
       </a>
       <a href="blog/testing-atl-trust-multi-cloud.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 15/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 15/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Secure Multi-Cloud Verification: Testing ATL-Trust on AWS, Azure, GCP, and Locally</h3>
       </a>
       <a href="blog/mitigating-prompt-injection.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 16/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 16/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Mitigating Prompt Injection: Designing Robust Intent Filtering for Autonomous Agents</h3>
       </a>
       <a href="blog/real-time-semantic-hash-verification.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 17/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 17/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Power of Real-Time Semantic Hash Verification in User Protection</h3>
       </a>
       <a href="blog/behavioral-isolation-multi-agent.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 18/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 18/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Defending Against Bad Agents: Behavioral Isolation in Multi-Agent Ecosystems</h3>
       </a>
       <a href="blog/deterministic-guardrails-vs-probabilistic-models.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 19/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 19/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Deterministic Guardrails vs. Probabilistic Models: The Safe AI Sandbox</h3>
       </a>
       <a href="blog/user-consent-frameworks-cryptographic-handshakes.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 20/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 20/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">User Consent Frameworks: Implementing Cryptographic Handshakes for High-Value Transactions</h3>
       </a>
       <a href="blog/anatomy-of-ai-circuit-breaker.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 21/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 21/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Anatomy of an AI Circuit Breaker: Preventing Runaway Loops and Resource Exhaustion</h3>
       </a>
       <a href="blog/confidential-data-redaction-edge.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 22/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 22/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Confidential Data Redaction: Ensuring AI Agents Respect Privacy at the Edge</h3>
       </a>
       <a href="blog/attestation-auditing-tamper-proof-logs.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 23/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 23/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Attestation and Auditing: How to Create Tamper-Proof Logs of AI Actions for the EU AI Act</h3>
       </a>
       <a href="blog/threat-modeling-autonomous-systems.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 24/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 24/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Threat Modeling for Autonomous Systems: A Guide to Secure AI Workflows</h3>
       </a>
       <a href="blog/future-human-agent-coexistence.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
-        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 25/25</div>
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 25/50</div>
         <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Future of Human-Agent Coexistence: Designing for Ultimate Trust and Safety</h3>
+      </a>
+      <a href="blog/validating-high-frequency-api-intents.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 26/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Validating High-Frequency API Intents in Rust</h3>
+      </a>
+      <a href="blog/tamper-evident-ledger-hashing.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 27/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Math of Tamper-Evident Ledger Hashing</h3>
+      </a>
+      <a href="blog/preventing-shell-command-injections.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 28/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Preventing OS Shell Command Injections at the Prompt Layer</h3>
+      </a>
+      <a href="blog/reversible-data-redaction-architecture.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 29/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Reversible Data Redaction: Securing Personal Context Locally</h3>
+      </a>
+      <a href="blog/dynamic-transaction-rate-limiting.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 30/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Dynamic Transaction Rate Limiting and AI Circuit Breakers</h3>
+      </a>
+      <a href="blog/attesting-multi-signature-workflows.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 31/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Attesting Multi-Signature Workflows via TEE Enclaves</h3>
+      </a>
+      <a href="blog/gdpr-compliance-at-the-edge.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 32/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">GDPR Compliance at the Edge: Local Prompt Anonymization</h3>
+      </a>
+      <a href="blog/zero-latency-policy-engines.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 33/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Latency Policy Engines: Compiling Compile-Time Logic Gates</h3>
+      </a>
+      <a href="blog/teleport-aif-integration.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 34/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Integrating Teleport AIF for Identity Attestation in AI Chains</h3>
+      </a>
+      <a href="blog/mitigating-indirect-prompt-injection.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 35/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Mitigating Indirect Prompt Injection from Scraped Context</h3>
+      </a>
+      <a href="blog/securing-autonomous-watchos-workflows.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 36/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Securing Autonomous watchOS Workflows on Mobile Clients</h3>
+      </a>
+      <a href="blog/intel-sgx-vs-aws-nitro.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 37/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Intel SGX vs. AWS Nitro: A TEE Comparison for AI Workloads</h3>
+      </a>
+      <a href="blog/zero-knowledge-proofs-for-policy-consent.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 38/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Knowledge Proofs for User Policy Consent Validation</h3>
+      </a>
+      <a href="blog/ledger-replication-and-consensus.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 39/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Ledger Replication and Consensus in Distributed Audit Logs</h3>
+      </a>
+      <a href="blog/sql-block-comment-filtering.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 40/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Scrubbing SQL Comments to Prevent Database Prompt Hijacking</h3>
+      </a>
+      <a href="blog/name-and-identity-ner-heuristics.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 41/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Improving Name and Identity Redaction using Heuristic Regexes</h3>
+      </a>
+      <a href="blog/handling-non-deterministic-intent-parsing.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 42/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Handling Non-Deterministic Intent Parsing in Agent Workflows</h3>
+      </a>
+      <a href="blog/designing-compliant-ai-for-financial-transactions.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 43/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Designing Compliant AI for Financial Transactions (USDC & BTC)</h3>
+      </a>
+      <a href="blog/hardware-root-of-trust-verification.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 44/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Validating Hardware Root-of-Trust via Intel/Google Root CAs</h3>
+      </a>
+      <a href="blog/managing-memory-limits-in-edge-routers.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 45/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Managing Memory Limits in Low-Latency Edge Redaction Routers</h3>
+      </a>
+      <a href="blog/api-response-re-identification.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 46/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Edge-Based Re-identification: Restoring Placeholders safely</h3>
+      </a>
+      <a href="blog/preventing-privilege-escalation.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 47/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Preventing Privilege Escalation in Autonomous Agent Databases</h3>
+      </a>
+      <a href="blog/regulatory-auditing-under-the-eu-ai-act.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 48/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Regulatory Auditing under the EU AI Act: A Checklist</h3>
+      </a>
+      <a href="blog/building-a-sandbox-attestation-client.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 49/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Building a Sandbox Attestation Client: Safe Agent Execution</h3>
+      </a>
+      <a href="blog/zero-trust-ai-roadmap.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 50/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Zero-Trust AI Roadmap: Navigating the Autonomous Future</h3>
+      </a>
+      <a href="blog/validating-high-frequency-api-intents.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 26/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Validating High-Frequency API Intents in Rust</h3>
+      </a>
+      <a href="blog/tamper-evident-ledger-hashing.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 27/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Math of Tamper-Evident Ledger Hashing</h3>
+      </a>
+      <a href="blog/preventing-shell-command-injections.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 28/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Preventing OS Shell Command Injections at the Prompt Layer</h3>
+      </a>
+      <a href="blog/reversible-data-redaction-architecture.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 29/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Reversible Data Redaction: Securing Personal Context Locally</h3>
+      </a>
+      <a href="blog/dynamic-transaction-rate-limiting.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 30/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Dynamic Transaction Rate Limiting and AI Circuit Breakers</h3>
+      </a>
+      <a href="blog/attesting-multi-signature-workflows.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 31/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Attesting Multi-Signature Workflows via TEE Enclaves</h3>
+      </a>
+      <a href="blog/gdpr-compliance-at-the-edge.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 32/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">GDPR Compliance at the Edge: Local Prompt Anonymization</h3>
+      </a>
+      <a href="blog/zero-latency-policy-engines.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 33/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Latency Policy Engines: Compiling Compile-Time Logic Gates</h3>
+      </a>
+      <a href="blog/teleport-aif-integration.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 34/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Integrating Teleport AIF for Identity Attestation in AI Chains</h3>
+      </a>
+      <a href="blog/mitigating-indirect-prompt-injection.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 35/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Mitigating Indirect Prompt Injection from Scraped Context</h3>
+      </a>
+      <a href="blog/securing-autonomous-watchos-workflows.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 36/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Securing Autonomous watchOS Workflows on Mobile Clients</h3>
+      </a>
+      <a href="blog/intel-sgx-vs-aws-nitro.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 37/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Intel SGX vs. AWS Nitro: A TEE Comparison for AI Workloads</h3>
+      </a>
+      <a href="blog/zero-knowledge-proofs-for-policy-consent.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 38/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Zero-Knowledge Proofs for User Policy Consent Validation</h3>
+      </a>
+      <a href="blog/ledger-replication-and-consensus.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 39/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Ledger Replication and Consensus in Distributed Audit Logs</h3>
+      </a>
+      <a href="blog/sql-block-comment-filtering.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 40/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Scrubbing SQL Comments to Prevent Database Prompt Hijacking</h3>
+      </a>
+      <a href="blog/name-and-identity-ner-heuristics.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 41/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Improving Name and Identity Redaction using Heuristic Regexes</h3>
+      </a>
+      <a href="blog/handling-non-deterministic-intent-parsing.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 42/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Handling Non-Deterministic Intent Parsing in Agent Workflows</h3>
+      </a>
+      <a href="blog/designing-compliant-ai-for-financial-transactions.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 43/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Designing Compliant AI for Financial Transactions (USDC & BTC)</h3>
+      </a>
+      <a href="blog/hardware-root-of-trust-verification.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 44/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Validating Hardware Root-of-Trust via Intel/Google Root CAs</h3>
+      </a>
+      <a href="blog/managing-memory-limits-in-edge-routers.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 45/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Managing Memory Limits in Low-Latency Edge Redaction Routers</h3>
+      </a>
+      <a href="blog/api-response-re-identification.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 46/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Edge-Based Re-identification: Restoring Placeholders safely</h3>
+      </a>
+      <a href="blog/preventing-privilege-escalation.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 47/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Preventing Privilege Escalation in Autonomous Agent Databases</h3>
+      </a>
+      <a href="blog/regulatory-auditing-under-the-eu-ai-act.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 48/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Regulatory Auditing under the EU AI Act: A Checklist</h3>
+      </a>
+      <a href="blog/building-a-sandbox-attestation-client.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 49/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">Building a Sandbox Attestation Client: Safe Agent Execution</h3>
+      </a>
+      <a href="blog/zero-trust-ai-roadmap.html" class="glass-card" style="text-decoration: none; color: inherit; display: block; transition: transform 0.2s ease;">
+        <div class="badge" style="margin-bottom: 15px; font-size: 0.8rem;">Series 50/50</div>
+        <h3 style="margin-bottom: 10px; font-family: 'Outfit'; font-size: 1.3rem;">The Zero-Trust AI Roadmap: Navigating the Autonomous Future</h3>
       </a>
     </div>
   </section>
@@ -573,14 +778,49 @@
       const winTitle = document.getElementById('sandbox-window-title');
       const status = document.getElementById('redact-status');
       
+      if (rawText.length > 2000) {
+        status.style.background = '#ef4444'; // Red
+        log.innerHTML = '<span style="color: #ef4444;">❌ INPUT SANITIZER FAILURE: Input exceeds maximum permitted length of 2000 characters.</span>';
+        return;
+      }
+
       status.style.background = '#27c93f'; // Green status (active redaction engine)
-      log.innerHTML = '<span class="loading-spinner"></span> Scanning text context and isolating PII...';
+      log.innerHTML = '<span class="loading-spinner"></span> Running sanitization checks and isolating PII...';
       
       setTimeout(() => {
         let tempText = rawText;
         let mappings = {};
+        let codeEntitiesRemoved = 0;
 
-        // Regex patterns
+        // Sanitization Check: HTML script tags
+        const scriptPattern = /<script\b[^>]*>([\s\S]*?)<\/script>/gi;
+        if (scriptPattern.test(tempText)) {
+          codeEntitiesRemoved++;
+          tempText = tempText.replace(scriptPattern, "[REMOVED_SCRIPT]");
+        }
+
+        // General HTML tags
+        const tagPattern = /<[^>]+>/g;
+        if (tagPattern.test(tempText)) {
+          codeEntitiesRemoved++;
+          tempText = tempText.replace(tagPattern, "");
+        }
+
+        // SQL injection comment lines
+        const sqlCommentLinePattern = /--.*/g;
+        if (sqlCommentLinePattern.test(tempText)) {
+          codeEntitiesRemoved++;
+          tempText = tempText.replace(sqlCommentLinePattern, "");
+        }
+
+        // Shell execution blocks
+        const shellPattern = /\b(rm\s+-rf|sudo\b|chmod\s+\+x)\b/gi;
+        if (shellPattern.test(tempText)) {
+          codeEntitiesRemoved++;
+          tempText = tempText.replace(shellPattern, "[BLOCKED_COMMAND]");
+        }
+
+        // Regex patterns for PII
         const ssnPattern = /\b\d{3}-\d{2}-\d{4}\b/g;
         const emailPattern = /\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b/g;
         const ccPattern = /\b(?:\d[ -]*?){13,16}\b/g;
@@ -626,7 +866,11 @@
         codeView.innerHTML = `<span class="code-comment">// Reversible mapping dictionary stored locally in enclaved validator memory</span>\n` + JSON.stringify(mappings, null, 2);
         codeView.style.color = '#7dd3fc';
 
-        log.innerHTML = '<span style="color: #27c93f;">✓ Step 1 complete: 🔒 Prompt redacted locally at the edge. Context scrubbed of PII.</span>';
+        if (codeEntitiesRemoved > 0) {
+          log.innerHTML = `<span style="color: #27c93f;">✓ Step 1 complete: 🔒 Input sanitized & redacted. Stripped ${codeEntitiesRemoved} malicious code entities. PII scrubbed at local edge.</span>`;
+        } else {
+          log.innerHTML = '<span style="color: #27c93f;">✓ Step 1 complete: 🔒 Input sanitized & redacted. No malicious code patterns found. PII scrubbed at local edge.</span>';
+        }
         
         // Update button styles
         const btnLlm = document.getElementById('btn-simulate-llm');

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Threat Modeling for Autonomous Systems: A Guide to Secure AI Workflows | ATL-Trust</title>
-  <meta name="description" content="A comprehensive threat-modeling checklist detailing vulnerability vectors in autonomous AI applications and standard architectural counter-measures.">
+  <title>Ledger Replication and Consensus in Distributed Audit Logs | ATL-Trust</title>
+  <meta name="description" content="In multi-cloud deployments, validator nodes must agree on approved transactions. We analyze block replication and audit integrity.">
   
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -125,7 +125,6 @@
       <a href="../index.html#security">Security</a>
       <a href="../index.html#blog">Blog</a>
       <a href="../index.html#contact">Contact</a>
-      <a href="../dashboard.html" style="color: var(--primary-color); font-weight: 600;">Risk Dashboard</a>
     </div>
     <a href="../index.html#integration" class="btn-primary nav-btn">Try Simulator</a>
   </nav>
@@ -133,51 +132,35 @@
   <!-- Blog Content -->
   <article class="blog-container fade-in-up">
     <header class="blog-header">
-      <div class="badge">Thought Leadership - Series Post 24/50</div>
-      <h1 class="blog-title">Threat Modeling for Autonomous Systems: A Guide to Secure AI Workflows</h1>
-      <div class="blog-meta">Published on June 20, 2026 • 6 min read</div>
+      <div class="badge">Architecture & Design - Series Post 39/50</div>
+      <h1 class="blog-title">Ledger Replication and Consensus in Distributed Audit Logs</h1>
+      <div class="blog-meta">Published on August 3, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
-      <img src="../assets/blog/risk_visual.png" alt="Threat Modeling Risk Visual" class="blog-image">
+      <img src="../assets/blog/gdpr_audit_dashboard.png" alt="Ledger Replication and Consensus in Distributed Audit Logs" class="blog-image">
       
-      <p>Building secure AI workflows is fundamentally different from securing traditional static web apps. The non-deterministic nature of large language models means traditional penetration testing alone cannot reveal all structural safety gaps. To prepare autonomous agents for enterprise deployment, engineers must construct a comprehensive threat model mapping the pathways of prompt injection, target drift, privilege escalation, and execution runaway.</p>
+      <p>In multi-cloud deployments, validator nodes must agree on approved transactions. We analyze block replication and audit integrity.</p>
 
-      <h2>The Autonomous Threat Vectors</h2>
-      <p>In traditional security models, user inputs are validated against strict SQL or JSON parsing patterns. In autonomous systems, however, input is natural language, which can easily change the system's operational instructions. We divide the primary threat areas into three layers:</p>
-      <ol>
-        <li><strong>Data Ingestion:</strong> The ingestion of untrusted external content (e.g., scraping an email attachment or reading a website search query) containing hidden instructions targeting the LLM (Indirect Prompt Injection).</li>
-        <li><strong>Intent Generation:</strong> The logic phase where the model translates natural language commands to API requests, where prompt manipulation can cause semantic target drift.</li>
-        <li><strong>Action Execution:</strong> The backend gateway triggering database writes or network calls, where missing circuit breakers can allow a runaway loop to trigger infinite retries.</li>
-      </ol>
+      <h2>Synchronizing Audit Blocks Across Multi-Cloud Nodes</h2>
+      <p>If one node goes offline, other servers must continue validating agent requests. ATL-Trust uses replicated JSON block ledgers to record outcomes, checking chain integrity and block indexes synchronously on state changes.</p>
 
-      <h2>Designing the Threat Model Template</h2>
-      <p>A threat model acts as a security review checklist. When assessing a new AI integration, developers trace user prompts through each microservice boundary, checking that every node has a corresponding validation safeguard.</p>
+      <pre class="code-block"><code>// Appending action block and saving file state
+pub fn append_action(&mut self, action: String, asset: String, value: f64, outcome: String) -> Result<LedgerBlock, String> {
+    let last_block = self.blocks.last().ok_or("Ledger lacks Genesis")?;
+    let index = last_block.index + 1;
+    // Chaining hashes...
+    self.save_to_file()
+}</code></pre>
 
-      <pre class="code-block"><code># Conceptual secure pipeline routing diagram
-[User Command]
-      │
-      ▼
-[Input Sanitizer] ──► (Verify length and remove malicious code entities)
-      │
-      ▼
-[LLM Reasoning Engine] ──► (Generates proposed JSON payload intent)
-      │
-      ▼
-[Deterministic Validator] ──► (Verify semantic hash, whitelist bounds, and limits)
-      │
-      ▼
-[Action Gateway] ──► (Triggers system action with secure tokens)</code></pre>
+      <h2>Appending Replicated Actions</h2>
+      <p>When a node validates an intent, it appends the transaction block locally and broadcasts the block hash. Other nodes verify the preceding hash links before appending, preventing fork drift.</p>
 
-      <h2>Key Defense Strategies</h2>
       <ul>
-        <li><strong>Input Redaction:</strong> Mask personal metadata and structure incoming text inputs before sending them to reasoning APIs.</li>
-        <li><strong>Cryptographic Hash Signatures:</strong> Anchor proposed execution parameters to the client-signed semantic representation of the user's initial command.</li>
-        <li><strong>Process Sandboxing:</strong> Restrict agent runtimes within isolated containers with strict network firewalls to prevent lateral access to internal company servers.</li>
+        <li><strong>Prevents malicious history rewriting on individual host machines.</strong></li>
+        <li><strong>Maintains high-availability validation loops across cloud zones.</strong></li>
+        <li><strong>Automates recovery of ledger files using block checks.</strong></li>
       </ul>
-
-      <h2>Defense-in-Depth for Enterprise Workflows</h2>
-      <p>By mapping out vulnerabilities and implementing strict validation boundaries at every execution layer, organizations can secure their AI workflows. A defensive, threat-aware architecture ensures that even if an agent is compromised, the blast radius is neutralized immediately.</p>
 
       <div class="blog-cta">
         <h3>Enterprise M&A Inquiry</h3>
