@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 39/50</div>
       <h1 class="blog-title">Ledger Replication and Consensus in Distributed Audit Logs</h1>
-      <div class="blog-meta">Published on August 3, 2026 • 7 min read</div>
+      <div class="blog-meta">Published on August 3, 2026 • 9 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>In multi-cloud deployments, validator nodes must agree on approved transactions. We analyze block replication and audit integrity.</p>
 
       <h2>Synchronizing Audit Blocks Across Multi-Cloud Nodes</h2>
-      <p>If one node goes offline, other servers must continue validating agent requests. ATL-Trust uses replicated JSON block ledgers to record outcomes, checking chain integrity and block indexes synchronously on state changes.</p>
+      <p>If one node goes offline, other servers must continue validating agent requests. ATL-Trust uses replicated JSON block ledgers to record outcomes, checking chain integrity and block indexes synchronously on state changes, preventing split-brain states.</p>
+      <p>We implement a consensus protocol that replicates ledger entries across cloud zones in real-time. Each node verifies the integrity of the incoming block before appending it, ensuring history cannot be altered.</p>
 
       <pre class="code-block"><code>// Appending action block and saving file state
 pub fn append_action(&mut self, action: String, asset: String, value: f64, outcome: String) -> Result<LedgerBlock, String> {
@@ -154,7 +155,8 @@ pub fn append_action(&mut self, action: String, asset: String, value: f64, outco
 }</code></pre>
 
       <h2>Appending Replicated Actions</h2>
-      <p>When a node validates an intent, it appends the transaction block locally and broadcasts the block hash. Other nodes verify the preceding hash links before appending, preventing fork drift.</p>
+      <p>When a node validates an intent, it appends the transaction block locally and broadcasts the block hash. Other nodes verify the preceding hash links before appending, preventing fork drift and keeping logs consistent.</p>
+      <p>This replicated architecture guarantees high availability for the validation gateway, protecting enterprise agent networks from individual node failures or regional outages.</p>
 
       <ul>
         <li><strong>Prevents malicious history rewriting on individual host machines.</strong></li>

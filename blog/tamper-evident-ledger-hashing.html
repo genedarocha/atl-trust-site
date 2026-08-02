@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Thought Leadership - Series Post 27/50</div>
       <h1 class="blog-title">The Math of Tamper-Evident Ledger Hashing</h1>
-      <div class="blog-meta">Published on June 28, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on June 28, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Immutable audit trails are key to compliance. We break down the SHA-256 block-chaining mechanics used to anchor ATL-Trust's audit logs.</p>
 
       <h2>Anchoring Logs with Block-Chaining Math</h2>
-      <p>Auditability is not just about keeping a log file; it is about proving that log file was never altered. By hashing the validation index, timestamp, action type, asset details, and preceding block hash, ATL-Trust produces a sequential tamper-evident blockchain that validates sequential integrity at startup.</p>
+      <p>Auditability is not just about keeping a log file; it is about proving that log file was never altered. By hashing the validation index, timestamp, action type, asset details, and preceding block hash, ATL-Trust produces a sequential tamper-evident blockchain that validates sequential integrity at startup. This prevents malicious actors or even system administrators with root access from modifying past transaction logs to hide unauthorized activities.</p>
+      <p>The hashing protocol is designed for performance. Instead of relying on a slow distributed consensus algorithm, we compute the block hashes locally inside a secure enclave. Each block is cryptographically linked to the previous one, creating a continuous chain of custody that can be audited in milliseconds.</p>
 
       <pre class="code-block"><code>// Verification loop in ledger.rs
 for i in 1..self.blocks.len() {
@@ -155,7 +156,8 @@ for i in 1..self.blocks.len() {
 }</code></pre>
 
       <h2>Sequential Cryptographic Integrity Check</h2>
-      <p>If a single character in block 3 is modified, its resulting SHA-256 hash changes completely. Since block 4 embeds the block 3 hash in its data payload, the mismatch cascades down the chain, signaling an immediate integrity failure on system boot.</p>
+      <p>If a single character in block 3 is modified, its resulting SHA-256 hash changes completely. Since block 4 embeds the block 3 hash in its data payload, the mismatch cascades down the chain, signaling an immediate integrity failure on system boot. This mathematical design makes it impossible to tamper with a historic log entry without recalculating the hash of every subsequent block.</p>
+      <p>During the startup sequence, the ledger module reads the log file from disk, recalculates the hash for each block, and verifies that the chained hashes match the stored signatures. Any discrepancy immediately halts the validation server, preventing compromised logs from being used to authorize new actions.</p>
 
       <ul>
         <li><strong>SHA-256 hashing runs natively on local CPUs.</strong></li>

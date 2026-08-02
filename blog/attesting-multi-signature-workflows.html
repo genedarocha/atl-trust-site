@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 31/50</div>
       <h1 class="blog-title">Attesting Multi-Signature Workflows via TEE Enclaves</h1>
-      <div class="blog-meta">Published on July 10, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on July 10, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,16 +143,18 @@
       <p>When agents request high-value actions, they must verify their environment cryptographically. Explore multi-sig attestation checks.</p>
 
       <h2>Cryptographic Proofs for Hardware Isolation</h2>
-      <p>A critical risk in agent deployment is host environment hijacking. Attacking developers can alter validation logic. TEE-based multi-signature workflows ensure that both the agent program and its validation layer are verified on silicon, preventing host-level tampering.</p>
+      <p>A critical risk in agent deployment is host environment hijacking. Attacking developers can alter validation logic. TEE-based multi-signature workflows ensure that both the agent program and its validation layer are verified on silicon, preventing host-level tampering. By running our validators inside secure enclaves, we isolate critical keys from the parent operating system.</p>
+      <p>The enclave generates cryptographic attestation reports that can be verified by external parties. This proves that the code running inside the TEE has not been modified since compilation, establishing a secure root-of-trust for high-value transactions.</p>
 
       <pre class="code-block"><code>// Mock signature verification in crypto.rs
-pub fn verify_hardware_signature(sig: &sig) -> bool {
+pub fn verify_hardware_signature(sig: &str) -> bool {
     // In production, this validates against the Intel/Google Root CA
     sig.starts_with("TEE-SIG-")
 }</code></pre>
 
       <h2>Silicon Level Signatures</h2>
-      <p>Using hardware roots-of-trust, validation nodes verify the enclave's signature against Intel or Google Root Certificates before authorizing database updates. If the enclave is running modified validation code, the signature check fails.</p>
+      <p>Using hardware roots-of-trust, validation nodes verify the enclave's signature against Intel or Google Root Certificates before authorizing database updates. If the enclave is running modified validation code, the signature check fails. This makes it impossible for a rogue administrator to bypass security checks.</p>
+      <p>We integrate these hardware checks directly into the API routing layer. If an agent attempts to execute an action without presenting a valid enclave signature, the request is immediately dropped at the gateway, preventing unauthorized network calls.</p>
 
       <ul>
         <li><strong>Prevents malicious OS administrators from snooping on enclave memory.</strong></li>

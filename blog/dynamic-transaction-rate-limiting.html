@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 30/50</div>
       <h1 class="blog-title">Dynamic Transaction Rate Limiting and AI Circuit Breakers</h1>
-      <div class="blog-meta">Published on July 7, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on July 7, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Runaway execution loops in autonomous agents can cost thousands of dollars in minutes. Learn how dynamic circuit breakers prevent infinite retries.</p>
 
       <h2>Stopping Infinite Retries and Resource Exhaustion</h2>
-      <p>Unlike static software, autonomous agents reason dynamically. If an API call fails, they might rewrite the payload and retry indefinitely, creating a massive loop. ATL-Trust tracks the cumulative cost and value of approved actions, tripping a circuit breaker when safety thresholds are breached.</p>
+      <p>Unlike static software, autonomous agents reason dynamically. If an API call fails, they might rewrite the payload and retry indefinitely, creating a massive loop. ATL-Trust tracks the cumulative cost and value of approved actions, tripping a circuit breaker when safety thresholds are breached. This prevents runaway processes from overwhelming backend APIs or incurring massive consumption bills.</p>
+      <p>Our dynamic circuit breaker monitors both the frequency of transaction requests and their cumulative financial value. If an agent attempts to execute hundreds of database operations within a short window, the system flags the behavior as anomalous and restricts further access.</p>
 
       <pre class="code-block"><code>// Circuit breaker checking in main.rs
 let new_volume = app_state.current_volume + intent.value as f32;
@@ -153,7 +154,8 @@ if new_volume > app_state.manifest.circuit_breaker_threshold {
 }</code></pre>
 
       <h2>In-Memory Metric Aggregation</h2>
-      <p>The state manager aggregates transaction totals in real-time. If the threshold configured in the secure manifest is crossed, subsequent request approvals fail deterministically, preventing lateral damage to system resources.</p>
+      <p>The state manager aggregates transaction totals in real-time. If the threshold configured in the secure manifest is crossed, subsequent request approvals fail deterministically, preventing lateral damage to system resources. This in-memory design keeps check latency sub-millisecond, which is critical for high-frequency operations.</p>
+      <p>By enforcing these bounds outside the agent's logic loop, we maintain control even if the reasoning model is fully compromised or hangs indefinitely. Administrators can configure custom thresholds depending on the agent's assigned role.</p>
 
       <ul>
         <li><strong>Trips instantly within milliseconds of limit violations.</strong></li>

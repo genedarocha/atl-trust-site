@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Threat Analysis - Series Post 28/50</div>
       <h1 class="blog-title">Preventing OS Shell Command Injections at the Prompt Layer</h1>
-      <div class="blog-meta">Published on July 1, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on July 1, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>When agents generate bash or code files, raw prompt text can trick them into running destructive commands. Explore edge-based script sanitization.</p>
 
       <h2>Detecting OS Level System Command Injection</h2>
-      <p>If an autonomous agent is given terminal privileges, it is vulnerable to malicious prompt directives like 'sudo rm -rf /' hidden inside unverified inputs. ATL-Trust intercepts prompts at the boundary layer, scanning for dangerous patterns before they reach the reasoning API.</p>
+      <p>If an autonomous agent is given terminal privileges, it is vulnerable to malicious prompt directives like 'sudo rm -rf /' hidden inside unverified inputs. ATL-Trust intercepts prompts at the boundary layer, scanning for dangerous patterns before they reach the reasoning API. This is particularly critical when agents handle external data sources like customer emails or scraped websites, which are frequent vectors for indirect injections.</p>
+      <p>We implement a strict multi-phase sanitization pipeline. Before the raw text is formatted into a prompt payload, it passes through our regex sanitization filters. These filters are optimized to scan large blocks of text in sub-millisecond times, ensuring that the security check does not delay the agent's response loop.</p>
 
       <pre class="code-block"><code>// Shell injection scanner in sanitize.rs
 static SHELL_INJECTION_REGEX: OnceLock<Regex> = OnceLock::new();
@@ -153,7 +154,8 @@ let shell_re = SHELL_INJECTION_REGEX.get_or_init(|| {
 let sanitized = shell_re.replace_all(text, "[BLOCKED_COMMAND]").into_owned();</code></pre>
 
       <h2>Lazy Regex Initialization for High-Throughput Scanners</h2>
-      <p>To minimize latency, the sanitization regex models are compiled once using Thread-safe OnceLock containers. The sanitization layer instantly strips script brackets and replaces command blocks with a secure placeholder flag.</p>
+      <p>To minimize latency, the sanitization regex models are compiled once using Thread-safe OnceLock containers. The sanitization layer instantly strips script brackets and replaces command blocks with a secure placeholder flag. This ensures that the overhead of compiling regular expressions is only paid once at startup rather than on every request.</p>
+      <p>By sanitizing inputs at the edge, we isolate the reasoning engine from raw system-level commands. Even if an LLM is successfully manipulated into generating a malicious terminal call, the downstream validator blocks execution, containing the blast radius.</p>
 
       <ul>
         <li><strong>Strips command chains like pipe (|) and logical AND (&&).</strong></li>

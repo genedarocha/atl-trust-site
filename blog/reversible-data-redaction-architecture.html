@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 29/50</div>
       <h1 class="blog-title">Reversible Data Redaction: Securing Personal Context Locally</h1>
-      <div class="blog-meta">Published on July 4, 2026 • 7 min read</div>
+      <div class="blog-meta">Published on July 4, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Scrubbing PII is standard practice, but how do agents reason about context if all data is gone? Reversible tokenization is the answer.</p>
 
       <h2>Scrubbing Sensitive Content While Preserving Reasonability</h2>
-      <p>Standard PII removal ruins the contextual flow an agent requires to do its work. Reversible redaction maps individual sensitive strings to localized placeholders like [SSN_0], preserving the structure. The agent works with placeholders, and ATL-Trust restores the original content at the local gateway.</p>
+      <p>Standard PII removal ruins the contextual flow an agent requires to do its work. Reversible redaction maps individual sensitive strings to localized placeholders like [SSN_0], preserving the structure. The agent works with placeholders, and ATL-Trust restores the original content at the local gateway. This allows organizations to comply with strict privacy mandates like GDPR while still leveraging the reasoning capabilities of public LLM APIs.</p>
+      <p>The redaction pipeline handles multiple PII classes including emails, social security numbers, credit card sequences, and name heuristics. By replacing these details with standardized tokens, the prompt text remains structurally intact, meaning the model's semantic understanding is not compromised.</p>
 
       <pre class="code-block"><code>// Reversible redaction matching in redact.rs
 let placeholder = format!("[EMAIL_{}]", email_idx);
@@ -151,7 +152,8 @@ redacted_text = redacted_text.replace(&matched_str, &placeholder);
 mappings.insert(placeholder, matched_str);</code></pre>
 
       <h2>Keeping Mapping Dictionaries Isolated</h2>
-      <p>The translation dictionary is kept in secure memory at the local edge, never writing to disk and never sharing with third-party LLM providers. When the LLM outputs a draft, the translation engine restores the original text before it reaches the end user.</p>
+      <p>The translation dictionary is kept in secure memory at the local edge, never writing to disk and never sharing with third-party LLM providers. When the LLM outputs a draft, the translation engine restores the original text before it reaches the end user. This architecture ensures that sensitive records are never stored in third-party training logs.</p>
+      <p>The edge redaction server is stateless, storing mapping tokens only in RAM for the duration of the request lifecycle. This zero-persistence policy minimizes the risk of cache leaks and satisfies enterprise data-minimization guidelines.</p>
 
       <ul>
         <li><strong>PII mapping remains completely within the local VPC boundary.</strong></li>

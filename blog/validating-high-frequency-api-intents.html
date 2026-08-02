@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 26/50</div>
       <h1 class="blog-title">Validating High-Frequency API Intents in Rust</h1>
-      <div class="blog-meta">Published on June 25, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on June 25, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>As AI workloads scale, validating downstream API requests in real time requires low-overhead verification. Learn how ATL-Trust uses type-safe Rust logic gates to check intent structure.</p>
 
       <h2>How Rust Logic Gates Streamline Intent Validation</h2>
-      <p>In high-throughput enterprise systems, waiting on secondary AI models to audit a primary model's proposed actions is too slow. Traditional security architectures use static schemas, but autonomous agents output unstructured intent data. ATL-Trust bridges this gap by compiling deterministic check parameters directly into memory, executing in under 5 microseconds.</p>
+      <p>In high-throughput enterprise systems, waiting on secondary AI models to audit a primary model's proposed actions is too slow. Traditional security architectures use static schemas, but autonomous agents output unstructured intent data. ATL-Trust bridges this gap by compiling deterministic check parameters directly into memory, executing in under 5 microseconds. This represents a complete rethink of traditional runtime validation, bypassing heavy serialization layers and ensuring that the agent's intent is evaluated before it has any chance to execute downstream side-effects.</p>
+      <p>We designed the checker to operate as a low-level validation pipeline. Instead of running complex syntax parsers or string matchers, the engine extracts the core properties of the agent's proposed API call (like asset type and transaction amount) and checks them against rules stored in a compiled manifest. This keeps memory access localized and prevents CPU cache thrashing during high-concurrency loops.</p>
 
       <pre class="code-block"><code>// Rust compliance check implementation
 pub fn check_compliance(intent: &AgentIntent, manifest: &TrustManifest) -> Result<(), ComplianceError> {
@@ -157,7 +158,8 @@ pub fn check_compliance(intent: &AgentIntent, manifest: &TrustManifest) -> Resul
 }</code></pre>
 
       <h2>Zero-Overhead Policy Gates</h2>
-      <p>The compliance validator evaluates the proposed transaction asset type and maximum limits using Rust's compiled control flow, bypassing regex overhead. If the transaction value is within the manifest ruleset, the validation engine forwards the payload instantly, minimizing network lag.</p>
+      <p>The compliance validator evaluates the proposed transaction asset type and maximum limits using Rust's compiled control flow, bypassing regex overhead. If the transaction value is within the manifest ruleset, the validation engine forwards the payload instantly, minimizing network lag. This approach guarantees that even under extreme workloads, the latency introduced by our security layer is virtually unnoticeable to the end-user.</p>
+      <p>Furthermore, the type safety of the Rust compiler eliminates common vulnerabilities like null pointer dereferences or buffer overflows that frequently plague C-based security modules. By structuring our validators as static logic gates, we ensure that the execution path is fully predictable and auditable, which is a key requirement for enterprise compliance audits.</p>
 
       <ul>
         <li><strong>Type safety prevents memory corruption bugs.</strong></li>

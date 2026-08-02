@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 43/50</div>
       <h1 class="blog-title">Designing Compliant AI for Financial Transactions (USDC & BTC)</h1>
-      <div class="blog-meta">Published on August 15, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on August 15, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>When agents trade or handle digital assets, verifying asset types and limits is essential. We check asset whitelists.</p>
 
       <h2>Validating Asset Types and Intent Values</h2>
-      <p>If an autonomous agent is authorized to trade, malicious prompts can trick it into buying unapproved high-risk tokens. ATL-Trust enforces a rigid asset whitelist and transaction limits at compile time.</p>
+      <p>If an autonomous agent is authorized to trade, malicious prompts can trick it into buying unapproved high-risk tokens. ATL-Trust enforces a rigid asset whitelist and transaction limits at compile time, reducing financial risks.</p>
+      <p>Our manifest rules define permitted assets (e.g. USDC, BTC, ETH) and max limits. If an agent tries to transfer an unapproved asset, the validator blocks the action at the gateway, preventing loss.</p>
 
       <pre class="code-block"><code>// Manifest limits initialization
 let manifest = TrustManifest {
@@ -153,7 +154,8 @@ let manifest = TrustManifest {
 };</code></pre>
 
       <h2>Configuring the Trust Manifest</h2>
-      <p>The manifest restricts transactions to verified stablecoins like USDC or majors like BTC and ETH, rejecting unauthorized asset classes.</p>
+      <p>The manifest restricts transactions to verified stablecoins like USDC or majors like BTC and ETH, rejecting unauthorized asset classes. This configuration is stored in memory and updated securely.</p>
+      <p>By verifying financial intents against static limits outside the LLM reasoning loop, we prevent prompt injection attacks from draining wallets or triggering unauthorized trades.</p>
 
       <ul>
         <li><strong>Prevents agent exposure to high-risk token contracts.</strong></li>

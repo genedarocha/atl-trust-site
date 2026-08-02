@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 46/50</div>
       <h1 class="blog-title">Edge-Based Re-identification: Restoring Placeholders safely</h1>
-      <div class="blog-meta">Published on August 24, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on August 24, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>When external models respond, placeholders must be swapped back before they reach users. We detail restore logic in redact.rs.</p>
 
       <h2>Restoring Redacted Tokens at the Local Edge</h2>
-      <p>After the external model finishes reasoning on redacted text, it returns output containing placeholders like [EMAIL_0]. ATL-Trust looks up the local translation dictionary and restores the actual data at the secure edge.</p>
+      <p>After the external model finishes reasoning on redacted text, it returns output containing placeholders like [EMAIL_0]. ATL-Trust looks up the local translation dictionary and restores the actual data at the secure edge, preserving client readability.</p>
+      <p>The re-identification engine loops through the local mapping dictionary, replacing placeholders with original values in the output payload before delivering it to the end user.</p>
 
       <pre class="code-block"><code>// Restore function in redact.rs
 pub fn restore(mut text: String, mappings: &HashMap<String, String>) -> String {
@@ -154,7 +155,8 @@ pub fn restore(mut text: String, mappings: &HashMap<String, String>) -> String {
 }</code></pre>
 
       <h2>Re-identification Processing</h2>
-      <p>The restore endpoint loads the mapping dictionary from memory, replacing placeholders in the model's response before sending it to the client device.</p>
+      <p>The restore endpoint loads the mapping dictionary from memory, replacing placeholders in the model's response before sending it to the client device. This translation happens entirely in local RAM.</p>
+      <p>By performing re-identification on-device or within the company's VPC, we keep translation keys isolated, preventing sensitive data exposure on public networks.</p>
 
       <ul>
         <li><strong>Re-identification happens within the secure local network.</strong></li>

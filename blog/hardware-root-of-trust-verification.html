@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 44/50</div>
       <h1 class="blog-title">Validating Hardware Root-of-Trust via Intel/Google Root CAs</h1>
-      <div class="blog-meta">Published on August 18, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on August 18, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>TEE enclaves are only secure if you verify their attestation signatures. We explore Root CA checks in crypto.rs.</p>
 
       <h2>Verifying Hardware Attestation Signatures</h2>
-      <p>Host-level attacks can manipulate simulated TEE environments. To secure deployments, validation nodes must attest the enclave's signature against verified Root CAs, ensuring it is authentic hardware.</p>
+      <p>Host-level attacks can manipulate simulated TEE environments. To secure deployments, validation nodes must attest the enclave's signature against verified Root CAs, ensuring it is authentic hardware, blocking emulation.</p>
+      <p>We trace the enclave's hardware signature back to the trusted manufacturer's root certificates. This ensures that the validation logic is executing on a physical CPU core that enforces memory isolation.</p>
 
       <pre class="code-block"><code>// Attesting hardware signatures
 pub fn verify_hardware_signature(sig: &str) -> bool {
@@ -152,7 +153,8 @@ pub fn verify_hardware_signature(sig: &str) -> bool {
 }</code></pre>
 
       <h2>TEE Signature Attestation</h2>
-      <p>The validation gateway verifies that the hardware signature starts with the secure TEE prefix, matching keys back to the trusted manufacturer's roots.</p>
+      <p>The validation gateway verifies that the hardware signature starts with the secure TEE prefix, matching keys back to the trusted manufacturer's roots. This maintains a zero-trust architecture across all cloud nodes.</p>
+      <p>By anchoring validation trust directly to physical silicon, we prevent compromised operating systems from viewing sensitive token keys or modifying policy checks.</p>
 
       <ul>
         <li><strong>Blocks software-emulated enclaves on compromised servers.</strong></li>

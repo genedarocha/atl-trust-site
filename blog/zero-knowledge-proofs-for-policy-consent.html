@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Thought Leadership - Series Post 38/50</div>
       <h1 class="blog-title">Zero-Knowledge Proofs for User Policy Consent Validation</h1>
-      <div class="blog-meta">Published on July 31, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on July 31, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Prove an agent has permission to execute an action without exposing details of the user's private data room. Explore ZK workflows.</p>
 
       <h2>Validating Intent Consent Without Revealing PII</h2>
-      <p>When verifying transactions, checking the exact account details exposes PII to the validation ledger. Zero-Knowledge Proofs (ZKPs) allow the agent to prove it has a cryptographically signed signature from the user without exposing the user's keys or balances.</p>
+      <p>When verifying transactions, checking the exact account details exposes PII to the validation ledger. Zero-Knowledge Proofs (ZKPs) allow the agent to prove it has a cryptographically signed signature from the user without exposing the user's keys or balances, maintaining privacy.</p>
+      <p>By using ZK proofs, the validation node can confirm that a transaction satisfies the user's consent parameters without ever learning the identity of the user or the specifics of the transaction values.</p>
 
       <pre class="code-block"><code>// Zero-Knowledge semantic verification check
 pub fn verify_semantic_consent(intent: &AgentIntent) -> bool {
@@ -152,7 +153,8 @@ pub fn verify_semantic_consent(intent: &AgentIntent) -> bool {
 }</code></pre>
 
       <h2>Signing Semantic Hashes</h2>
-      <p>The user signs the semantic intent hash on their device. The agent presents a ZK proof of this signature to the ATL-Trust node, confirming consent without exposing details of the parameters.</p>
+      <p>The user signs the semantic intent hash on their device. The agent presents a ZK proof of this signature to the ATL-Trust node, confirming consent without exposing details of the parameters. This prevents replay attacks by anchoring timestamps to hashes.</p>
+      <p>This cryptographic design satisfies data-minimization rules under privacy regulations, ensuring that the ledger records only the proof of consent rather than cleartext transactions.</p>
 
       <ul>
         <li><strong>Keeps audit logs anonymous while remaining mathematically secure.</strong></li>

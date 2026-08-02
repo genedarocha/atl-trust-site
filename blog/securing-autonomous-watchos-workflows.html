@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 36/50</div>
       <h1 class="blog-title">Securing Autonomous watchOS Workflows on Mobile Clients</h1>
-      <div class="blog-meta">Published on July 25, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on July 25, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Mobile and watchOS clients require lightweight attestation wrappers. Learn how ATL-Trust secures Apple Watch agent transactions.</p>
 
       <h2>Designing Light Attestation Layers for watchOS</h2>
-      <p>Wearable devices often trigger high-impact autonomous actions like unlocking doors or transferring funds. Securing these watchOS agents demands a small code footprint. The validator client signs transactions with local cryptographic enclaves before forwarding to the node.</p>
+      <p>Wearable devices often trigger high-impact autonomous actions like unlocking doors or transferring funds. Securing these watchOS agents demands a small code footprint. The validator client signs transactions with local cryptographic enclaves before forwarding to the validation node, protecting key storage.</p>
+      <p>We design client attestation to run efficiently on low-power devices. The watchOS app signs the transaction intent and sends it to the ATL-Trust node, which performs the heavy signature checks.</p>
 
       <pre class="code-block"><code>// watchOS client signature attestation stub
 func attestationSignature(for intent: AgentIntent) -> String {
@@ -152,7 +153,8 @@ func attestationSignature(for intent: AgentIntent) -> String {
 }</code></pre>
 
       <h2>Ensuring Zero-Latency Validation on Edge Hardware</h2>
-      <p>By delegating heavy attestation verification to the ATL-Trust node, the watchOS client only needs to produce a semantic signature, maintaining battery life and zero-latency authorization loops.</p>
+      <p>By delegating heavy attestation verification to the ATL-Trust node, the watchOS client only needs to produce a semantic signature, maintaining battery life and zero-latency authorization loops. This keeps mobile operations secure and responsive.</p>
+      <p>The local Secure Enclave on the Apple Watch stores the private keys, ensuring that even if the mobile application is compromised, the keys remain inaccessible to attackers.</p>
 
       <ul>
         <li><strong>Minimizes watchOS background thread overhead.</strong></li>

@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 45/50</div>
       <h1 class="blog-title">Managing Memory Limits in Low-Latency Edge Redaction Routers</h1>
-      <div class="blog-meta">Published on August 21, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on August 21, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Scrubbing high-volume prompt streams can exhaust edge router memory. Learn how ATL-Trust manages memory limits.</p>
 
       <h2>Avoiding Memory Exhaustion During Prompt Redaction</h2>
-      <p>Edge redaction routers handle thousands of prompt tokens simultaneously. If incoming texts are too large, matching regexes can trigger Out Of Memory (OOM) errors. ATL-Trust limits prompt length before processing.</p>
+      <p>Edge redaction routers handle thousands of prompt tokens simultaneously. If incoming texts are too large, matching regexes can trigger Out Of Memory (OOM) errors. ATL-Trust limits prompt length before processing, protecting router stability.</p>
+      <p>Our edge gateway tests prompt text lengths before allocating regex matching tables. If a prompt exceeds the configured character limit, the system rejects it immediately, avoiding resource exhaustion.</p>
 
       <pre class="code-block"><code>// Sanitizing prompt sizes in redact route
 let sanitized_text = match atl_trust_validator::sanitize_prompt(&payload.text, 2000) {
@@ -152,7 +153,8 @@ let sanitized_text = match atl_trust_validator::sanitize_prompt(&payload.text, 2
 };</code></pre>
 
       <h2>Edge Length Validation</h2>
-      <p>The gateway validates prompt sizes against config limits. If a prompt is too large, the system rejects it before allocating regex search tables, protecting server stability.</p>
+      <p>The gateway validates prompt sizes against config limits. If a prompt is too large, the system rejects it before allocating regex search tables, protecting server stability. This ensures predictable latency.</p>
+      <p>By checking input bounds at the boundary, we prevent denial-of-service (DOS) attacks designed to crash validation nodes using massive prompt payloads.</p>
 
       <ul>
         <li><strong>Prevents DOS attacks designed to exhaust router memory.</strong></li>

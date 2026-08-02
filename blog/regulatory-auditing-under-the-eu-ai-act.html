@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Thought Leadership - Series Post 48/50</div>
       <h1 class="blog-title">Regulatory Auditing under the EU AI Act: A Checklist</h1>
-      <div class="blog-meta">Published on August 30, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on August 30, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>The EU AI Act mandates strict logging for high-risk autonomous systems. Discover how to build compliant, tamper-proof logs.</p>
 
       <h2>Meeting EU AI Act Compliance Standards</h2>
-      <p>Under new compliance frameworks, developers must provide chronological logs showing how autonomous choices were validated. ATL-Trust generates cryptographic, structured logs recording every intent, validation output, and TEE signature.</p>
+      <p>Under new compliance frameworks, developers must provide chronological logs showing how autonomous choices were validated. ATL-Trust generates cryptographic, structured logs recording every intent, validation output, and TEE signature, ensuring auditability.</p>
+      <p>Our ledger implementation outputs block records containing detailed timestamps, intent actions, values, and verification outcomes. This structured format satisfies compliance requirements automatically.</p>
 
       <pre class="code-block"><code>// Appending action logs to ledger
 pub fn append_action(&mut self, action: String, asset: String, value: f64, outcome: String) -> Result<LedgerBlock, String> {
@@ -152,7 +153,8 @@ pub fn append_action(&mut self, action: String, asset: String, value: f64, outco
 }</code></pre>
 
       <h2>Tamper-Proof Block Creation</h2>
-      <p>The ledger chains each transaction block with SHA-256 signatures, building a permanent, exportable audit trail that proves compliance to regulators.</p>
+      <p>The ledger chains each transaction block with SHA-256 signatures, building a permanent, exportable audit trail that proves compliance to regulators. This provides mathematical assurance that history was never altered.</p>
+      <p>By logging validator executions on-device, we establish a secure record of agent compliance that can be audited at any time, protecting organizations from regulatory fines.</p>
 
       <ul>
         <li><strong>Generates compliance-ready logs automatically at runtime.</strong></li>

@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Threat Analysis - Series Post 47/50</div>
       <h1 class="blog-title">Preventing Privilege Escalation in Autonomous Agent Databases</h1>
-      <div class="blog-meta">Published on August 27, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on August 27, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Attackers can use indirect injection to upgrade an agent's permissions. Learn how ATL-Trust locks database boundaries.</p>
 
       <h2>Defending Against Permission Upgrade Injections</h2>
-      <p>If an agent has write access to system configurations, a compromised prompt can direct it to grant administrative privileges to new accounts. ATL-Trust prevents this by enforcing strict, non-upgradeable identity bounds.</p>
+      <p>If an agent has write access to system configurations, a compromised prompt can direct it to grant administrative privileges to new accounts. ATL-Trust prevents this by enforcing strict, non-upgradeable identity bounds outside the model.</p>
+      <p>We structure permission controls as immutable rules in the validator manifest. Regardless of what the model generates, the validation node limits the transaction type, blocking administrative changes.</p>
 
       <pre class="code-block"><code>// Identity validation check in logic.rs
 if !manifest.allowed_assets.contains(&intent.asset) {
@@ -151,7 +152,8 @@ if !manifest.allowed_assets.contains(&intent.asset) {
 }</code></pre>
 
       <h2>Enforcing Immutable Identity Manifests</h2>
-      <p>Regardless of instructions within prompt text, the validation node restricts the agent's action classes. Permissions are static, blocking any attempt to write configuration updates.</p>
+      <p>Regardless of instructions within prompt text, the validation node restricts the agent's action classes. Permissions are static, blocking any attempt to write configuration updates, containing the agent's blast radius.</p>
+      <p>This separation of roles ensures that even if an attacker completely compromises the LLM reasoning core, they cannot escalate privileges to gain full system access.</p>
 
       <ul>
         <li><strong>Prevents agents from executing administrative functions.</strong></li>

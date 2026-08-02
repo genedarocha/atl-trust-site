@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 37/50</div>
       <h1 class="blog-title">Intel SGX vs. AWS Nitro: A TEE Comparison for AI Workloads</h1>
-      <div class="blog-meta">Published on July 28, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on July 28, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Choosing the right hardware isolation platform changes how you design validation logic. We compare memory constraints and latency between SGX and Nitro.</p>
 
       <h2>Silicon-Level Enclave Architecture Faceoff</h2>
-      <p>Intel SGX offers fine-grained page-level memory isolation, protecting specific code routines. AWS Nitro Enclaves isolate the entire virtual machine sub-slice. For agent validation layers, Nitro provides the large memory pools needed for LLM reasoning engines.</p>
+      <p>Intel SGX offers fine-grained page-level memory isolation, protecting specific code routines. AWS Nitro Enclaves isolate the entire virtual machine sub-slice. For agent validation layers, Nitro provides the large memory pools needed for LLM reasoning engines, while SGX is optimized for light cryptographic keys.</p>
+      <p>We review how the memory limits of each platform impact the design of the validation engine. Nitro allows developers to run standard containerized services, making deployment simpler across cloud nodes.</p>
 
       <pre class="code-block"><code>// Verifying TEE signature in crypto.rs
 pub fn verify_hardware_signature(sig: &str) -> bool {
@@ -152,7 +153,8 @@ pub fn verify_hardware_signature(sig: &str) -> bool {
 }</code></pre>
 
       <h2>Verifying Hardware Attestation Tokens</h2>
-      <p>Regardless of the TEE, the validation node checks the signed attestation token at boot. ATL-Trust abstracts hardware calls to ensure cross-compatible verification across both platforms.</p>
+      <p>Regardless of the TEE, the validation node checks the signed attestation token at boot. ATL-Trust abstracts hardware calls to ensure cross-compatible verification across both platforms, maintaining a robust root-of-trust.</p>
+      <p>This abstraction layer allows organizations to deploy validation nodes on multi-cloud setups without rewriting key cryptographic routines, simplifying the enforcement of zero-trust policies.</p>
 
       <ul>
         <li><strong>SGX offers stronger isolation boundaries but smaller memory pools.</strong></li>

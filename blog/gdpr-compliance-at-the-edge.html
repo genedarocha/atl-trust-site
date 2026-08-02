@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Thought Leadership - Series Post 32/50</div>
       <h1 class="blog-title">GDPR Compliance at the Edge: Local Prompt Anonymization</h1>
-      <div class="blog-meta">Published on July 13, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on July 13, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Sending raw citizen data to overseas LLM clusters violates GDPR data-transfer rules. Edge prompt anonymization provides a solution.</p>
 
       <h2>Keeping Personal Data Inside Regional Boundaries</h2>
-      <p>Under the GDPR, sending PII across border nodes without strict user consent triggers massive liability. ATL-Trust intercepts outbound prompt streams, replacing sensitive records with reversible tags locally at the edge. The external model reasons without ever seeing personal records.</p>
+      <p>Under the GDPR, sending PII across border nodes without strict user consent triggers massive liability. ATL-Trust intercepts outbound prompt streams, replacing sensitive records with reversible tags locally at the edge. The external model reasons without ever seeing personal records, satisfying compliance requirements.</p>
+      <p>Our edge node sanitizes and redacts prompts before they leave the secure local network. This eliminates the risk of transmitting sensitive personal data to cloud environments that may not satisfy strict regional privacy regulations.</p>
 
       <pre class="code-block"><code>// Sanitizing prompt text before processing
 let sanitized_text = match atl_trust_validator::sanitize_prompt(&payload.text, 2000) {
@@ -152,7 +153,8 @@ let sanitized_text = match atl_trust_validator::sanitize_prompt(&payload.text, 2
 };</code></pre>
 
       <h2>Zero-Leak Edge Scrubbing</h2>
-      <p>Because the translation dictionary stays in local RAM, no private data ever leaves the regional datacenter. The GDPR audit log preserves the anonymized signatures, satisfying compliance officers.</p>
+      <p>Because the translation dictionary stays in local RAM, no private data ever leaves the regional datacenter. The GDPR audit log preserves the anonymized signatures, satisfying compliance officers. This design ensures that third-party LLMs function solely as reasoning utilities.</p>
+      <p>By structuring the redaction layer as a local gateway, we minimize the latency introduced by security checks, enabling fast, compliant processing of unstructured text contexts.</p>
 
       <ul>
         <li><strong>Compliance checks run at the client endpoint, not in the cloud.</strong></li>

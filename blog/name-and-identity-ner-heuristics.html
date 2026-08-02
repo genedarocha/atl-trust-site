@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 41/50</div>
       <h1 class="blog-title">Improving Name and Identity Redaction using Heuristic Regexes</h1>
-      <div class="blog-meta">Published on August 9, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on August 9, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Scrubbing name entities is challenging because they are often mistaken for normal words. Learn how local heuristic regexes provide low-latency redaction.</p>
 
       <h2>Heuristic Scanning for Names in Unstructured Prompts</h2>
-      <p>Unlike credit card formats, name entities lack fixed shapes. Using heavy Named Entity Recognition (NER) models for every prompt adds massive CPU delays. ATL-Trust uses localized heuristic patterns to flag name entities efficiently.</p>
+      <p>Unlike credit card formats, name entities lack fixed shapes. Using heavy Named Entity Recognition (NER) models for every prompt adds massive CPU delays. ATL-Trust uses localized heuristic patterns to flag name entities efficiently, preserving processing speed.</p>
+      <p>Our name heuristic matches capitalization patterns following introductory phrases like 'dear' or 'my name is'. This flags name entities without the need for resource-intensive transformer-based models.</p>
 
       <pre class="code-block"><code>// Regex for name captures in redact.rs
 let re_name = Regex::new(r"(?i)\b(?:my name is|i am|name is|dear|sender:)\s+([A-Z][a-z]+(?:\s+[A-Z][a-z]+)?)\b").unwrap();
@@ -153,7 +154,8 @@ for cap in re_name.captures_iter(&scan_text) {
 }</code></pre>
 
       <h2>Name Scanner Implementation</h2>
-      <p>The engine scans for introductory markers like 'my name is' or 'dear' followed by capitalized strings, replacing matches with placeholders to protect user identity.</p>
+      <p>The engine scans for introductory markers like 'my name is' or 'dear' followed by capitalized strings, replacing matches with placeholders to protect user identity. This runs within the local edge gateway.</p>
+      <p>By keeping the translation keys in secure local memory, we ensure that PII is never exposed to external networks, satisfying data-minimization policies under GDPR.</p>
 
       <ul>
         <li><strong>Avoids heavy GPU requirements of transformer-based NER.</strong></li>

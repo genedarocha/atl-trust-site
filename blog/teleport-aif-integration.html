@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 34/50</div>
       <h1 class="blog-title">Integrating Teleport AIF for Identity Attestation in AI Chains</h1>
-      <div class="blog-meta">Published on July 19, 2026 • 6 min read</div>
+      <div class="blog-meta">Published on July 19, 2026 • 8 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Verify the identity of autonomous agent callers using Teleport AIF tokens. An architectural guide to secure routing.</p>
 
       <h2>Securing Multi-Agent API calls with Identity Tokens</h2>
-      <p>In collaborative multi-agent setups, one agent can impersonate another. Teleport's Agentic Identity Framework (AIF) solves this by attaching cryptographic tokens to headers. ATL-Trust intercepts validation loops and extracts the token to prove authorization.</p>
+      <p>In collaborative multi-agent setups, one agent can impersonate another. Teleport's Agentic Identity Framework (AIF) solves this by attaching cryptographic tokens to headers. ATL-Trust intercepts validation loops and extracts the token to prove authorization, blocking unauthorized requests.</p>
+      <p>We use AIF tokens to verify the origin and permission levels of each agent in the chain. This prevents privilege escalation vulnerabilities that occur when downstream agents accept commands without checking caller identity.</p>
 
       <pre class="code-block"><code>// Extracting AIF tokens from headers
 #[cfg(feature = "aif")]
@@ -156,7 +157,8 @@ pub fn extract_and_verify(intent: &AgentIntent, headers: &HeaderMap) -> Result<(
 }</code></pre>
 
       <h2>Compile-Time Feature Flags</h2>
-      <p>The AIF verification layer is gated behind a compile-time feature flag, allowing developers to switch from mock stubs to production JWKS/OIDC validations with no runtime loss.</p>
+      <p>The AIF verification layer is gated behind a compile-time feature flag, allowing developers to switch from mock stubs to production JWKS/OIDC validations with no runtime loss. This keeps the core binary lightweight and optimized.</p>
+      <p>By verifying identity tokens at the network boundary, we ensure that only registered agents can call secure internal microservices, enforcing zero-trust principles across all routing paths.</p>
 
       <ul>
         <li><strong>Ties agent requests to verifiable cryptographic user keys.</strong></li>

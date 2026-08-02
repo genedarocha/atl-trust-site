@@ -134,7 +134,7 @@
     <header class="blog-header">
       <div class="badge">Architecture & Design - Series Post 49/50</div>
       <h1 class="blog-title">Building a Sandbox Attestation Client: Safe Agent Execution</h1>
-      <div class="blog-meta">Published on September 2, 2026 • 5 min read</div>
+      <div class="blog-meta">Published on September 2, 2026 • 7 min read</div>
     </header>
 
     <div class="blog-content">
@@ -143,7 +143,8 @@
       <p>Agents must attest they are running inside isolated environments. We review sandbox signature checks.</p>
 
       <h2>Attesting Sandbox Isolation at Runtime</h2>
-      <p>If an agent runs directly on host servers, it can access local secrets. Safe architecture requires isolating the agent inside firewalled sandboxes. ATL-Trust checks that every intent contains a valid sandbox attestation code.</p>
+      <p>If an agent runs directly on host servers, it can access local secrets. Safe architecture requires isolating the agent inside firewalled sandboxes. ATL-Trust checks that every intent contains a valid sandbox attestation code before authorizing database queries.</p>
+      <p>Our validation gateway checks the environment token presented by the client. If the token indicates that the container has been breached or runs on raw metal, the request fails.</p>
 
       <pre class="code-block"><code>// Sandbox verification in logic.rs
 if !intent.sandbox_attestation.starts_with("SANDBOX-ACTIVE-") {
@@ -151,7 +152,8 @@ if !intent.sandbox_attestation.starts_with("SANDBOX-ACTIVE-") {
 }</code></pre>
 
       <h2>Enforcing Sandbox Presence</h2>
-      <p>The compliance validator tests that the intent's sandbox attestation starts with the correct signature prefix, rejecting requests from unverified environments.</p>
+      <p>The compliance validator tests that the intent's sandbox attestation starts with the correct signature prefix, rejecting requests from unverified environments. This ensures that agent runtimes are strictly isolated.</p>
+      <p>By requiring sandbox attestation, we contain the execution boundary. Even if the agent attempts to run OS-level system calls, the sandbox environment blocks direct access to host resources.</p>
 
       <ul>
         <li><strong>Prevents compromised agents from running shell calls on host servers.</strong></li>
