@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Educational Store & EU AI Act Manuals | ATL-Trust</title>
+  <meta name="description" content="Master the European AI Act, zero-trust autonomous agent architectures, and prompt safety with our 20+ page educational PDF manuals. Secure Stripe & Gumroad checkout.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- CSS -->
+  <link rel="stylesheet" href="app.css">
+  <link rel="icon" href="assets/favicon.png" type="image/png">
+  
+  <style>
+    .store-hero {
+      text-align: center;
+      padding: 140px 20px 60px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .store-hero h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+      line-height: 1.15;
+    }
+    .store-hero p {
+      font-size: 1.25rem;
+      color: #94a3b8;
+      max-width: 760px;
+      margin: 0 auto 40px;
+      line-height: 1.7;
+    }
+    .bundle-banner {
+      background: linear-gradient(135deg, rgba(2, 132, 199, 0.2), rgba(15, 23, 42, 0.8));
+      border: 1px solid rgba(56, 189, 248, 0.4);
+      border-radius: 20px;
+      padding: 40px;
+      margin: 0 auto 60px;
+      max-width: 1100px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 30px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4);
+    }
+    .bundle-info {
+      flex: 1 1 500px;
+    }
+    .bundle-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.2rem;
+      color: #fff;
+      margin-bottom: 12px;
+    }
+    .bundle-price {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #38bdf8;
+      margin-bottom: 15px;
+    }
+    .bundle-price span {
+      font-size: 1rem;
+      color: #94a3b8;
+      text-decoration: line-through;
+      margin-left: 10px;
+    }
+    .store-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 30px;
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+    .product-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 16px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .product-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(56, 189, 248, 0.5);
+      box-shadow: 0 15px 35px rgba(2, 132, 199, 0.2);
+    }
+    .product-img-wrapper {
+      width: 100%;
+      height: 220px;
+      overflow: hidden;
+      position: relative;
+      background: #0f172a;
+    }
+    .product-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .product-badge {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+      background: rgba(2, 132, 199, 0.9);
+      color: #fff;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    .product-content {
+      padding: 25px;
+      display: flex;
+      flex-direction: column;
+      flex-grow: 1;
+    }
+    .product-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.35rem;
+      color: #fff;
+      margin-bottom: 10px;
+      line-height: 1.3;
+    }
+    .product-desc {
+      font-size: 0.95rem;
+      color: #94a3b8;
+      margin-bottom: 20px;
+      line-height: 1.6;
+      flex-grow: 1;
+    }
+    .product-meta {
+      font-size: 0.85rem;
+      color: #38bdf8;
+      margin-bottom: 15px;
+      font-family: 'Fira Code', monospace;
+    }
+    .product-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      padding-top: 15px;
+      margin-top: auto;
+    }
+    .price-tag {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+    }
+    .btn-stripe {
+      background: #38bdf8;
+      color: #0f172a;
+      font-weight: 700;
+      padding: 10px 20px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .btn-stripe:hover {
+      background: #7dd3fc;
+      box-shadow: 0 0 15px rgba(56, 189, 248, 0.5);
+    }
+    .btn-preview {
+      background: rgba(255,255,255,0.08);
+      color: #e2e8f0;
+      padding: 10px 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 0.85rem;
+      margin-right: 10px;
+    }
+    .btn-preview:hover {
+      background: rgba(255,255,255,0.15);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Mesh Background -->
+  <div class="mesh-bg">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+  </div>
+
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="glass-pill-nav">
+    <a href="index.html" class="logo-container" style="text-decoration: none; color: inherit;">
+      <div class="logo-wrapper">
+        <img src="assets/logo.png" alt="ATL-Trust Logo" class="logo-img">
+      </div>
+      <div class="logo-text-group">
+        <span class="logo-text">ATL-Trust</span>
+        <span class="logo-subtext">AI Agent Validator</span>
+      </div>
+      <img src="assets/patent_pending_badge.png" alt="Patent Pending" style="height: 96px; margin-left: 15px; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 15px;">
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="store.html" class="active">Store</a>
+      <a href="index.html#integration">Integration</a>
+      <a href="index.html#security">Security</a>
+      <a href="index.html#blog">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html#integration" class="btn-primary nav-btn">Try Simulator</a>
+  </nav>
+
+  <!-- Store Hero -->
+  <section class="store-hero fade-in-up">
+    <div class="badge" style="margin-bottom: 20px; display: inline-block;">Educational Store & Compliance Library</div>
+    <h1>EU AI Act & AI Safety Manuals</h1>
+    <p>Master European regulatory compliance, zero-trust autonomous agent engineering, and threat modeling with our comprehensive 20+ page educational PDF manuals designed for developers, CTOs, and CISOs.</p>
+  </section>
+
+  <!-- Bundle Banner -->
+  <div class="bundle-banner container fade-in-up">
+    <div class="bundle-info">
+      <div class="badge" style="background: #38bdf8; color: #0f172a; margin-bottom: 10px;">BEST VALUE • FULL ACCESS</div>
+      <h2 class="bundle-title">The Complete EU AI Act & AI Safety Master Bundle</h2>
+      <p style="color: #cbd5e1; margin-bottom: 15px;">Get instant single-user enterprise licenses for all 20 Educational PDF Guidebooks (400+ pages of detailed engineering content, compliance checklists, and code blueprints).</p>
+      <ul style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 0; padding-left: 20px;">
+        <li>Includes all 20 PDF Manuals (Articles 5, 6, 14, 50, 72, TEEs, ZKP, RAG defense).</li>
+        <li>Instant PDF download link via Stripe & Gumroad checkout.</li>
+        <li>Includes lifetime updates as EU AI Office guidance evolves.</li>
+      </ul>
+    </div>
+    <div style="text-align: center;">
+      <div class="bundle-price">$199 <span>$890</span></div>
+      <a href="https://buy.stripe.com/test_atl_trust_full_bundle" target="_blank" class="btn-stripe" style="font-size: 1.1rem; padding: 14px 28px;">Buy Full Bundle via Stripe</a>
+      <div style="font-size: 0.8rem; color: #64748b; margin-top: 10px;">Instant Delivery • Secured by Stripe & Gumroad</div>
+    </div>
+  </div>
+
+  <!-- Product Catalog Grid -->
+  <main class="store-grid">
+
+    <!-- Card 1 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="EU AI Act Masterclass" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">The Ultimate EU AI Act Compliance Manual for Developers & CTOs</h3>
+        <p class="product-desc">Navigating Articles 5, 6, 14, 50, and 72 in Autonomous Agent Systems with deterministic code gates.</p>
+        <div class="product-meta">✓ Regulation 2024/1689 Mapping</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/eu_ai_act_masterclass.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_eu_ai_act_masterclass" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 2 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Zero-Trust Blueprint" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Architecting Safe Autonomous AI Agents: A Zero-Trust Blueprint</h3>
+        <p class="product-desc">Step-by-step engineering blueprint for building zero-trust agent runtimes, isolating memory state, and preventing privilege escalation.</p>
+        <div class="product-meta">✓ Hardware Enclave Isolation</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/zero_trust_agent_blueprint.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_zero_trust_agent_blueprint" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 3 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Prompt Injection Defense" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Prompt Injection Defense: Protecting Production LLMs from Hijacking</h3>
+        <p class="product-desc">Comprehensive defense strategies for neutralizing direct and indirect prompt injection attacks across enterprise RAG pipelines.</p>
+        <div class="product-meta">✓ RAG & Context Defense</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/prompt_injection_defense.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_prompt_injection_defense" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 4 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="TEE Hardware Enclaves" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Trusted Execution Environments (TEEs) for AI Workloads</h3>
+        <p class="product-desc">Intel SGX, AWS Nitro, and GCP Confidential VMs for Enclave Security, Root CA checks, and ephemeral keys.</p>
+        <div class="product-meta">✓ Silicon Root-of-Trust</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/tee_hardware_enclaves.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_tee_hardware_enclaves" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 5 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Edge Data Redaction" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Edge Data Redaction & Privacy Engineering under GDPR</h3>
+        <p class="product-desc">Building low-latency edge redaction routers that keep PII strictly within local RAM boundaries.</p>
+        <div class="product-meta">✓ Reversible Tokenization</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/edge_data_redaction_gdpr.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_edge_data_redaction_gdpr" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 6 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="AI Circuit Breakers" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Designing AI Circuit Breakers & Financial Rate Limiters</h3>
+        <p class="product-desc">Preventing infinite execution loops, runaway API costs, and financial loss with in-memory aggregators.</p>
+        <div class="product-meta">✓ Financial Limits</div>
+        <div class="product-footer">
+          <div class="price-tag">$29</div>
+          <div>
+            <a href="store/pdfs/ai_circuit_breakers.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_ai_circuit_breakers" target="_blank" class="btn-stripe">Buy $29</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 7 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Attestation Audit Trails" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Cryptographic Attestation & Audit Trail Engineering</h3>
+        <p class="product-desc">Engineering guide for building tamper-evident audit trails using SHA-256 cryptographic block chaining.</p>
+        <div class="product-meta">✓ SHA-256 Ledger Math</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/attestation_audit_trails.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_attestation_audit_trails" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 8 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="High-Risk AI Auditing" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">EU AI Act High-Risk System Auditing Checklist</h3>
+        <p class="product-desc">Operational audit checklist for verifying high-risk AI system compliance with European regulations.</p>
+        <div class="product-meta">✓ Auditor Verification Manual</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/high_risk_ai_auditing.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_high_risk_ai_auditing" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 9 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Non-Deterministic Parsing" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Non-Deterministic Intent Parsing & Gateway Security</h3>
+        <p class="product-desc">Architectural guide to transforming unstructured model intents into safe, verified system schemas.</p>
+        <div class="product-meta">✓ Fail-Closed Gates</div>
+        <div class="product-footer">
+          <div class="price-tag">$29</div>
+          <div>
+            <a href="store/pdfs/non_deterministic_parsing.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_non_deterministic_parsing" target="_blank" class="btn-stripe">Buy $29</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 10 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Multi-Agent Swarm Safety" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Multi-Agent Safety Protocols: Preventing System Cascades in Swarms</h3>
+        <p class="product-desc">Protocols for managing swarm behavior, preventing cascade failures, and locking down communication channels.</p>
+        <div class="product-meta">✓ State Machine Boundaries</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/multi_agent_safety_swarms.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_multi_agent_safety_swarms" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 11 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="ZKP User Consent" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Zero-Knowledge Proofs for User Policy Consent Validation</h3>
+        <p class="product-desc">Advanced cryptography manual explaining how to implement ZK proofs for consent and privilege verification.</p>
+        <div class="product-meta">✓ ZK Attribute Proofs</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/zkp_user_consent.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_zkp_user_consent" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 12 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Mobile watchOS Security" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Securing Mobile & Wearable AI Agent Workflows</h3>
+        <p class="product-desc">Lightweight attestation layers for iOS, watchOS, and mobile clients handling autonomous triggers.</p>
+        <div class="product-meta">✓ Apple Secure Enclave</div>
+        <div class="product-footer">
+          <div class="price-tag">$29</div>
+          <div>
+            <a href="store/pdfs/mobile_watchos_ai_security.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_mobile_watchos_ai_security" target="_blank" class="btn-stripe">Buy $29</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 13 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Agent Database Security" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Database Security for Autonomous Agent Integrations</h3>
+        <p class="product-desc">Securing relational databases against AI-generated SQL injections, comment hiding tricks, and privilege escalation.</p>
+        <div class="product-meta">✓ SQL Scrubbing & Vector Security</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/agent_database_security.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_agent_database_security" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 14 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Enterprise AI Governance" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">AI Governance Framework for Enterprise CTOs & CISOs</h3>
+        <p class="product-desc">Executive guide for setting up corporate AI governance boards, mapping ISO 42001, and managing systemic risk.</p>
+        <div class="product-meta">✓ ISO 42001 & NIS2 Alignment</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/enterprise_ai_governance.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_enterprise_ai_governance" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 15 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Threat Modeling AI Systems" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Threat Modeling Autonomous AI Ecosystems</h3>
+        <p class="product-desc">Adapting traditional STRIDE threat modeling to autonomous AI architectures, tool endpoints, and cognitive vectors.</p>
+        <div class="product-meta">✓ STRIDE Cognitive Adaptation</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/threat_modeling_ai_systems.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_threat_modeling_ai_systems" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 16 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Tamper-Evident Logging" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Building Tamper-Evident Logs for Regulatory Compliance</h3>
+        <p class="product-desc">Practical guide to designing high-throughput, cryptographically verifiable logging engines for EU audits.</p>
+        <div class="product-meta">✓ SHA-256 Ledger Schema</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/tamper_evident_logging.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_tamper_evident_logging" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 17 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Hardware Root-of-Trust" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Hardware Root-of-Trust: Silicon Isolation for AI Models</h3>
+        <p class="product-desc">Technical analysis of hardware roots-of-trust, Intel/Google Root CA verification, and confidential computing.</p>
+        <div class="product-meta">✓ Root CA Attestation</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/hardware_root_of_trust.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_hardware_root_of_trust" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 18 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="AI Incident Response" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">AI Incident Response & Emergency Lockout Frameworks</h3>
+        <p class="product-desc">Operational playbook for responding to AI security incidents, executing emergency lockouts, and post-mortem analysis.</p>
+        <div class="product-meta">✓ Emergency Lockout Playbook</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/ai_incident_response.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_ai_incident_response" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 19 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Article 6 Risk Classification" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">Evaluating Risk Categories under Article 6 of the EU AI Act</h3>
+        <p class="product-desc">How to classify software applications under EU AI Act risk tiers and enforce appropriate guardrail levels.</p>
+        <div class="product-meta">✓ Risk Tier Classification</div>
+        <div class="product-footer">
+          <div class="price-tag">$39</div>
+          <div>
+            <a href="store/pdfs/article_6_risk_classification.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_article_6_risk_classification" target="_blank" class="btn-stripe">Buy $39</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- Card 20 -->
+    <article class="product-card">
+      <div class="product-img-wrapper">
+        <img src="assets/store_cover.png" alt="Production AI Security Playbook" class="product-img">
+        <div class="product-badge">20+ Pages • PDF</div>
+      </div>
+      <div class="product-content">
+        <h3 class="product-title">The Production AI Security Playbook: From Prototype to Enterprise</h3>
+        <p class="product-desc">The master production playbook combining all zero-trust guardrails, EU compliance rules, and enclave security.</p>
+        <div class="product-meta">✓ Master Engineering Blueprint</div>
+        <div class="product-footer">
+          <div class="price-tag">$49</div>
+          <div>
+            <a href="store/pdfs/production_ai_security_playbook.pdf" target="_blank" class="btn-preview">Preview</a>
+            <a href="https://buy.stripe.com/test_production_ai_security_playbook" target="_blank" class="btn-stripe">Buy $49</a>
+          </div>
+        </div>
+      </div>
+    </article>
+
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content container">
+      <div class="footer-logo">
+        <img src="assets/promo.png" alt="ATL-Trust Shield" class="footer-img">
+        <span class="logo-text">ATL-Trust Store</span>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2026 ATL-Trust Educational Series. All PDF downloads are delivered instantly via Stripe & Gumroad.<br>
+        Contact & Licensing: <a href="mailto:gene.darocha@voxstar.com" class="text-link">gene.darocha@voxstar.com</a><br>
+        <span class="made-in" style="display:inline-block; margin-top: 5px;">
+          🇬🇧 Made in the UK By <a href="https://voxstar.com" target="_blank" class="text-link">voxstar.com</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
