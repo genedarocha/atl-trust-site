@@ -218,6 +218,21 @@
     <a href="index.html#integration" class="btn-primary nav-btn">Try Simulator</a>
   </nav>
 
+  
+    <!-- Post-Purchase Verification Banner (Active on return from Stripe) -->
+    <div id="stripe-success-banner" class="container" style="display: none; margin-top: 100px; margin-bottom: -70px;">
+      <div style="background: rgba(39, 201, 63, 0.15); border: 1px solid #27c93f; border-radius: 16px; padding: 24px; text-align: center; box-shadow: 0 10px 30px rgba(39, 201, 63, 0.2);">
+        <div style="font-size: 2rem; margin-bottom: 10px;">🎉</div>
+        <h2 style="font-family: 'Outfit', sans-serif; color: #fff; margin-bottom: 8px;">Stripe Payment Confirmed!</h2>
+        <p style="color: #27c93f; max-width: 600px; margin: 0 auto 15px; font-size: 1.05rem;">
+          Thank you for your purchase. Your payment was verified by Stripe, and your PDF manual is ready for instant download.
+        </p>
+        <a id="success-download-btn" href="#" target="_blank" class="btn-primary" style="padding: 12px 28px; font-size: 1rem; border-radius: 30px; display: inline-block;">
+          📥 Download Purchased PDF Manual
+        </a>
+      </div>
+    </div>
+
   <!-- Store Hero -->
   <section class="store-hero fade-in-up">
     <div class="badge" style="margin-bottom: 20px; display: inline-block;">Educational Store & Compliance Library</div>
@@ -701,35 +716,21 @@
         </div>
 
         <!-- Tab Content 1: Direct Stripe Card Payment -->
-        <form id="stripe-card-form" onsubmit="handleStripeCardPay(event)" style="display: block;">
-          <div class="input-group" style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.78rem; color: #a0a0b0; margin-bottom: 4px;">Work Email Address</label>
+                <!-- Tab Content 1: Direct Stripe Checkout -->
+        <div id="stripe-card-form" style="display: block;">
+          <div style="padding: 16px; background: rgba(0, 240, 255, 0.06); border: 1px solid rgba(0, 240, 255, 0.2); border-radius: 12px; margin-bottom: 18px; font-size: 0.9rem; color: #a0a0c0; line-height: 1.5;">
+            🔒 <strong>Official Stripe Gateway:</strong> Click below to proceed to Stripe's 256-bit encrypted checkout. Payment of <strong style="color: #00f0ff;" id="stripe-summary-price">$49</strong> will be processed directly by Stripe.
+          </div>
+
+          <div class="input-group" style="margin-bottom: 18px;">
+            <label style="display: block; font-size: 0.78rem; color: #a0a0b0; margin-bottom: 4px;">Your Work Email (for Stripe Receipt)</label>
             <input type="email" id="card-email" class="glass-input" placeholder="name@company.com" required autocomplete="email">
           </div>
 
-          <div class="input-group" style="margin-bottom: 12px;">
-            <label style="display: block; font-size: 0.78rem; color: #a0a0b0; margin-bottom: 4px;">Card Number</label>
-            <div style="position: relative;">
-              <input type="text" id="card-number" class="glass-input" placeholder="4242 •••• •••• 4242" required maxlength="19" oninput="formatCardNumber(this)">
-              <span style="position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-size: 0.85rem; color: #00f0ff; font-weight: 600;">VISA / MC / AMEX</span>
-            </div>
-          </div>
-
-          <div style="display: flex; gap: 12px; margin-bottom: 18px;">
-            <div class="input-group" style="flex: 1;">
-              <label style="display: block; font-size: 0.78rem; color: #a0a0b0; margin-bottom: 4px;">Expiry Date</label>
-              <input type="text" id="card-expiry" class="glass-input" placeholder="MM / YY" required maxlength="5" oninput="formatCardExpiry(this)">
-            </div>
-            <div class="input-group" style="flex: 1;">
-              <label style="display: block; font-size: 0.78rem; color: #a0a0b0; margin-bottom: 4px;">CVC / CVC2</label>
-              <input type="text" id="card-cvc" class="glass-input" placeholder="123" required maxlength="4">
-            </div>
-          </div>
-
-          <button type="submit" id="pay-stripe-btn" class="btn-primary" style="width: 100%; text-align: center; justify-content: center; padding: 14px; font-size: 1rem; border-radius: 30px;">
-            🔒 Pay <span id="pay-btn-price-label">$49</span> via Stripe
+          <button type="button" id="pay-stripe-btn" onclick="redirectToStripeCheckout()" class="btn-primary" style="width: 100%; text-align: center; justify-content: center; padding: 14px; font-size: 1rem; border-radius: 30px;">
+            🔒 Proceed to Stripe Checkout (<span id="pay-btn-price-label">$49</span>) →
           </button>
-        </form>
+        </div>
 
         <!-- Tab Content 2: Request Invoice -->
         <form id="stripe-invoice-form" onsubmit="handleInvoiceSubmit(event)" style="display: none;">
@@ -822,6 +823,29 @@
   </style>
 
   <script>
+    const STRIPE_PAYMENT_LINKS = {
+      "store/pdfs/eu_ai_act_masterclass.pdf": "https://buy.stripe.com/test_eu_ai_act_masterclass",
+      "store/pdfs/zero_trust_agent_blueprint.pdf": "https://buy.stripe.com/test_zero_trust_blueprint",
+      "store/pdfs/prompt_injection_defense.pdf": "https://buy.stripe.com/test_prompt_injection_defense",
+      "store/pdfs/tee_hardware_enclaves.pdf": "https://buy.stripe.com/test_tee_hardware_enclaves",
+      "store/pdfs/edge_data_redaction_gdpr.pdf": "https://buy.stripe.com/test_edge_data_redaction",
+      "store/pdfs/ai_circuit_breakers.pdf": "https://buy.stripe.com/test_ai_circuit_breakers",
+      "store/pdfs/attestation_audit_trails.pdf": "https://buy.stripe.com/test_attestation_audit_trails",
+      "store/pdfs/high_risk_ai_auditing.pdf": "https://buy.stripe.com/test_high_risk_ai_auditing",
+      "store/pdfs/non_deterministic_parsing.pdf": "https://buy.stripe.com/test_non_deterministic_parsing",
+      "store/pdfs/multi_agent_safety_swarms.pdf": "https://buy.stripe.com/test_multi_agent_swarms",
+      "store/pdfs/zkp_user_consent.pdf": "https://buy.stripe.com/test_zkp_user_consent",
+      "store/pdfs/mobile_watchos_ai_security.pdf": "https://buy.stripe.com/test_mobile_watchos_security",
+      "store/pdfs/agent_database_security.pdf": "https://buy.stripe.com/test_agent_database_security",
+      "store/pdfs/enterprise_ai_governance.pdf": "https://buy.stripe.com/test_enterprise_ai_governance",
+      "store/pdfs/threat_modeling_ai_systems.pdf": "https://buy.stripe.com/test_threat_modeling_ai_systems",
+      "store/pdfs/tamper_evident_logging.pdf": "https://buy.stripe.com/test_tamper_evident_logging",
+      "store/pdfs/hardware_root_of_trust.pdf": "https://buy.stripe.com/test_hardware_root_of_trust",
+      "store/pdfs/ai_incident_response.pdf": "https://buy.stripe.com/test_ai_incident_response",
+      "store/pdfs/article_6_risk_classification.pdf": "https://buy.stripe.com/test_article_6_risk",
+      "store/pdfs/production_ai_security_playbook.pdf": "https://buy.stripe.com/test_master_bundle"
+    };
+
     let activeCheckoutProduct = { title: '', price: '', pdfPath: '' };
     let activePreviewPdf = '';
 
@@ -831,6 +855,9 @@
       document.getElementById('modal-product-title').textContent = title;
       document.getElementById('modal-product-price').textContent = price;
       document.getElementById('pay-btn-price-label').textContent = price;
+      if (document.getElementById('stripe-summary-price')) {
+        document.getElementById('stripe-summary-price').textContent = price;
+      }
       
       const downloadWrapper = document.getElementById('download-wrapper');
       const downloadBtn = document.getElementById('modal-direct-download');
@@ -899,61 +926,30 @@
       }
     }
 
-    function formatCardNumber(el) {
-      let val = el.value.replace(/\D/g, '').substring(0, 16);
-      let parts = [];
-      for (let i = 0; i < val.length; i += 4) {
-        parts.push(val.substring(i, i + 4));
-      }
-      el.value = parts.join(' ');
-    }
-
-    function formatCardExpiry(el) {
-      let val = el.value.replace(/\D/g, '').substring(0, 4);
-      if (val.length >= 3) {
-        el.value = val.substring(0, 2) + ' / ' + val.substring(2);
-      } else {
-        el.value = val;
-      }
-    }
-
-    function handleStripeCardPay(e) {
-      e.preventDefault();
-      const email = document.getElementById('card-email').value;
+    function redirectToStripeCheckout() {
+      const emailInput = document.getElementById('card-email');
+      const email = emailInput ? emailInput.value.trim() : '';
       const payBtn = document.getElementById('pay-stripe-btn');
-      const msgBox = document.getElementById('modal-status-msg');
-      const downloadWrapper = document.getElementById('download-wrapper');
-      const downloadBtn = document.getElementById('modal-direct-download');
+
+      if (!email || !email.includes('@')) {
+        alert('Please enter a valid work email address for your Stripe payment receipt.');
+        if (emailInput) emailInput.focus();
+        return;
+      }
 
       payBtn.disabled = true;
-      payBtn.innerHTML = '⏳ Processing Stripe Payment...';
+      payBtn.innerHTML = '⏳ Redirecting to Stripe Gateway...';
+
+      // Lookup Stripe Payment Link
+      let stripeUrl = STRIPE_PAYMENT_LINKS[activeCheckoutProduct.pdfPath] || 'https://buy.stripe.com/test_atl_trust_checkout';
+      
+      // Append prefilled email parameter for Stripe Checkout
+      const separator = stripeUrl.includes('?') ? '&' : '?';
+      stripeUrl += separator + 'prefilled_email=' + encodeURIComponent(email);
 
       setTimeout(() => {
-        const txId = 'ch_' + Math.random().toString(36).substring(2, 12) + Math.random().toString(36).substring(2, 8);
-        msgBox.style.display = 'block';
-        msgBox.style.background = 'rgba(39, 201, 63, 0.15)';
-        msgBox.style.border = '1px solid #27c93f';
-        msgBox.style.color = '#27c93f';
-        msgBox.innerHTML = `✅ Stripe Payment Approved!<br><strong>Receipt ID: ${txId}</strong><br>Receipt sent to <strong>${email}</strong>. Download unlocked below:`;
-
-        payBtn.disabled = false;
-        payBtn.innerHTML = `✓ Paid ${activeCheckoutProduct.price}`;
-
-        // Unlock download button inside modal
-        if (downloadWrapper) downloadWrapper.style.display = 'block';
-        if (downloadBtn) {
-          downloadBtn.href = activeCheckoutProduct.pdfPath;
-          downloadBtn.download = activeCheckoutProduct.pdfPath.split('/').pop();
-        }
-
-        // Trigger automatic download
-        const a = document.createElement('a');
-        a.href = activeCheckoutProduct.pdfPath;
-        a.download = activeCheckoutProduct.pdfPath.split('/').pop();
-        document.body.appendChild(a);
-        a.click();
-        document.body.removeChild(a);
-      }, 1200);
+        window.location.href = stripeUrl;
+      }, 500);
     }
 
     function handleInvoiceSubmit(e) {
@@ -985,6 +981,24 @@ ${name}`);
         window.location.href = `mailto:gene.darocha@voxstar.com?subject=${subject}&body=${body}`;
       }, 800);
     }
+
+    // Check for post-purchase redirect from Stripe (?purchase_success=true)
+    document.addEventListener('DOMContentLoaded', () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('purchase_success') === 'true' || urlParams.get('success') === 'true') {
+        const file = urlParams.get('file') || 'eu_ai_act_masterclass.pdf';
+        const pdfPath = file.startsWith('store/pdfs/') ? file : 'store/pdfs/' + file;
+        
+        const banner = document.getElementById('stripe-success-banner');
+        const dlBtn = document.getElementById('success-download-btn');
+        
+        if (banner) banner.style.display = 'block';
+        if (dlBtn) {
+          dlBtn.href = pdfPath;
+          dlBtn.download = pdfPath.split('/').pop();
+        }
+      }
+    });
 
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
