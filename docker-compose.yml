@@ -1,0 +1,36 @@
+version: "3.8"
+
+services:
+  # Rust Hardware-Attested PEP Core Validator Node
+  validator-node:
+    build:
+      context: ./atl-trust-core
+      dockerfile: Dockerfile
+    image: atl-trust-validator:latest
+    container_name: atl-trust-node
+    ports:
+      - "3000:3000"
+    environment:
+      - RUST_LOG=info
+      - BIND_ADDR=0.0.0.0:3000
+    restart: unless-stopped
+
+  # Grok-Powered Zero-Trust AI Agent Validation & Orchestration Service
+  grok-orchestrator:
+    build:
+      context: .
+      dockerfile: Dockerfile.python
+    image: atl-trust-grok-orchestrator:latest
+    container_name: atl-trust-grok-orchestrator
+    ports:
+      - "8000:8000"
+    environment:
+      - ATL_TRUST_VALIDATOR=${ATL_TRUST_VALIDATOR:-hybrid} # "rules", "grok", or "hybrid"
+      - XAI_API_KEY=${XAI_API_KEY}
+      - GROK_MODEL=${GROK_MODEL:-grok-4.6}
+      - GROK_TIMEOUT_SECONDS=${GROK_TIMEOUT_SECONDS:-8}
+      - GROK_FAIL_MODE=${GROK_FAIL_MODE:-deny} # "deny", "allow", "require_human", "rules"
+      - ATL_TRUST_CORE_URL=http://validator-node:3000
+    depends_on:
+      - validator-node
+    restart: unless-stopped

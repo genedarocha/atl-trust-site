@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ATL-Trust | Risk Assessment Dashboard</title>
+  <meta name="description" content="Enterprise risk modeling, real-time threat analysis, and validation metrics for autonomous systems.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- CSS Base (Inherits main design system variables) -->
+  <link rel="stylesheet" href="app.css">
+  
+  <style>
+    :root {
+      --violet-neon: #8b5cf6;
+      --blue-neon: #3b82f6;
+      --orange-neon: #f97316;
+      --pink-neon: #ec4899;
+      --green-neon: #10b981;
+      
+      --card-bg: rgba(11, 9, 17, 0.4);
+      --card-border: rgba(255, 255, 255, 0.05);
+      --card-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+    }
+
+    body {
+      background-color: #07090f;
+      color: #e6e1e5;
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Dashboard Layout */
+    .dashboard-container {
+      max-width: 1400px;
+      margin: 110px auto 40px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 28% 42% 30%;
+      gap: 20px;
+    }
+
+    @media (max-width: 1100px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Header styling override */
+    .dashboard-title-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      grid-column: 1 / -1;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      padding-bottom: 16px;
+    }
+
+    .dashboard-title-group h1 {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 800;
+      color: #ffffff;
+      letter-spacing: -0.5px;
+      margin: 0;
+    }
+
+    .dashboard-title-group h1 span {
+      background: linear-gradient(135deg, var(--violet-neon), var(--pink-neon));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .dashboard-status {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: rgba(139, 92, 246, 0.1);
+      border: 1px solid rgba(139, 92, 246, 0.25);
+      padding: 6px 12px;
+      border-radius: 8px;
+      font-size: 0.8rem;
+    }
+
+    .status-pulse {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background-color: var(--green-neon);
+      box-shadow: 0 0 10px var(--green-neon);
+      animation: pulse-glow 2s infinite;
+    }
+
+    @keyframes pulse-glow {
+      0% { opacity: 0.4; }
+      50% { opacity: 1; }
+      100% { opacity: 0.4; }
+    }
+
+    /* Header Buttons Icons */
+    .dashboard-icons {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .icon-btn {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      color: #a0a0b0;
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .icon-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      color: #ffffff;
+      border-color: rgba(255, 255, 255, 0.15);
+    }
+
+    .icon-btn .badge-dot {
+      position: absolute;
+      top: 6px;
+      right: 6px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--pink-neon);
+      box-shadow: 0 0 6px var(--pink-neon);
+    }
+
+    /* Glass Cards */
+    .dash-card {
+      background: var(--card-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      box-shadow: var(--card-shadow);
+      padding: 20px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .dash-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+    }
+
+    .dash-card:hover {
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .card-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: #a0a0b0;
+      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    /* Left Panel Components */
+    .gauge-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 10px 0;
+    }
+
+    .svg-gauge {
+      width: 140px;
+      height: 140px;
+      transform: rotate(-90deg);
+    }
+
+    .gauge-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.03);
+      stroke-width: 12;
+    }
+
+    .gauge-fill {
+      fill: none;
+      stroke: url(#gaugeGrad);
+      stroke-width: 12;
+      stroke-linecap: round;
+      stroke-dasharray: 440;
+      stroke-dashoffset: 96.8; /* starting at 78/100 -> (1 - 78/100) * 440 = 96.8 */
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .gauge-center-text {
+      position: absolute;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      top: 48px;
+    }
+
+    .gauge-number {
+      font-family: 'Outfit', sans-serif;
+      font-size: 2.6rem;
+      font-weight: 800;
+      color: #ffffff;
+      line-height: 1;
+      text-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+    }
+
+    .gauge-label {
+      font-size: 0.7rem;
+      color: #a0a0b0;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 4px;
+    }
+
+    .sub-gauges-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .sub-gauge-card {
+      background: rgba(255, 255, 255, 0.01);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 12px;
+      padding: 12px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .mini-gauge {
+      width: 70px;
+      height: 70px;
+      transform: rotate(-90deg);
+      position: relative;
+    }
+
+    .mini-gauge-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.02);
+      stroke-width: 6;
+    }
+
+    .mini-gauge-fill {
+      fill: none;
+      stroke-width: 6;
+      stroke-linecap: round;
+      stroke-dasharray: 220;
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .vulnerability-fill {
+      stroke: var(--violet-neon);
+      stroke-dashoffset: 77; /* 65% -> (1 - 0.65) * 220 = 77 */
+    }
+
+    .threat-fill {
+      stroke: var(--orange-neon);
+      stroke-dashoffset: 39.6; /* 82% -> (1 - 0.82) * 220 = 39.6 */
+    }
+
+    .mini-gauge-value {
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-top: 6px;
+    }
+
+    .mini-gauge-label {
+      font-size: 0.65rem;
+      color: #8a8a9a;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-top: 2px;
+    }
+
+    /* Diagnostics Log Console */
+    .console-box {
+      font-family: 'Fira Code', monospace;
+      font-size: 0.75rem;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 10px;
+      padding: 12px;
+      height: 180px;
+      overflow-y: auto;
+      color: #8b9bb0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      text-align: left;
+    }
+
+    .console-log {
+      line-height: 1.4;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+
+    .console-log.info { color: #3b82f6; }
+    .console-log.success { color: #10b981; }
+    .console-log.warn { color: #f59e0b; }
+    .console-log.error { color: #ef4444; }
+
+    /* Middle Column Components */
+    .dropdown-container {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .glass-dropdown {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      color: #ffffff;
+      padding: 8px 12px;
+      font-size: 0.8rem;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .glass-dropdown:hover {
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.12);
+    }
+
+    .dropdown-arrow {
+      font-size: 0.65rem;
+      opacity: 0.7;
+    }
+
+    /* SVG Line Chart */
+    .chart-container {
+      position: relative;
+      height: 200px;
+      width: 100%;
+      margin-top: 10px;
+    }
+
+    .grid-line {
+      stroke: rgba(255, 255, 255, 0.03);
+      stroke-width: 1;
+    }
+
+    .chart-line {
+      fill: none;
+      stroke-width: 3.5;
+      stroke-linecap: round;
+      transition: d 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .chart-line.orange {
+      stroke: var(--orange-neon);
+      filter: drop-shadow(0 0 6px rgba(249, 115, 22, 0.4));
+    }
+
+    .chart-line.purple {
+      stroke: var(--violet-neon);
+      filter: drop-shadow(0 0 6px rgba(139, 92, 246, 0.4));
+    }
+
+    .chart-label {
+      fill: #64748b;
+      font-size: 10px;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .chart-point {
+      transition: cy 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    /* Risk Heatmap Matrix */
+    .heatmap-grid {
+      display: grid;
+      grid-template-columns: auto repeat(4, 1fr);
+      gap: 6px;
+      margin-top: 10px;
+    }
+
+    .heatmap-header {
+      font-size: 0.65rem;
+      color: #64748b;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      text-align: center;
+      padding: 4px 0;
+    }
+
+    .heatmap-row-label {
+      font-size: 0.75rem;
+      color: #a0a0b0;
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding-right: 10px;
+      height: 32px;
+    }
+
+    .heatmap-cell {
+      height: 32px;
+      border-radius: 6px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      transition: all 0.3s ease;
+    }
+
+    .heatmap-cell:hover {
+      transform: scale(1.08);
+      filter: brightness(1.2);
+      box-shadow: 0 0 10px rgba(255, 255, 255, 0.15);
+    }
+
+    /* Colors representing risk severity levels */
+    .risk-lvl-1 { background-color: rgba(139, 92, 246, 0.15); border-color: rgba(139, 92, 246, 0.25); }
+    .risk-lvl-2 { background-color: rgba(139, 92, 246, 0.4); border-color: rgba(139, 92, 246, 0.5); }
+    .risk-lvl-3 { background-color: rgba(236, 72, 153, 0.5); border-color: rgba(236, 72, 153, 0.6); }
+    .risk-lvl-4 { background-color: rgba(249, 115, 22, 0.6); border-color: rgba(249, 115, 22, 0.7); }
+    .risk-lvl-5 { background-color: rgba(239, 68, 68, 0.85); border-color: rgba(239, 68, 68, 0.95); box-shadow: 0 0 8px rgba(239, 68, 68, 0.2); }
+
+    /* Right Column Components */
+    /* Top Risks Progress Bars */
+    .top-risks-list {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .risk-progress-item {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .risk-progress-label {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #ffffff;
+      font-weight: 500;
+    }
+
+    .risk-progress-bar {
+      height: 8px;
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 100px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .risk-progress-fill {
+      height: 100%;
+      border-radius: 100px;
+      transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .risk-fill-pink {
+      background: linear-gradient(90deg, var(--violet-neon), var(--pink-neon));
+      width: 24%;
+    }
+
+    .risk-fill-orange {
+      background: linear-gradient(90deg, var(--violet-neon), var(--orange-neon));
+      width: 19%;
+    }
+
+    .risk-fill-yellow {
+      background: linear-gradient(90deg, var(--violet-neon), var(--orange-neon));
+      width: 15%;
+    }
+
+    /* Mitigation Donut */
+    .mitigation-donut-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .donut-chart-box {
+      width: 90px;
+      height: 90px;
+      transform: rotate(-90deg);
+      position: relative;
+    }
+
+    .donut-bg {
+      fill: none;
+      stroke: rgba(255, 255, 255, 0.03);
+      stroke-width: 10;
+    }
+
+    .donut-fill {
+      fill: none;
+      stroke-width: 10;
+      stroke-linecap: round;
+      stroke: url(#donutGrad);
+      stroke-dasharray: 250;
+      stroke-dashoffset: 50; /* 80% complete -> (1 - 0.80) * 250 = 50 */
+      transition: stroke-dashoffset 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .donut-center-label {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+      text-shadow: 0 0 10px rgba(139, 92, 246, 0.3);
+    }
+
+    .mitigation-legend {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: #a0a0b0;
+      text-align: left;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend-bullet {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .bullet-active { background-color: var(--pink-neon); }
+    .bullet-pending { background-color: var(--orange-neon); }
+    .bullet-complete { background-color: var(--green-neon); }
+
+    /* Active Risk Alerts Table */
+    .alerts-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.78rem;
+    }
+
+    .alerts-table th {
+      color: #64748b;
+      font-weight: 600;
+      text-align: left;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      text-transform: uppercase;
+      font-size: 0.65rem;
+      letter-spacing: 0.5px;
+    }
+
+    .alerts-table td {
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .impact-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 600;
+    }
+
+    .impact-badge.high {
+      background: rgba(239, 68, 68, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(239, 68, 68, 0.2);
+    }
+
+    .impact-badge.med {
+      background: rgba(245, 158, 11, 0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+
+    .mitigate-btn {
+      background: rgba(249, 115, 22, 0.1);
+      color: var(--orange-neon);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+      padding: 4px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.3s ease;
+    }
+
+    .mitigate-btn:hover {
+      background: var(--orange-neon);
+      color: #000000;
+      border-color: var(--orange-neon);
+    }
+
+    .mitigate-btn.mitigating {
+      background: rgba(255, 255, 255, 0.05);
+      color: #a0a0b0;
+      border-color: rgba(255, 255, 255, 0.1);
+      cursor: not-allowed;
+    }
+
+    .mitigate-btn.mitigated {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--green-neon);
+      border-color: rgba(16, 185, 129, 0.3);
+      cursor: default;
+    }
+
+    .mitigate-btn.mitigated:hover {
+      background: rgba(16, 185, 129, 0.1);
+      color: var(--green-neon);
+    }
+
+    /* Spinner loader */
+    .spinner {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: #ffffff;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Animated Mesh Background -->
+  <div class="mesh-bg">
+    <div class="mesh-blob mesh-blob-1"></div>
+    <div class="mesh-blob mesh-blob-2"></div>
+    <div class="mesh-blob mesh-blob-3"></div>
+  </div>
+
+  <!-- Ambient noise texture -->
+  <div class="noise-overlay"></div>
+
+  <!-- Navigation -->
+  <nav class="glass-pill-nav">
+    <a href="index.html" class="logo-container" style="text-decoration: none; color: inherit;">
+      <div class="logo-wrapper">
+        <img src="assets/logo.png" alt="ATL-Trust Logo" class="logo-img">
+      </div>
+      <div class="logo-text-group">
+        <span class="logo-text">ATL-Trust</span>
+        <span class="logo-subtext">AI Agent Validator</span>
+      </div>
+      <img src="assets/patent_pending_badge.png" alt="Patent Pending" style="height: 96px; margin-left: 15px; border-left: 1px solid rgba(255,255,255,0.15); padding-left: 15px;">
+    </a>
+    <div class="nav-links">
+      <a href="index.html#features">Features</a>
+      <a href="index.html#integration">Integration</a>
+      <a href="index.html#security">Security</a>
+      <a href="index.html#blog">Blog</a>
+      <a href="index.html#contact">Contact</a>
+    </div>
+    <a href="index.html" class="btn-secondary nav-btn" style="margin-right: 10px;">Main Site</a>
+    <a href="#demo" class="btn-primary nav-btn">Try Simulator</a>
+  </nav>
+
+  <!-- Dashboard Container -->
+  <div class="dashboard-container">
+    
+    <!-- Title bar spanning columns -->
+    <header class="dashboard-title-bar">
+      <div class="dashboard-title-group">
+        <h1>Risk Assessment <span>Dashboard</span></h1>
+      </div>
+      
+      <div class="dashboard-icons">
+        <div class="dashboard-status">
+          <span class="status-pulse"></span>
+          <span>Live Agent Shield: Active</span>
+        </div>
+        
+        <button class="icon-btn" title="Dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        </button>
+        <button class="icon-btn" title="Calendar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </button>
+        <button class="icon-btn" title="Notifications">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+          <span class="badge-dot" id="notify-dot"></span>
+        </button>
+        <button class="icon-btn" title="Settings">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <!-- COLUMN 1: GAUGES & LOGS -->
+    <div class="dash-column" style="display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- Card: Overall Risk Gauge -->
+      <div class="dash-card" style="display: flex; flex-direction: column; align-items: center; text-align: center; position: relative;">
+        <div class="card-title" style="width: 100%;">Overall Risk Score</div>
+        
+        <div class="gauge-wrapper">
+          <svg class="svg-gauge">
+            <defs>
+              <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color: var(--pink-neon); stop-opacity: 1" />
+                <stop offset="100%" style="stop-color: var(--orange-neon); stop-opacity: 1" />
+              </linearGradient>
+            </defs>
+            <circle class="gauge-bg" cx="70" cy="70" r="60" />
+            <circle class="gauge-fill" id="overall-gauge-fill" cx="70" cy="70" r="60" />
+          </svg>
+          <div class="gauge-center-text">
+            <span class="gauge-number" id="risk-score-display">78</span>
+            <span class="gauge-label" id="risk-label-display" style="color: var(--orange-neon);">High</span>
+          </div>
+        </div>
+
+        <div class="sub-gauges-row" style="width: 100%;">
+          <div class="sub-gauge-card">
+            <div class="mini-gauge">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle class="mini-gauge-bg" cx="35" cy="35" r="30" />
+                <circle class="mini-gauge-fill vulnerability-fill" id="vuln-fill" cx="35" cy="35" r="30" />
+              </svg>
+            </div>
+            <span class="mini-gauge-value" id="vuln-display">65%</span>
+            <span class="mini-gauge-label">Vulnerability</span>
+          </div>
+          
+          <div class="sub-gauge-card">
+            <div class="mini-gauge">
+              <svg width="70" height="70" viewBox="0 0 70 70">
+                <circle class="mini-gauge-bg" cx="35" cy="35" r="30" />
+                <circle class="mini-gauge-fill threat-fill" id="threat-fill" cx="35" cy="35" r="30" />
+              </svg>
+            </div>
+            <span class="mini-gauge-value" id="threat-display">82%</span>
+            <span class="mini-gauge-label">Threat Level</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Console Logs -->
+      <div class="dash-card" style="flex-grow: 1; display: flex; flex-direction: column;">
+        <div class="card-title">System Audit Log</div>
+        <div class="console-box" id="audit-console">
+          <div class="console-log info">[11:21:02] [AUDIT] Connecting to VPC Action Gateway Enclave.</div>
+          <div class="console-log success">[11:21:03] [TEE] Hardware signature matches attestation key.</div>
+          <div class="console-log warn">[11:21:40] [SCAN] Prompt validation: Indirect payload signature found.</div>
+          <div class="console-log info">[11:22:15] [VAL] Running semantic check bounds on active intents.</div>
+          <div class="console-log error">[11:23:01] [ALERT] Threat score limit exceeded: Indirect Prompt Injection.</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 2: CHART & HEATMAP -->
+    <div class="dash-column" style="display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- Sub-headers Dropdown row -->
+      <div class="dropdown-container">
+        <a class="glass-dropdown" href="index.html#features">
+          <span>Global Overview</span>
+          <span class="dropdown-arrow">▼</span>
+        </a>
+        <a class="glass-dropdown" href="index.html#integration">
+          <span>Key Metrics: NeoGrotesk</span>
+          <span class="dropdown-arrow">▼</span>
+        </a>
+      </div>
+
+      <!-- Card: Risk Trend Analysis -->
+      <div class="dash-card">
+        <div class="card-title">Risk Trend Analysis</div>
+        
+        <div class="chart-container">
+          <svg width="100%" height="100%" viewBox="0 0 500 200" preserveAspectRatio="none">
+            <!-- Grid Lines -->
+            <line x1="40" y1="20" x2="480" y2="20" class="grid-line" />
+            <line x1="40" y1="60" x2="480" y2="60" class="grid-line" />
+            <line x1="40" y1="100" x2="480" y2="100" class="grid-line" />
+            <line x1="40" y1="140" x2="480" y2="140" class="grid-line" />
+            <line x1="40" y1="170" x2="480" y2="170" class="grid-line" style="stroke: rgba(255,255,255,0.08);" />
+            
+            <!-- Curves -->
+            <!-- Orange curve (Vulnerability) -->
+            <path id="trend-line-orange" class="chart-line orange" d="M 40,160 Q 120,110 200,120 T 360,70 T 480,80" />
+            <!-- Purple curve (Threat) -->
+            <path id="trend-line-purple" class="chart-line purple" d="M 40,110 Q 120,80 200,90 T 360,110 T 480,95" />
+
+            <!-- Point Dots on final points (June) -->
+            <circle id="point-orange" cx="480" cy="80" r="5" fill="var(--orange-neon)" class="chart-point" />
+            <circle id="point-purple" cx="480" cy="95" r="5" fill="var(--violet-neon)" class="chart-point" />
+
+            <!-- Y Axis labels -->
+            <text x="15" y="24" class="chart-label">100</text>
+            <text x="20" y="64" class="chart-label">80</text>
+            <text x="20" y="104" class="chart-label">60</text>
+            <text x="20" y="144" class="chart-label">40</text>
+            <text x="25" y="174" class="chart-label">0</text>
+
+            <!-- X Axis labels -->
+            <text x="40" y="195" class="chart-label" text-anchor="middle">Jan</text>
+            <text x="128" y="195" class="chart-label" text-anchor="middle">Feb</text>
+            <text x="216" y="195" class="chart-label" text-anchor="middle">Mar</text>
+            <text x="304" y="195" class="chart-label" text-anchor="middle">Apr</text>
+            <text x="392" y="195" class="chart-label" text-anchor="middle">May</text>
+            <text x="480" y="195" class="chart-label" text-anchor="middle">Jun</text>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Card: Risk Heatmap Matrix -->
+      <div class="dash-card">
+        <div class="card-title">Risk Heatmap Matrix</div>
+        
+        <div class="heatmap-grid">
+          <!-- Row headers -->
+          <div></div>
+          <div class="heatmap-header">Low</div>
+          <div class="heatmap-header">Med</div>
+          <div class="heatmap-header">High</div>
+          <div class="heatmap-header">Crit</div>
+
+          <!-- Ingestion Layer -->
+          <div class="heatmap-row-label">Ingestion</div>
+          <div class="heatmap-cell risk-lvl-1" title="Data Ingestion: Low (Attestation)"></div>
+          <div class="heatmap-cell risk-lvl-2" title="Data Ingestion: Medium (Data leakage)"></div>
+          <div class="heatmap-cell risk-lvl-4" title="Data Ingestion: High (Poisoning)"></div>
+          <div class="heatmap-cell risk-lvl-5" id="cell-ingest-crit" title="Data Ingestion: Critical (Prompt Injection)" style="box-shadow: 0 0 10px rgba(239, 68, 68, 0.45);"></div>
+
+          <!-- Intent Layer -->
+          <div class="heatmap-row-label">Intent</div>
+          <div class="heatmap-cell risk-lvl-1" title="Intent Logic: Low"></div>
+          <div class="heatmap-cell risk-lvl-2" title="Intent Logic: Medium"></div>
+          <div class="heatmap-cell risk-lvl-3" title="Intent Logic: High (Target Drift)"></div>
+          <div class="heatmap-cell risk-lvl-4" title="Intent Logic: Critical"></div>
+
+          <!-- Action Layer -->
+          <div class="heatmap-row-label">Action</div>
+          <div class="heatmap-cell risk-lvl-2" title="Action Execution: Low"></div>
+          <div class="heatmap-cell risk-lvl-3" title="Action Execution: Medium"></div>
+          <div class="heatmap-cell risk-lvl-4" id="cell-action-high" title="Action Execution: High (Runaway loop)" style="box-shadow: 0 0 8px rgba(249, 115, 22, 0.45);"></div>
+          <div class="heatmap-cell risk-lvl-2" title="Action Execution: Critical"></div>
+
+          <!-- System Layer -->
+          <div class="heatmap-row-label">System</div>
+          <div class="heatmap-cell risk-lvl-1" title="System Boundary: Low"></div>
+          <div class="heatmap-cell risk-lvl-3" title="System Boundary: Medium"></div>
+          <div class="heatmap-cell risk-lvl-2" title="System Boundary: High"></div>
+          <div class="heatmap-cell risk-lvl-3" title="System Boundary: Critical"></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- COLUMN 3: RISKS, DONUT & ALERTS -->
+    <div class="dash-column" style="display: flex; flex-direction: column; gap: 20px;">
+      
+      <!-- Card: Top Risks -->
+      <div class="dash-card">
+        <div class="card-title">Top Risks</div>
+        <div class="top-risks-list">
+          
+          <div class="risk-progress-item">
+            <div class="risk-progress-label">
+              <span>Indirect Prompt Injection</span>
+              <span id="risk-val-1">24%</span>
+            </div>
+            <div class="risk-progress-bar">
+              <div class="risk-progress-fill risk-fill-pink" id="risk-bar-1"></div>
+            </div>
+          </div>
+          
+          <div class="risk-progress-item">
+            <div class="risk-progress-label">
+              <span>Execution Runaway Loop</span>
+              <span id="risk-val-2">19%</span>
+            </div>
+            <div class="risk-progress-bar">
+              <div class="risk-progress-fill risk-fill-orange" id="risk-bar-2"></div>
+            </div>
+          </div>
+          
+          <div class="risk-progress-item">
+            <div class="risk-progress-label">
+              <span>Semantic Target Drift</span>
+              <span id="risk-val-3">15%</span>
+            </div>
+            <div class="risk-progress-bar">
+              <div class="risk-progress-fill risk-fill-yellow" id="risk-bar-3"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Card: Mitigation Status -->
+      <div class="dash-card">
+        <div class="card-title">Mitigation Status</div>
+        
+        <div class="mitigation-donut-wrapper">
+          <div class="donut-chart-box">
+            <svg width="90" height="90" viewBox="0 0 90 90">
+              <defs>
+                <linearGradient id="donutGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color: var(--violet-neon); stop-opacity: 1" />
+                  <stop offset="100%" style="stop-color: var(--green-neon); stop-opacity: 1" />
+                </linearGradient>
+              </defs>
+              <circle class="donut-bg" cx="45" cy="45" r="40" />
+              <circle class="donut-fill" id="mitigation-donut-fill" cx="45" cy="45" r="40" />
+            </svg>
+            <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: flex; align-items: center; justify-content: center; transform: rotate(90deg);">
+              <span class="donut-center-label" id="donut-complete-display">12</span>
+            </div>
+          </div>
+          
+          <div class="mitigation-legend">
+            <div class="legend-item">
+              <span class="legend-bullet bullet-active"></span>
+              <span>8 Active Controls</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-bullet bullet-pending"></span>
+              <span id="legend-pending-display">5 Pending Validation</span>
+            </div>
+            <div class="legend-item">
+              <span class="legend-bullet bullet-complete"></span>
+              <span id="legend-complete-display">12 Resolved Threats</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card: Active Risk Alerts -->
+      <div class="dash-card" style="flex-grow: 1;">
+        <div class="card-title">Active Risk Alerts</div>
+        
+        <table class="alerts-table">
+          <thead>
+            <tr>
+              <th>Description</th>
+              <th>Impact</th>
+              <th style="text-align: right; padding-right: 15px;">Action</th>
+            </tr>
+          </thead>
+          <tbody id="alerts-tbody">
+            <tr id="alert-row-1">
+              <td style="font-weight: 500;">Indirect Prompt Injection</td>
+              <td><span class="impact-badge high">High</span></td>
+              <td style="text-align: right;">
+                <button class="mitigate-btn" onclick="triggerMitigate(1, 'Indirect Prompt Injection', 'high')">
+                  <span>Mitigate</span>
+                </button>
+              </td>
+            </tr>
+            <tr id="alert-row-2">
+              <td style="font-weight: 500;">TEE Attestation Failure</td>
+              <td><span class="impact-badge high">High</span></td>
+              <td style="text-align: right;">
+                <button class="mitigate-btn" onclick="triggerMitigate(2, 'TEE Attestation Failure', 'high')">
+                  <span>Mitigate</span>
+                </button>
+              </td>
+            </tr>
+            <tr id="alert-row-3">
+              <td style="font-weight: 500;">Execution Runaway Loop</td>
+              <td><span class="impact-badge med">Med</span></td>
+              <td style="text-align: right;">
+                <button class="mitigate-btn" onclick="triggerMitigate(3, 'Execution Runaway Loop', 'med')">
+                  <span>Mitigate</span>
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-content container">
+      <div class="footer-logo">
+        <img src="assets/promo.png" alt="ATL-Trust Shield" class="footer-img">
+        <span class="logo-text">ATL-Trust</span>
+      </div>
+      
+      <div class="copyright">
+        &copy; 2026 ATL-Trust. Designed for the Autonomous Future.<br>
+        Contact: <a href="mailto:gene.darocha@voxstar.com" class="text-link">gene.darocha@voxstar.com</a><br>
+        <span class="made-in" style="display:inline-block; margin-top: 5px;">
+          🇬🇧 Made in the UK By <a href="https://voxstar.com" target="_blank" class="text-link">voxstar.com</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Interactive Dashboard Controls Script
+    const consoleLogsEl = document.getElementById('audit-console');
+    const notifyDot = document.getElementById('notify-dot');
+    
+    // Live scores data object
+    const liveMetrics = {
+      overallRisk: 78,
+      vulnerability: 65,
+      threat: 82,
+      pendingMitigations: 5,
+      resolvedThreats: 12,
+      activeAlerts: 3
+    };
+
+    // Helper to log console entries
+    function addConsoleEntry(level, message) {
+      const time = new Date().toLocaleTimeString();
+      const div = document.createElement('div');
+      div.className = `console-log ${level}`;
+      div.textContent = `[${time}] [${level.toUpperCase()}] ${message}`;
+      consoleLogsEl.appendChild(div);
+      consoleLogsEl.scrollTop = consoleLogsEl.scrollHeight;
+    }
+
+    // Trigger mitigation simulation sequence
+    function triggerMitigate(alertId, alertName, impact) {
+      const row = document.getElementById(`alert-row-${alertId}`);
+      if (!row) return;
+
+      const btn = row.querySelector('.mitigate-btn');
+      if (btn.classList.contains('mitigating') || btn.classList.contains('mitigated')) return;
+
+      // 1. Enter mitigating status UI state
+      btn.classList.add('mitigating');
+      btn.innerHTML = `<span class="spinner"></span> <span>Applying...</span>`;
+      addConsoleEntry('info', `Deploying mitigation workflow logic for: "${alertName}"`);
+
+      // 2. Perform mock transition updates in intervals
+      setTimeout(() => {
+        // UI Checkmark
+        btn.classList.remove('mitigating');
+        btn.classList.add('mitigated');
+        btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="margin-right:2px;"><polyline points="20 6 9 17 4 12"/></svg> <span>Mitigated</span>`;
+        
+        // Log to console
+        addConsoleEntry('success', `Mitigation rule applied. TEE signature verified. Threat vector closed.`);
+
+        // Adjust state numbers based on alert resolution
+        liveMetrics.activeAlerts--;
+        
+        let riskDelta = 0;
+        let vulnDelta = 0;
+        let threatDelta = 0;
+
+        if (alertId === 1) { // Indirect Prompt Injection
+          riskDelta = 17;
+          vulnDelta = 15;
+          threatDelta = 14;
+          // De-highlight heatmap critical cells
+          const ingestCritCell = document.getElementById('cell-ingest-crit');
+          if (ingestCritCell) {
+            ingestCritCell.className = "heatmap-cell risk-lvl-2";
+            ingestCritCell.style.boxShadow = "none";
+          }
+          // Reduce Top Risk Progress width
+          document.getElementById('risk-bar-1').style.width = '6%';
+          document.getElementById('risk-val-1').textContent = '6%';
+        } else if (alertId === 2) { // TEE Attestation failure
+          riskDelta = 12;
+          vulnDelta = 10;
+          threatDelta = 12;
+        } else if (alertId === 3) { // Execution runaway loop
+          riskDelta = 8;
+          vulnDelta = 8;
+          threatDelta = 6;
+          // De-highlight action high cells
+          const actionHighCell = document.getElementById('cell-action-high');
+          if (actionHighCell) {
+            actionHighCell.className = "heatmap-cell risk-lvl-2";
+            actionHighCell.style.boxShadow = "none";
+          }
+          // Reduce Top Risk Progress width
+          document.getElementById('risk-bar-2').style.width = '5%';
+          document.getElementById('risk-val-2').textContent = '5%';
+        }
+
+        // Apply state updates
+        liveMetrics.overallRisk = Math.max(10, liveMetrics.overallRisk - riskDelta);
+        liveMetrics.vulnerability = Math.max(15, liveMetrics.vulnerability - vulnDelta);
+        liveMetrics.threat = Math.max(20, liveMetrics.threat - threatDelta);
+        liveMetrics.pendingMitigations = Math.max(0, liveMetrics.pendingMitigations - 1);
+        liveMetrics.resolvedThreats += 1;
+
+        // Repopulate DOM numbers
+        updateUIMetrics();
+
+      }, 1200);
+    }
+
+    // Refresh gauge dials, lines, and metrics in DOM
+    function updateUIMetrics() {
+      // 1. Overall Score
+      document.getElementById('risk-score-display').textContent = liveMetrics.overallRisk;
+      
+      const overallGauge = document.getElementById('overall-gauge-fill');
+      // circumference = 2 * PI * r = 377 (r=60)
+      const offset = ((100 - liveMetrics.overallRisk) / 100) * 377;
+      overallGauge.style.strokeDashoffset = offset;
+
+      // Update color and rating based on score
+      const label = document.getElementById('risk-label-display');
+      if (liveMetrics.overallRisk > 70) {
+        label.textContent = "High";
+        label.style.color = "var(--orange-neon)";
+      } else if (liveMetrics.overallRisk > 40) {
+        label.textContent = "Medium";
+        label.style.color = "var(--violet-neon)";
+      } else {
+        label.textContent = "Low";
+        label.style.color = "var(--green-neon)";
+        // Update live status pulse color
+        document.querySelector('.status-pulse').style.backgroundColor = "var(--green-neon)";
+      }
+
+      // 2. Sub-gauges
+      document.getElementById('vuln-display').textContent = `${liveMetrics.vulnerability}%`;
+      const vulnOffset = ((100 - liveMetrics.vulnerability) / 100) * 188.4; // r=30
+      document.getElementById('vuln-fill').style.strokeDashoffset = vulnOffset;
+
+      document.getElementById('threat-display').textContent = `${liveMetrics.threat}%`;
+      const threatOffset = ((100 - liveMetrics.threat) / 100) * 188.4;
+      document.getElementById('threat-fill').style.strokeDashoffset = threatOffset;
+
+      // 3. Legend/donut completeness stats
+      document.getElementById('donut-complete-display').textContent = liveMetrics.resolvedThreats;
+      document.getElementById('legend-pending-display').textContent = `${liveMetrics.pendingMitigations} Pending Validation`;
+      document.getElementById('legend-complete-display').textContent = `${liveMetrics.resolvedThreats} Resolved Threats`;
+
+      const donutFill = document.getElementById('mitigation-donut-fill');
+      // complete percentage: resolvedThreats / (resolvedThreats + pendingMitigations + 8)
+      const total = liveMetrics.resolvedThreats + liveMetrics.pendingMitigations + 8;
+      const pct = liveMetrics.resolvedThreats / total;
+      const donutOffset = (1 - pct) * 250;
+      donutFill.style.strokeDashoffset = donutOffset;
+
+      // 4. Update Trend Path curves in SVG
+      const pathOrange = document.getElementById('trend-line-orange');
+      const pathPurple = document.getElementById('trend-line-purple');
+      const pointOrange = document.getElementById('point-orange');
+      const pointPurple = document.getElementById('point-purple');
+
+      if (liveMetrics.activeAlerts === 2) {
+        // First reduction
+        pathOrange.setAttribute('d', 'M 40,160 Q 120,110 200,120 T 360,110 T 480,130');
+        pathPurple.setAttribute('d', 'M 40,110 Q 120,80 200,90 T 360,130 T 480,125');
+        pointOrange.setAttribute('cy', '130');
+        pointPurple.setAttribute('cy', '125');
+      } else if (liveMetrics.activeAlerts === 1) {
+        // Second reduction
+        pathOrange.setAttribute('d', 'M 40,160 Q 120,130 200,140 T 360,150 T 480,165');
+        pathPurple.setAttribute('d', 'M 40,110 Q 120,95 200,120 T 360,150 T 480,145');
+        pointOrange.setAttribute('cy', '165');
+        pointPurple.setAttribute('cy', '145');
+      } else if (liveMetrics.activeAlerts === 0) {
+        // All alerts resolved
+        pathOrange.setAttribute('d', 'M 40,160 Q 120,150 200,160 T 360,170 T 480,172');
+        pathPurple.setAttribute('d', 'M 40,110 Q 120,110 200,130 T 360,165 T 480,168');
+        pointOrange.setAttribute('cy', '172');
+        pointPurple.setAttribute('cy', '168');
+        // Hide notification dot
+        if (notifyDot) notifyDot.style.display = 'none';
+        addConsoleEntry('success', 'ALL ACTIVE THREAT VECTORS RESOLVED. SYSTEM HEALTH: SECURE.');
+      }
+    }
+
+    // Set initial custom gauges circumference values
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize Overall Score offset (r=60 -> 377)
+      const offset = ((100 - liveMetrics.overallRisk) / 100) * 377;
+      document.getElementById('overall-gauge-fill').style.strokeDashoffset = offset;
+
+      // Initialize sub-gauges (r=30 -> 188.4)
+      const vulnOffset = ((100 - liveMetrics.vulnerability) / 100) * 188.4;
+      document.getElementById('vuln-fill').style.strokeDashoffset = vulnOffset;
+
+      const threatOffset = ((100 - liveMetrics.threat) / 100) * 188.4;
+      document.getElementById('threat-fill').style.strokeDashoffset = threatOffset;
+
+      // Initialize Donut (r=40 -> 250)
+      const total = liveMetrics.resolvedThreats + liveMetrics.pendingMitigations + 8;
+      const pct = liveMetrics.resolvedThreats / total;
+      const donutOffset = (1 - pct) * 250;
+      document.getElementById('mitigation-donut-fill').style.strokeDashoffset = donutOffset;
+    });
+  </script>
+</body>
+</html>
