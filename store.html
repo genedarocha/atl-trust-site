@@ -1350,44 +1350,24 @@
       }
 
       payBtn.disabled = true;
-      payBtn.innerHTML = '⏳ Processing Gateway Request...';
+      payBtn.innerHTML = '⏳ Redirecting to Stripe Gateway...';
 
       let stripeUrl = STRIPE_PAYMENT_LINKS[activeCheckoutProduct.pdfPath] || 'https://buy.stripe.com/test_atl_trust_checkout';
 
-      // Check if URL is a placeholder (starts with test_)
-      if (stripeUrl.includes('buy.stripe.com/test_')) {
+      const separator = stripeUrl.includes('?') ? '&' : '?';
+      const targetUrl = stripeUrl + separator + 'prefilled_email=' + encodeURIComponent(email);
+
+      if (msgBox) {
         msgBox.style.display = 'block';
-        msgBox.style.background = 'rgba(0, 240, 255, 0.15)';
+        msgBox.style.background = 'rgba(0, 240, 255, 0.12)';
         msgBox.style.border = '1px solid #00f0ff';
         msgBox.style.color = '#00f0ff';
-        msgBox.innerHTML = `✅ Order Recorded for <strong>${activeCheckoutProduct.title}</strong> (${activeCheckoutProduct.price})!<br>Stripe invoice & payment link will be sent to <strong>${email}</strong>. Opening email client...`;
-
-        const subject = encodeURIComponent(`ATL-Trust Order: ${activeCheckoutProduct.title} (${activeCheckoutProduct.price})`);
-        const body = encodeURIComponent(`Hello Gene,
-
-I would like to complete my purchase for:
-Product: ${activeCheckoutProduct.title}
-Price: ${activeCheckoutProduct.price}
-
-Customer Email: ${email}
-
-Please send the Stripe payment link & PDF download access.
-
-Thank you!`);
-
-        setTimeout(() => {
-          payBtn.disabled = false;
-          payBtn.innerHTML = `🔒 Proceed to Stripe Checkout (${activeCheckoutProduct.price}) →`;
-          window.location.href = `mailto:gene.darocha@voxstar.com?subject=${subject}&body=${body}`;
-        }, 1000);
-      } else {
-        const separator = stripeUrl.includes('?') ? '&' : '?';
-        stripeUrl += separator + 'prefilled_email=' + encodeURIComponent(email);
-
-        setTimeout(() => {
-          window.location.href = stripeUrl;
-        }, 500);
+        msgBox.innerHTML = `🔒 Redirecting to Stripe Gateway for <strong>${activeCheckoutProduct.title}</strong>...`;
       }
+
+      setTimeout(() => {
+        window.location.href = targetUrl;
+      }, 400);
     }
 
 
