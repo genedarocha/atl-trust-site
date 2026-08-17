@@ -1390,20 +1390,7 @@ Thank you!`);
       }
     }
 
-      payBtn.disabled = true;
-      payBtn.innerHTML = '⏳ Redirecting to Stripe Gateway...';
 
-      // Lookup Stripe Payment Link
-      let stripeUrl = STRIPE_PAYMENT_LINKS[activeCheckoutProduct.pdfPath] || 'https://buy.stripe.com/test_atl_trust_checkout';
-      
-      // Append prefilled email parameter for Stripe Checkout
-      const separator = stripeUrl.includes('?') ? '&' : '?';
-      stripeUrl += separator + 'prefilled_email=' + encodeURIComponent(email);
-
-      setTimeout(() => {
-        window.location.href = stripeUrl;
-      }, 500);
-    }
 
     function handleInvoiceSubmit(e) {
       e.preventDefault();
