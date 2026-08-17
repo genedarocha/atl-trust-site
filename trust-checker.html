@@ -134,6 +134,11 @@
             <input type="text" id="agent-tool" class="glass-input" value="ExecuteBankTransfer(amount: float, recipient: string)" placeholder="e.g. ExecuteDatabaseQuery">
           </div>
 
+                    <div class="input-group" style="margin-bottom: 16px;">
+            <label style="display: block; font-size: 0.8rem; color: #a0a0b0; margin-bottom: 6px;">Optional: Your xAI Grok API Key (BYOK for Live Secondary Judging)</label>
+            <input type="password" id="grok-api-key" class="glass-input" placeholder="xai-•••••••••••••••• (Optional — Leave blank for zero-cost client scan)">
+          </div>
+
           <div class="input-group" style="margin-bottom: 20px;">
             <label style="display: block; font-size: 0.8rem; color: #a0a0b0; margin-bottom: 6px;">Raw Incoming Prompt / Intent Payload</label>
             <textarea id="agent-prompt" class="glass-input" rows="6" style="resize: vertical; font-family: 'Fira Code', monospace; font-size: 0.88rem;">Transfer $45,000 to Account #8849-2041 for Q3 vendor invoice settlement. User SSN: 000-42-9912.</textarea>
@@ -200,41 +205,46 @@
       <p style="color: #a0a0c0; max-width: 600px; margin: 0 auto 40px;">Integrate live compliance checking natively into your production agent pipeline.</p>
       
       <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px;">
+        <!-- Developer Free Tier -->
         <div class="glass-card" style="padding: 30px; text-align: center;">
-          <h3 style="color: #fff; margin-bottom: 10px;">Developer Tier</h3>
+          <h3 style="color: #fff; margin-bottom: 10px;">Free Sandbox</h3>
           <div style="font-size: 2rem; font-weight: 800; color: #00f0ff; margin-bottom: 15px;">$0 <span style="font-size: 0.9rem; color: #64748b;">/ mo</span></div>
           <ul style="text-align: left; color: #a0a0c0; font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px; padding-left: 15px;">
-            <li>1,000 API Verification Checks / mo</li>
-            <li>Basic Regex PII Redaction</li>
-            <li>Standard Dashboard Access</li>
+            <li>1 Free Instant Scan per session</li>
+            <li>Client-Side Sub-5ms PII Redaction</li>
+            <li>Bring Your Own Key (BYOK) for Grok</li>
+            <li>Zero API cost to you or developer</li>
           </ul>
-          <a href="index.html#integration" class="btn-secondary" style="display: block; width: 100%;">Get Started Free</a>
+          <a href="#scan-tool" class="btn-secondary" style="display: block; width: 100%;">Test Free Demo →</a>
         </div>
 
+        <!-- Starter Seal Tier -->
         <div class="glass-card" style="padding: 30px; text-align: center; border-color: #00f0ff; box-shadow: 0 0 25px rgba(0, 240, 255, 0.2);">
-          <div class="badge" style="background: #00f0ff; color: #050810; margin-bottom: 10px; font-weight: 700;">RECOMMENDED FOR ENTERPRISE</div>
-          <h3 style="color: #fff; margin-bottom: 10px;">Enterprise Gateway</h3>
-          <div style="font-size: 2rem; font-weight: 800; color: #00f0ff; margin-bottom: 15px;">$499 <span style="font-size: 0.9rem; color: #64748b;">/ mo</span></div>
+          <div class="badge" style="background: #00f0ff; color: #050810; margin-bottom: 10px; font-weight: 700;">POPULAR FOR STARTUPS</div>
+          <h3 style="color: #fff; margin-bottom: 10px;">Starter Seal</h3>
+          <div style="font-size: 2rem; font-weight: 800; color: #00f0ff; margin-bottom: 15px;">$49 <span style="font-size: 0.9rem; color: #64748b;">/ mo</span></div>
           <ul style="text-align: left; color: #a0a0c0; font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px; padding-left: 15px;">
-            <li>250,000 API Verification Checks / mo</li>
-            <li>xAI Grok-4.6 Secondary Intent Judge</li>
-            <li>AWS Nitro TEE Enclave Remote Attestation</li>
-            <li>Embeddable Live Compliance Badge</li>
+            <li>1,000 Verified Checks / mo</li>
+            <li>Embeddable Live Compliance Seal Badge</li>
+            <li>SHA-256 Block Ledger Logging</li>
+            <li>Instant PDF Audit Certificate</li>
           </ul>
           <a href="store.html" class="btn-primary" style="display: block; width: 100%;">Subscribe via Stripe →</a>
         </div>
 
+        <!-- Enterprise Compliance Tier -->
         <div class="glass-card" style="padding: 30px; text-align: center;">
-          <h3 style="color: #fff; margin-bottom: 10px;">Dedicated PEP Microservice</h3>
-          <div style="font-size: 2rem; font-weight: 800; color: #00f0ff; margin-bottom: 15px;">$1,999 <span style="font-size: 0.9rem; color: #64748b;">/ mo</span></div>
+          <h3 style="color: #fff; margin-bottom: 10px;">Enterprise Seal</h3>
+          <div style="font-size: 2rem; font-weight: 800; color: #00f0ff; margin-bottom: 15px;">$199 <span style="font-size: 0.9rem; color: #64748b;">/ mo</span></div>
           <ul style="text-align: left; color: #a0a0c0; font-size: 0.9rem; line-height: 1.8; margin-bottom: 20px; padding-left: 15px;">
-            <li>Unlimited Local Rust PEP Deployments</li>
-            <li>Dedicated Enterprise Sub-Millisecond Gateway</li>
-            <li>Custom SLA & Auditor CSV Export</li>
+            <li>10,000 Verified Checks / mo</li>
+            <li>AWS Nitro TEE Enclave Remote Attestation</li>
+            <li>Article 14 Human-in-the-Loop Circuit Breaker</li>
+            <li>CISO Audit Readiness CSV Export</li>
           </ul>
           <a href="mailto:gene.darocha@voxstar.com" class="btn-secondary" style="display: block; width: 100%;">Contact Enterprise Sales</a>
         </div>
-      </div>
+      </div></div>
     </div>
   </main>
 
