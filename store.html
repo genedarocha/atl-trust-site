@@ -1341,12 +1341,54 @@
       const emailInput = document.getElementById('card-email');
       const email = emailInput ? emailInput.value.trim() : '';
       const payBtn = document.getElementById('pay-stripe-btn');
+      const msgBox = document.getElementById('modal-status-msg');
 
       if (!email || !email.includes('@')) {
         alert('Please enter a valid work email address for your Stripe payment receipt.');
         if (emailInput) emailInput.focus();
         return;
       }
+
+      payBtn.disabled = true;
+      payBtn.innerHTML = '⏳ Processing Gateway Request...';
+
+      let stripeUrl = STRIPE_PAYMENT_LINKS[activeCheckoutProduct.pdfPath] || 'https://buy.stripe.com/test_atl_trust_checkout';
+
+      // Check if URL is a placeholder (starts with test_)
+      if (stripeUrl.includes('buy.stripe.com/test_')) {
+        msgBox.style.display = 'block';
+        msgBox.style.background = 'rgba(0, 240, 255, 0.15)';
+        msgBox.style.border = '1px solid #00f0ff';
+        msgBox.style.color = '#00f0ff';
+        msgBox.innerHTML = `✅ Order Recorded for <strong>${activeCheckoutProduct.title}</strong> (${activeCheckoutProduct.price})!<br>Stripe invoice & payment link will be sent to <strong>${email}</strong>. Opening email client...`;
+
+        const subject = encodeURIComponent(`ATL-Trust Order: ${activeCheckoutProduct.title} (${activeCheckoutProduct.price})`);
+        const body = encodeURIComponent(`Hello Gene,
+
+I would like to complete my purchase for:
+Product: ${activeCheckoutProduct.title}
+Price: ${activeCheckoutProduct.price}
+
+Customer Email: ${email}
+
+Please send the Stripe payment link & PDF download access.
+
+Thank you!`);
+
+        setTimeout(() => {
+          payBtn.disabled = false;
+          payBtn.innerHTML = `🔒 Proceed to Stripe Checkout (${activeCheckoutProduct.price}) →`;
+          window.location.href = `mailto:gene.darocha@voxstar.com?subject=${subject}&body=${body}`;
+        }, 1000);
+      } else {
+        const separator = stripeUrl.includes('?') ? '&' : '?';
+        stripeUrl += separator + 'prefilled_email=' + encodeURIComponent(email);
+
+        setTimeout(() => {
+          window.location.href = stripeUrl;
+        }, 500);
+      }
+    }
 
       payBtn.disabled = true;
       payBtn.innerHTML = '⏳ Redirecting to Stripe Gateway...';
