@@ -76,7 +76,6 @@
     </a>
     <div class="nav-links">
       <a href="index.html#features">Features</a>
-      <a href="store.html" style="color: #38bdf8; font-weight: 600;">Store</a>
       <a href="index.html#integration">Integration</a>
       <a href="index.html#security">Security</a>
       <a href="blog.html">Blog</a>
@@ -88,9 +87,9 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <div class="badge fade-in-up">Trusted AI Validation Layer</div>
-    <h1 class="fade-in-up delay-1">Securing <span>Autonomous</span><br>AI Transactions</h1>
-    <p class="fade-in-up delay-2">A high-performance, Rust-based validation layer for AI agents. Ensuring every transaction is compliant, authorized, and cryptographically sound before it touches critical enterprise infrastructure or a blockchain.</p>
+    <div class="badge fade-in-up">Zero-Trust AI Agent Security Gateway</div>
+    <h1 class="fade-in-up delay-1">Securing <span>Autonomous</span><br>AI Agent Swarms</h1>
+    <p class="fade-in-up delay-2">A sub-5ms, hardware-attested validation layer for FinTech, Crypto/DeFi, and Enterprise API Swarms. Ensuring every transaction, tool call, and API mutation is authorized, compliant, and cryptographically sound before execution.</p>
     
     <div class="hero-buttons fade-in-up delay-3">
       <a href="dashboard.html" class="btn-primary btn-lg" style="background: linear-gradient(135deg, var(--secondary-color), var(--primary-color)); color: #ffffff;">View Risk Dashboard <span class="arrow">→</span></a>
@@ -112,22 +111,22 @@
         <div class="data-card pulse-hover">
           <div class="data-icon">🛡️</div>
           <div class="data-info">
-            <div class="data-label">Test Coverage</div>
-            <div class="data-value" id="counter-intents">100%</div>
+            <div class="data-label">Test Suite</div>
+            <div class="data-value" id="counter-intents">100% Pass</div>
           </div>
         </div>
         <div class="data-card pulse-hover">
           <div class="data-icon">⚡</div>
           <div class="data-info">
-            <div class="data-label">Target Latency</div>
+            <div class="data-label">Rust Latency</div>
             <div class="data-value">&lt; 5<span class="unit">ms</span></div>
           </div>
         </div>
         <div class="data-card pulse-hover">
           <div class="data-icon">🤖</div>
           <div class="data-info">
-            <div class="data-label">Core Rules</div>
-            <div class="data-value">20+</div>
+            <div class="data-label">LLM Providers</div>
+            <div class="data-value">OpenAI / Claude / Ollama / xAI</div>
           </div>
         </div>
       </div>
@@ -136,31 +135,31 @@
 
   <!-- Features Section -->
   <section id="features" class="features container">
-    <h2 class="section-title">Built for Enterprise Compliance</h2>
+    <h2 class="section-title">Built for FinTech & Enterprise Swarms</h2>
     
     <div class="features-grid">
       <div class="glass-card feature-card">
         <div class="feature-icon glowing-icon">🛡️</div>
-        <h3>TEE Hardware Attestation</h3>
-        <p>Cryptographic verification of execution environments. Ensures your AI agents are running exactly the code you deployed, untampered.</p>
+        <h3>Nitro & SGX Remote Attestation</h3>
+        <p>Cryptographic document verification for AWS Nitro Enclaves (COSE CBOR), GCP Confidential VMs (JWT quotes), and Intel SGX quotes. Validates enclave measurements (`PCR0`).</p>
       </div>
       
       <div class="glass-card feature-card">
-        <div class="feature-icon glowing-icon">⚡</div>
-        <h3>Rust Performance</h3>
-        <p>Built with Tokio and Axum for extreme concurrency. Minimal memory footprint and sub-5ms response times for validation endpoints.</p>
+        <div class="feature-icon glowing-icon">🤖</div>
+        <h3>Pluggable Multi-LLM Intent Judge</h3>
+        <p>Decoupled semantic reasoning engine supporting OpenAI (GPT-4o), Anthropic (Claude 3.5 Sonnet), Ollama/vLLM, and xAI (Grok-4.6) for deep prompt injection defense.</p>
       </div>
 
       <div class="glass-card feature-card">
-        <div class="feature-icon glowing-icon">🚦</div>
-        <h3>Dynamic Circuit Breakers</h3>
-        <p>Hard limits, velocity checks, and anomaly detection prevent AI agents from executing runaway financial operations.</p>
+        <div class="feature-icon glowing-icon">⚡</div>
+        <h3>Sub-5ms Rust Execution</h3>
+        <p>High-performance Tokio & Axum microservice (`atl-trust-core`) executing zero-latency circuit breakers, fiscal caps, and allowlists before API calls hit production.</p>
       </div>
       
       <div class="glass-card feature-card">
         <div class="feature-icon glowing-icon">🇪🇺</div>
-        <h3>MiCA/DORA Ready</h3>
-        <p>Architected with European regulatory frameworks in mind. Extensive structured logging guarantees auditability for every single intent.</p>
+        <h3>EU AI Act, MiCA & DORA Compliance</h3>
+        <p>Architected for regulatory mandates with immutable SHA-256 block ledger attestation and Article 14 Human Oversight circuit breaker tripwires.</p>
       </div>
     </div>
   </section>
@@ -210,26 +209,27 @@
             <div class="dot yellow"></div>
             <div class="dot green"></div>
           </div>
-          <div class="window-title code-title">terminal — curl</div>
+          <div class="window-title code-title">python — atl-trust-sdk</div>
         </div>
         <div class="code-body">
-<span class="code-comment"># Submit an intent to the validator (Simulated API Example)</span>
-<span class="code-keyword">curl</span> -X POST https://api-sim.atl-trust.com/v1/intent \
-  -H <span class="code-string">"Content-Type: application/json"</span> \
-  -H <span class="code-string">"Authorization: Bearer sk_test_..."</span> \
-  -d <span class="code-string">'{
-    "action": "TRANSFER",
-    "asset": "USDC",
-    "value": 150,
-    "semantic_hash": "e3b0c44298fc1c149afbf4..."
-  }'</span>
+<span class="code-comment"># 1. Initialize Orchestrator with Multi-Provider (OpenAI, Anthropic, Ollama, xAI)</span>
+<span class="code-keyword">from</span> atl_trust <span class="code-keyword">import</span> ATLTrustConfig, ATLTrustOrchestrator, atl_trust_guardrail
 
-<span class="code-comment"># Simulated Response (200 OK)</span>
-<span class="code-function">{
-  "status": "INTENT_APPROVED",
-  "signature": "0x4b2c...",
-  "latency": "4.2ms"
-}</span>
+config = ATLTrustConfig(
+    validator_mode=<span class="code-string">"hybrid"</span>,
+    provider=<span class="code-string">"openai"</span>,  <span class="code-comment"># "openai", "anthropic", "ollama", "xai"</span>
+    llm_model=<span class="code-string">"gpt-4o"</span>,
+)
+orchestrator = ATLTrustOrchestrator(config=config)
+
+<span class="code-comment"># 2. Guardrail Native Financial Tool Invocation</span>
+<span class="code-keyword">@atl_trust_guardrail</span>(orchestrator=orchestrator, asset=<span class="code-string">"USDC"</span>, value_arg=<span class="code-string">"amount"</span>)
+<span class="code-keyword">def</span> <span class="code-function">execute_crypto_transfer</span>(recipient: str, amount: float):
+    <span class="code-comment"># Executed ONLY if Rust PEP + TEE + GPT-4o approves (<5ms baseline)</span>
+    <span class="code-keyword">return</span> f<span class="code-string">"Transferred ${amount} USDC to {recipient}"</span>
+
+<span class="code-comment"># Automated Hardware Attestation & Policy Check before execution:</span>
+execute_crypto_transfer(<span class="code-string">"0x742d35..."</span>, amount=150.0)
         </div>
       </div>
     </div>

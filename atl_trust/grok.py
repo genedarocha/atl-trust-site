@@ -90,20 +90,11 @@ Respond ONLY with a valid, raw JSON object in the following format (no markdown 
         policy: Optional[PolicyContext] = None,
     ) -> GrokDecision:
         """
-        Evaluates intent by calling xAI / Grok API. Handles timeouts and API errors according to GROK_FAIL_MODE.
+        Evaluates intent using configured LLM provider (xAI Grok, OpenAI GPT-4o, Anthropic, Ollama).
         """
-        policy_ctx = policy or PolicyContext()
-        prompt = self.build_prompt(intent, tool_call, policy_ctx)
-
-        # Check API Key
-        if not self.config.xai_api_key:
-            logger.warning(
-                "XAI_API_KEY missing. Fallback to fail mode: %s",
-                self.config.grok_fail_mode,
-            )
-            return self._handle_failure(
-                f"Missing XAI_API_KEY. Fail-mode: {self.config.grok_fail_mode}"
-            )
+        from .providers import get_provider
+        provider = get_provider(self.config)
+        return provider.evaluate(intent, tool_call, policy)
 
         start_time = time.time()
         try:

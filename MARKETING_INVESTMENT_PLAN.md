@@ -9,15 +9,15 @@
 
 ## Executive Summary & Core Value Proposition
 
-**ATL-Trust** is the premier high-performance, Rust-based **Zero-Trust Validation & Compliance Layer** for autonomous AI agents, enterprise LLM pipelines, and multi-agent swarms. 
+**ATL-Trust** is the premier high-performance, Rust-based **Zero-Trust Security & Validation Gateway** built specifically for **FinTech, Crypto/DeFi, and Enterprise API Automation Swarm Developers**. 
 
 As enterprises transition from experimental chatbots to mission-critical autonomous agents carrying out financial transactions, database mutations, and system API calls, they encounter a critical security gap: **Soft system prompts are probabilistic suggestions, not legal or technical guardrails.**
 
 ATL-Trust solves this multi-billion-dollar vulnerability by wrapping LLMs inside a deterministic compiled memory sandbox:
 - **Rust Policy Enforcement Point (PEP):** Sub-millisecond prompt sanitization, PII redaction, and SQL/Command injection filtering.
-- **xAI Grok-4.6 Secondary Intent Judge:** Real-time semantic intent evaluation for high-risk tool calling and autonomous transactions.
+- **Pluggable Multi-LLM Provider Intent Judge:** Real-time semantic intent evaluation supporting xAI Grok, OpenAI GPT-4o, Anthropic Claude 3.5, and Ollama/vLLM for high-risk tool calling and autonomous transactions.
 - **EU AI Act & ISO 42001 Compliance Engine:** Automated mapping to Articles 5, 6, 14, 50, and 72 with immutable SHA-256 block ledger attestation.
-- **Hardware Enclave Isolation:** TEE silicon root-of-trust verification (AWS Nitro, Intel SGX, GCP Confidential VMs).
+- **Hardware Enclave Remote Attestation:** TEE document verification (AWS Nitro COSE, Intel SGX quotes, GCP Confidential VM JWTs).
 
 ---
 

@@ -1,10 +1,10 @@
-# ATL-Trust | Grok-Powered Zero-Trust AI Agent Validation & Orchestration Platform
+# ATL-Trust | Zero-Trust AI Agent Security & Validation Platform
 
-[![Build & Test](https://img.shields.io/badge/tests-14%20passed-brightgreen.svg)](tests/test_atl_trust.py)
+[![Build & Test](https://img.shields.io/badge/tests-22%20passed-brightgreen.svg)](tests/test_atl_trust.py)
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Status](https://img.shields.io/badge/security-hardware--attested%20%2B%20grok-purple.svg)](#architecture)
+[![Status](https://img.shields.io/badge/security-hardware--attested%20%2B%20multi--llm-purple.svg)](#architecture)
 
-**ATL-Trust** is an enterprise-grade, hardware-attested **Zero-Trust Policy Enforcement Point (PEP) and Policy Decision Point (PDP) Platform** for autonomous AI agents.
+**ATL-Trust** is an enterprise-grade, hardware-attested **Zero-Trust Policy Enforcement Point (PEP) and Policy Decision Point (PDP) Platform** built specifically for **FinTech, Crypto/DeFi, and Enterprise API Automation Swarm Developers**—teams that lose real money or compromise production infrastructure when an autonomous AI agent executes an unauthorized tool call.
 
 By treating every AI agent, tool invocation, and financial action as untrusted by default, ATL-Trust continuously verifies identity, validates intent, prevents prompt injection drift, enforces least-privilege scoping, and executes circuit breaker tripwires before actions hit production blockchains, databases, or enterprise APIs.
 
@@ -12,11 +12,11 @@ By treating every AI agent, tool invocation, and financial action as untrusted b
 
 ## 🌟 Key Features
 
-* 🛡️ **Hardware-Attested Baseline PEP (Rust Core):** Ultra-low latency (<5ms) baseline validation of fiscal caps, asset allowlists, sandbox isolation attestations, and SHA-256 hash ledger integrity.
-* 🤖 **Grok-Powered Secondary Intent Judge (`xAI Grok-4.6`):** Deep reasoning evaluation of agent task goals vs proposed tool calls to catch semantic intent drift, prompt injection exploits, and stealthy agent rogue behavior.
-* ⚡ **3 Flexible Validation Modes:** `rules` (100% legacy pure rules), `grok` (full Grok intent verification), and `hybrid` (rules-first, Grok on high-risk/uncertain calls).
+* 🛡️ **Hardware-Attested Baseline PEP (Rust Core):** Ultra-low latency (<5ms) baseline validation of fiscal caps, asset allowlists, AWS Nitro / GCP Confidential VM / Intel SGX attestation verification, and SHA-256 hash ledger integrity.
+* 🤖 **Pluggable Secondary Intent Judge (`xAI Grok`, `OpenAI GPT-4o`, `Anthropic Claude 3.5`, `Ollama/vLLM`):** Deep reasoning evaluation of agent task goals vs proposed tool calls to catch semantic intent drift, prompt injection exploits, and stealthy agent rogue behavior.
+* ⚡ **3 Flexible Validation Modes:** `rules` (100% pure hardware rules), `grok` (full LLM intent verification), and `hybrid` (rules-first, LLM on high-risk/uncertain calls).
 * 🔒 **Fail-Closed Security (`GROK_FAIL_MODE`):** Configurable error handling on API timeouts or network splits (`deny`, `allow`, `require_human`, `rules`).
-* ⚖️ **Multi-Agent Debate Verification:** Simulates real-time Security Auditor vs Proponent debates adjudicated by Grok before authorizing high-risk financial or system actions.
+* ⚖️ **Multi-Agent Debate Verification:** Simulates real-time Security Auditor vs Proponent debates adjudicated by secondary LLM judges before authorizing high-risk financial or system actions.
 * 🔌 **LangGraph & Generic Agent Adapters:** Easy integration for LangGraph, CrewAI, AutoGen, or custom Python tool calls via interceptors or `@atl_trust_guardrail` decorators.
 * 📜 **Tamper-Proof SHA-256 Ledger:** Immutable cryptographic log of all approved and rejected intents signed with TEE signatures.
 
